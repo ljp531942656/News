@@ -147,13 +147,13 @@
                         success: function (res) {
                             if (res.msg == "success") {
                                 $("#editsuccessbtn").trigger("click");
-                                $("#EditSuccessModal button").click(function () {
-                                    $.ajax({
-                                        url: '../Manage/Account',
-                                        success: function (res) {
-                                            window.parent.$("#account").html(res);
-                                        },
-                                    });
+                                $.ajax({
+                                    url: '../Manage/Account',
+                                    success: function (res) {
+                                        window.parent.$("#account").html(res);
+                                    },
+                                });
+                                $("#EditSuccessModal").click(function () {
                                     $("#accounttoback").trigger("click");
                                 });
                             }

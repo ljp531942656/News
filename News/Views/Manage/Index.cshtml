@@ -116,6 +116,7 @@
                     break;
                 }
                 case "新闻管理": {
+                    document.getElementById("createiframe").contentWindow.location.reload(true);
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {

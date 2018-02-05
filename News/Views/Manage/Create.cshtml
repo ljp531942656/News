@@ -46,7 +46,7 @@
                 <label class="col-lg-1 col-md-2 col-xs-3 control-label" for="newstype">新闻类别</label>
                 <div class="col-lg-5 col-md-4 col-xs-3">
                     <select class="form-control" name="newstype" type="text" id="newstype">
-                        <option value="社会动态">社会动态</option>
+                        <option value="社会动态" selected>社会动态</option>
                         <option value="金融财经">金融财经</option>
                         <option value="激情体育">激情体育</option>
                         <option value="科技前沿">科技前沿</option>
@@ -68,14 +68,14 @@
                 <label class="col-lg-1 col-md-2 col-xs-3 control-label" for="release">是否发布</label>
                 <div class="col-lg-5 col-md-4 col-xs-3">
                     <select class="form-control" name="release" type="text" id="release">
-                        <option value="是">是</option>
+                        <option value="是" selected>是</option>
                         <option value="否">否</option>
                     </select>
                 </div>
                 <label class="col-lg-1 col-md-2 col-xs-3 control-label" for="top">是否置顶</label>
                 <div class="col-lg-5 col-md-4 col-xs-3">
                     <select class="form-control" name="top" type="text" id="top">
-                        <option value="是">是</option>
+                        <option value="是" selected>是</option>
                         <option value="否">否</option>
                     </select>
                 </div>
@@ -187,7 +187,7 @@
                                     window.parent.$("#newsedit").html(res);
                                 },
                             });
-                            $("#EditSuccessModal button").click(function () {
+                            $("#EditSuccessModal").click(function () {
                                 $("#toback").trigger("click");
                             });
                         }
@@ -234,16 +234,41 @@
         }
         return theRequest;
     }
+
+    function formIsDirty(form) {
+        for (var i = 0; i < form.elements.length; i++) {
+            var element = form.elements[i];
+            var type = element.type;
+            if (type == "checkbox" || type == "radio") {
+                if (element.checked != element.defaultChecked) {
+                    return true;
+                }
+            }
+            else if (type == "hidden" || type == "password" || type == "text" || type == "textarea") {
+                if (element.value != element.defaultValue) {
+                    return true;
+                }
+            }
+            else if (type == "select-one" || type == "select-multiple") {
+                for (var j = 0; j < element.options.length; j++) {
+                    if (element.options[j].selected != element.options[j].defaultSelected) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 	window.onbeforeunload = function(e) {
-		debugger
 		e = e || window.event; 
 		if (formIsDirty(document.forms["form1"])) {
 			// For IE and Firefox
 			if (e) {
-				e.returnValue = "You have unsaved changes.";
+			    e.returnValue = "还有未保存的操作，是否离开当前页面？";
 			}
 			// For Safari
-			return "You have unsaved changes.";
+			return "还有未保存的操作，是否离开当前页面？";
 		}
 	}
 </script>
