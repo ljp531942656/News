@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title1</title>
+    <link href="~/scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/scripts/bootstrap-table/bootstrap-table.min.css" rel="stylesheet" />
+    <link href="~/scripts/datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/CSS/manage.css" rel="stylesheet" />
+    <link href="~/scripts/select/bootstrap-select.min.css" rel="stylesheet" />
+    <script src="~/scripts/jquery-2.1.3.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    <script src="~/scripts/Ueditor/ueditor.config.js"></script>
+    <script src="~/scripts/Ueditor/ueditor.all.min.js"></script>
+    <script src="~/scripts/Ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="~/scripts/datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="~/scripts/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="~/scripts/select/bootstrap-select.min.js"></script>
+    <script src="~/scripts/bootstrap-table/bootstrap-table.js"></script>
+    <script src="~/scripts/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+    <script src="~/scripts/pagechange/js/jqpaginator.min.js"></script>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <button class="hidden" id="submitsuccessbtn" data-toggle="modal" data-target="#SubmitSuccessModal"></button>
+
+    <div class="modal fade" id="DeleteSuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">删除</h4>
+                </div>
+                <div class="modal-body">删除成功</div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-green" autofocus>确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="SubmitSuccessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">提交</h4>
+                </div>
+                <div class="modal-body">提交成功</div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-green" autofocus>确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div id="Comiframe" class="Comiframe" style="display:none"></div>
+    <div id="Comiframeback" style="display:none"></div>
+    <script>
+        $("#Commontiframe").load(function () {
+            var mainheight = $(this).contents().find("body").height() + 17;
+            $(this).height(mainheight);
+        });
+        $("#Comiframeback").height(window.innerHeight - $("#bar").height() - 8);
+
+        //前端JS搜索
+        function search(table, column, string) {
+            for (var i = 1; i < table.rows.length; i++) {
+                table.rows[i].style.display = "table-row";
+            }
+            var columnnum = 0;
+            for (var i = 0; i < table.rows[0].childElementCount; i++) {
+                if (column == table.rows[0].children[i].innerText) {
+                    columnnum = i;
+                    break;
+                }
+            }
+            for (var i = 1; i < table.rows.length; i++) {
+                for (var j = 2; j < table.rows[i].childElementCount; j++) {
+                    if (table.rows[i].children[columnnum].innerText.indexOf(string) < 0) {
+                        table.rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        //后台搜索
+        function searchinback(tablename, column, string, which) {
+            var array = [[]];
+            $.ajax({
+                url: '@Href("~/")Manage/search',
+                type: 'post',
+                async: false,
+                data: { table: tablename, column: column, str: string ,which:which},
+                success: function (res) {
+                    if (res.msg == "success") {
+                        array =  res.rs;
+                    }
+                }
+            });
+            return array;
+        }
+        //中转英
+        function trans(str) {
+            switch (str) {
+                case "标题": str = "title"; break;
+                case "编辑": str = "author"; break;
+                case "新闻类别": str = "newstype"; break;
+            }
+            return str;
+        }
+		function formIsDirty(form) {
+			for (var i = 0; i < form.elements.length; i++) {
+				var element = form.elements[i];
+				var type = element.type;
+				if (type == "checkbox" || type == "radio") {
+					if (element.checked != element.defaultChecked) {
+						return true;
+					}
+				}
+				else if (type == "hidden" || type == "password" || type == "text" || type == "textarea") {
+					if (element.value != element.defaultValue) {
+						return true;
+					}
+				}
+				else if (type == "select-one" || type == "select-multiple") {
+					for (var j = 0; j < element.options.length; j++) {
+						if (element.options[j].selected != element.options[j].defaultSelected) {
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+    </script>
+</body>
+</html>

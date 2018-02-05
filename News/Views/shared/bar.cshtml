@@ -1,0 +1,57 @@
+﻿<div>
+    <i id="listicon" class="glyphicon glyphicon-list pull-left"></i>
+    <span class="pull-left" style="margin-right:1.5%">新闻发布管理系统</span>
+    <i class="glyphicon glyphicon-time pull-left" style="margin:1.5px 10px"></i>
+    <span id="time" class="pull-left"></span>
+    <i class="pull-right glyphicon glyphicon-log-out col-lg-1 col-md-1 col-xs-2" style="margin:1.4px 0"></i>
+    <span id="logout" class="pull-right" style="cursor:pointer">注销</span>
+    <div id="barusername" class="pull-right col-lg-1 col-md-1 col-xs-2">
+        
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            var timing = datetime(new Date());
+            $("#time").html(timing);
+        }, 1000);
+        $("#listicon").attr("slideflag", "false");
+        $("#listicon").click(function () {
+
+            if ($(this).attr("slideflag") == "true")
+            {
+                $("#siderbar").css("margin-left", "0");
+                $("#sideback").css("margin-left", "0");
+                $("#main").css("width", "90%");
+                $("#listicon").css("transform", "rotate(0deg)");
+                $("#listicon").attr("slideflag", "false");
+            }
+            else {
+                $("#sideback").css("margin-left","-10%");
+                $("#siderbar").css("margin-left","-10%");
+                $("#main").css("width", "100%");
+                $("#listicon").css("transform", "rotate(90deg)");
+                $("#listicon").attr("slideflag", "true");
+            }
+        });
+
+        $("#logout").click(function () {
+            sessionStorage.customerID="";
+            window.location.href = "@Href("~/")Login/login";
+        });
+    });
+    function datetime(date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        var second = date.getSeconds();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        second = second < 10 ? ('0' + second) : second;
+        return y + '年' + m + '月' + d + '日 ' + h + ':' + minute + ':' + second;
+    };
+</script>

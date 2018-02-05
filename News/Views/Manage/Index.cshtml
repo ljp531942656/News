@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "123";
+    Layout = "../shared/_LayoutPage1.cshtml";
+}
+@using System.Data;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>管理页面</title>
+</head>
+<body>
+    <div id="container">
+        <div id="bar">
+            @RenderPage("../shared/bar.cshtml")
+        </div>
+        <div id="barback">占位</div>
+        <div id="siderbar">
+            @RenderPage("../shared/siderbar.cshtml")
+        </div>
+        <div id="sideback"></div>
+
+        <div id="main">
+            <div id="create">
+
+
+            </div>
+            <div id="newsedit">
+
+            </div>
+            <div id="comment">
+
+            </div>
+            <div id="account">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var Request = new Object();
+            Request = GetRequest();
+            var customerid = Request["customerid"];
+
+            //判断session customerid
+            if (sessionStorage.customerID != customerid)
+            {
+                alert("当前登陆状态异常，请重新登陆");
+                window.location.href = "@Href("~/")Login/login";
+            }
+            
+
+            //获取username参数
+            var username = "";
+            $.ajax({
+                url: '@Href("~/")Login/GetUsername',
+                type: 'post',
+                data: { customerid: customerid },
+                success: function (res) {
+                    username = res.username;
+                    $("#barusername").html(username);
+                    $.ajax({
+                        url: '@Href("~/")Manage/Authority',
+                        type: 'post',
+                        data: { username: username },
+                        success: function (res) {
+                            var array = res.authority.split(",");
+                            for (var i = 0; i < array.length; i++) {
+                                switch (array[i]) {
+                                    case "新闻发布": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-edit sideGly"></i>新闻发布</a>'); break;
+                                    case "新闻管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-list-alt sideGly"></i>新闻管理</a>'); break;
+                                    case "评论管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-comment sideGly"></i>评论管理</a>'); break;
+                                    case "帐户管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-user sideGly"></i>帐户管理</a>'); break;
+                                }
+                            }
+                            $("#siderbar a").on("click", function () {
+                                if (!($(this).hasClass("active"))) {
+                                    Switch(this.innerText);
+                                }
+                            });
+                            $("#item>.list-group>a:first-child").trigger("click").addClass("active");
+                        }
+                    });
+                }
+            });
+
+            
+
+            $("#newsedit").hide(); $("#comment").hide(); $("#account").hide();
+            $("#createiframe").load(function () {
+                $(this).height(window.innerHeight - $("#bar").height() - 38);
+            });
+            
+            
+        });
+        function Switch(type) {
+            switch (type) {
+                case "新闻发布": {
+                    //$.ajax({
+                    //    url: '../Manage/Create',
+                    //    success: function (res) {
+                    //        $("#create").html(res);
+                    //        $("#create").fadeIn(500).siblings("div").hide();
+                    //    },
+                    //});
+                    $("#create").html("<iframe id='createiframe' src='@Href("~/")Manage/Create'></iframe>");
+                    $("#create").fadeIn(500).siblings("div").hide();
+                    $("#createiframe").load(function () {
+                        $(this).height(window.innerHeight - $("#bar").height() - 38);
+                    });
+                    break;
+                }
+                case "新闻管理": {
+                    $.ajax({
+                        url: '../Manage/Newsedit',
+                        success: function (res) {
+                            $("#newsedit").html(res);
+                            $("#newsedit").fadeIn().siblings("div").hide();
+                        },
+                    });
+                    break;
+                }
+                case "评论管理": {
+                    $.ajax({
+                        url: '../Manage/Comment',
+                        success: function (res) {
+                            $("#comment").html(res);
+                            $("#comment").fadeIn().siblings("div").hide();
+                        },
+                    });
+                    break;
+                }
+                case "帐户管理": {
+                    $.ajax({
+                        url: '../Manage/Account',
+                        success: function (res) {
+                            $("#account").html(res);
+                            $("#account").fadeIn().siblings("div").hide();
+                        },
+                    });
+                    break;
+                }
+            }
+        }
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+    </script>
+</body>
+</html>

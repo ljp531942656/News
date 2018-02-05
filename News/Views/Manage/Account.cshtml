@@ -1,0 +1,116 @@
+﻿@using System.Data;
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a>帐户管理</a>
+        </li>
+    </ul>
+    <div class="search btn-group">
+        <select id="select3" class="btn btn2">
+            <option value="帐户">帐户</option>
+            <option value="权限">权限</option>
+        </select>
+        <input id="input3" class="pull-left form-control" />
+        <button id="search3" class="btn btn3 btn-default">搜索</button>
+    </div>
+    <div class="pull-right btn-group" style="margin-right:1.9%;">
+     <button id="createaccount"  class="btn btn4 btn-green">新增</button>
+    </div>
+    <table id="table3" class="table table-hover fixed-table-container">
+        <thead>
+            <tr>
+                <th>删除</th>
+                <th>修改</th>
+                <th>帐户</th>
+                <th>密码</th>
+                <th>权限</th>
+                <th>是否可登录</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow dr in (ViewData["ACCOUNT"] as DataTable).Rows)
+            {
+                <tr>
+                    <td><a data-toggle="modal" data-target="#DeleteAccountModal" accountid="@dr["ID"]">删除</a></td>
+                    <td><a accountid="@dr["ID"]">修改</a></td>
+                    <td>@dr["USERNAME"]</td>
+                    <td>@dr["PASSWORD"]</td>
+                    <td>@dr["AUTHORITY"]</td>
+                    <td>@dr["LOGABLE"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="DeleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除</h4>
+            </div>
+            <div class="modal-body">是否删除这个帐户？</div>
+            <div class="modal-footer">
+                <button id="deleteaccountbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="hidden" id="deletesuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        var accountid = 0;
+        $("#createaccount").click(function () {
+            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/CreateAccount'></iframe>");
+            $("#Comiframe").show();
+            $("#Comiframeback").show();
+        });
+
+        //删除
+        $(".table tr td:first-child a").on("click", function () {
+            accountid = $(this).attr("accountid");
+        });
+        $("#deleteaccountbtn").click(function () {
+            Delete(accountid);
+            $("div.modal-backdrop.fade.in").fadeOut(150);
+        });
+
+        $(".table tr td:nth-child(2) a").on("click", function () {
+            accountid = $(this).attr("accountid");
+            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/CreateAccount?ISVIEW=true&ACCOUNTID=" + accountid + "'></iframe>");
+            $("#Comiframe").show();
+            $("#Comiframeback").show();
+        });
+
+        $("#search3").click(function () {
+            var tb = document.getElementById("table3");
+            search(tb, $("#select3").val(), $("#input3").val());
+        });
+
+        
+
+        //列表删除编辑
+        function Delete(accountid) {
+            $.ajax({
+                url: '@Href("~/")Manage/Accountdelete',
+                data: { accountid: accountid },
+                type: 'post',
+                success: function (res) {
+                    if (res.msg == "success") {
+                        $("#deletesuccessbtn").trigger("click");
+                        $.ajax({
+                            url: '../Manage/Account',
+                            success: function (res) {
+                                $("#account").html(res);
+                                $("#account").fadeIn().siblings("div").hide();
+                            },
+                        });
+                    }
+                }
+            });
+        }
+    });
+</script>
