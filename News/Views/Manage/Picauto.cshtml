@@ -1,0 +1,262 @@
+﻿@using System.Data;
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a>图片轮播</a>
+        </li>
+    </ul>
+    <div class="search btn-group col-lg-4">
+        <select id="select0" class="btn btn2">
+            <option value="title">标题</option>
+        </select>
+        <input id="input0" class="pull-left form-control" />
+        <button id="search0" class="btn btn3 btn-default">搜索</button>
+    </div>
+    <div class="pull-right btn-group" style="margin-right:1.9%;">
+        <button id="createpic" class="btn btn4 btn-green">新增</button>
+    </div>
+    <table id="table0" class="table table-hover fixed-table-container">
+        <thead>
+            <tr>
+                <th>删除</th>
+                <th>修改</th>
+                <th>标题</th>
+                <th>跳转链接</th>
+                <th>是否展示</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow dr in (ViewData["PICLIST"] as DataTable).Rows)
+            {
+                <tr>
+                    <td>
+                        <a data-toggle="modal" data-target="#DeletepicModal" picid="@dr["ID"]">删除</a>
+                    </td>
+                    <td>
+                        <a picid="@dr["ID"]">修改</a>
+                    </td>
+                    <td>@dr["TITLE"]</td>
+                    <td>@dr["TOURL"]</td>
+                    <td>@dr["STATUS"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="picupload">
+    <ul class="nav nav-tabs">
+        <li class="active" style="margin-right: 0px;">
+            <a>图片上传</a>
+        </li>
+        <li>
+            <button id="pictoback" class="btn btn5 btn-default">返回</button>
+        </li>
+        <li style="margin-right: 1.6%;float:right">
+            <button id="picsubmit" type="submit" class="btn btn5 btn-default">提交</button>
+
+            <button class="hidden" id="piceditsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
+        </li>
+    </ul>
+    <form id="picform">
+        <div class="col-lg-11 form-group" enctype="multipart/form-data" role="form">
+            <label for="pictitle" class="col-lg-2 col-md-2 col-sm-3 control-label">标题</label>
+            <input id="pictitle" name="pictitle" class="form-control" />
+        </div>
+        <div class="col-lg-11 form-group">
+            <label for="status" class="col-lg-2 col-md-2 col-sm-3 control-label">是否展示</label>
+            <select id="status" name="status" class="form-control">
+                <option value="是">是</option>
+                <option value="否">否</option>
+            </select>
+        </div>
+        <div class="col-lg-11 form-group">
+            <label for="tourl" class="col-lg-2 col-md-2 col-sm-3 control-label">跳转连接</label>
+            <input id="tourl" name="tourl" class="form-control" />
+        </div>
+        <div class="col-lg-11 form-group">
+            <label for="picorigin" class="col-lg-2 col-md-2 col-sm-3 control-label">图片源</label>
+            <input id="picorigin" name="picorigin" class="form-control" />
+        </div>
+        <div id="prepicview" class="col-lg-6 col-md-5 col-sm-5">
+            <label id="previewlabel" style="width:28%;text-align:right;float:left">图片预览：</label>
+            <div class="pull-right" data-control-type="button" style="margin:0 13% 0 0;">
+                <button id="delete" type="button" class="btn btn-danger" name="">删除</button>
+            </div>
+            <div id='preimg'></div>
+        </div>
+        <div id="nowpicview" class="col-lg-5 col-md-5 col-sm-5">
+            <label style="width:100%;text-align:left">图片上传：</label>
+            <input id="picupload" class="form-control" type="file" />
+        </div>
+        <input id="picid" name="picid" class="hidden" />
+    </form>
+</div>
+<div class="modal fade" id="DeletepicModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除</h4>
+            </div>
+            <div class="modal-body">是否删除这条图片记录？</div>
+            <div class="modal-footer">
+                <button id="deletepicbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="hidden" id="deletepicsuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        var id = "";
+        $("#delete").hide();
+        $("#previewlabel").hide();
+        $("#table0>tbody>tr>td:first-child>a").click(function () {
+            id = $(this).attr("picid");
+        });
+        $("#deletepicbtn").click(function () {
+            $.ajax({
+                url: "@Href("~/")Manage/deletePic",
+                data: { id: id, type: "list" },
+                type: "post",
+                success: function (res) {
+                    if (res.msg == "success") {
+                        $("#deletepicsuccessbtn").trigger("click");
+                        $("#DeleteSuccessModal").click(function () {
+                            $.ajax({
+                                url: '../Manage/Picauto',
+                                success: function (res) {
+                                    $("#pic").html(res);
+                                    $("#pic").fadeIn().siblings("div").hide();
+                                },
+                            });
+                        });
+                    }
+                    else {
+                        alert(res.msg);
+                    }
+                }
+            });
+        });
+        $("#table0>tbody>tr>td:nth-child(2)>a").click(function () {
+            id = $(this).attr("picid");
+            $("#picid").val(id);
+            $.ajax({
+                url: "@Href("~/")Manage/editPic",
+                data: { id: id, type: "get" },
+                type: "post",
+                success: function (res) {
+                    if (res.msg == "success") {
+                        $("#preimg").html("");
+                        document.getElementById("picform").reset();
+
+                        $("#Comiframeback").fadeIn();
+                        $("#picid").val(res.piclist[0])
+                        $("#pictitle").val(res.piclist[1]);
+                        $("#picorigin").val(res.piclist[2]);
+                        $("#tourl").val(res.piclist[3]);
+                        $("#status").val(res.piclist[4]);
+                        $("#picsubmit").attr("type", "edit");
+                        $(".picupload").fadeIn();
+                        if (document.getElementById("picorigin").value) {
+                            $("#delete").fadeIn();
+                            $("#previewlabel").fadeIn();
+                            $("#prepicview").height($(".picupload").height() * 0.5);
+                            $("#nowpicview").height($(".picupload").height() * 0.5);
+                            $("#preimg").html("<img src='" + document.getElementById("picorigin").value + "'style='margin: 5px 0 0;height:inherit'>");
+                        }
+                    }
+                    else {
+                        alert(res.msg);
+                    }
+                }
+            });
+
+        });
+        $("#createpic").click(function () {
+            $("#Comiframeback").fadeIn();
+            $(".picupload").fadeIn();
+        });
+        $("#pictoback").click(function () {
+            $("#Comiframeback").fadeOut();
+            $(".picupload").fadeOut();
+            $("#delete").fadeOut();
+            $("#previewlabel").fadeOut();
+            
+        });
+        $("#picupload").fileinput({ 'showPreview': true, 'uploadAsync': true, 'allowedFileTypes': ['image'], 'maxFileCount': 1, 'maxFileSize': 4096, 'msgSizeTooLarge': '文件 "{name}" ({size} KB) 超过最大可上传文件大小 {maxSize} KB. 请重新上传!', 'msgInvalidFileType': '该文件格式"{name}"无效. 只支持 "{types}" 的文件格式.', 'msgValidationError': '文件上传异常', 'uploadUrl': '@Href("~/")Manage/Picupload' }).on("fileuploaded", function (event, data) {
+
+            if (data.response.url) {
+                document.getElementById("picorigin").value = data.response.url;
+            }
+            else {
+                alert(data.response.msg);
+            }
+        });
+        $("#picsubmit").click(function () {
+            var formdata = new FormData($("#picform")[0]);
+            var url = "";
+            if ($(this).attr("type") == "edit") {
+                url = "@Href("~/")Manage/editPic";
+            }
+            else {
+                url = "@Href("~/")Manage/setPic";
+            }
+            $.ajax({
+                url: url,
+                traditional: true,
+                data: formdata,
+                type: 'post',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.msg == "success") {
+                        $("#submitsuccessbtn").trigger("click");
+                        $("#SubmitSuccessModal").click(function () {
+                            $("#pictoback").trigger("click");
+                            $.ajax({
+                                url: '../Manage/Picauto',
+                                success: function (res) {
+                                    $("#pic").html(res);
+                                },
+                            });
+                        });
+                    }
+                    else {
+                        alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $("#delete").click(function () {
+            var url = document.getElementById("picorigin").value;
+            var str = url.split("/");
+            var filename = str[str.length - 1];
+            $.ajax({
+                url: "@Href("~/")Manage/deletePic",
+                data: { filename: filename, type: "pic" },
+                type: "post",
+                success: function (res) {
+                    if (res.msg == "success") {
+                        alert("删除成功");
+                        //window.location.reload();
+                        document.getElementById("prepicview").value = "";
+                        document.getElementById("prepicview").innerHTML = "";
+                        $("#delete").hide();
+                    }
+                    else {
+                        alert(res.msg);
+                    }
+                }
+            });
+        });
+    });
+
+</script>

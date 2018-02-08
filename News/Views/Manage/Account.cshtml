@@ -6,7 +6,7 @@
             <a>帐户管理</a>
         </li>
     </ul>
-    <div class="search btn-group">
+    <div class="search btn-group col-lg-4">
         <select id="select3" class="btn btn2">
             <option value="帐户">帐户</option>
             <option value="权限">权限</option>
@@ -28,7 +28,7 @@
                 <th>是否可登录</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="accounttbody">
             @foreach (DataRow dr in (ViewData["ACCOUNT"] as DataTable).Rows)
             {
                 <tr>
@@ -42,6 +42,10 @@
             }
         </tbody>
     </table>
+    <div id="num2" class="col-lg-5 hidden">当前第<span id="nowpage2"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum2"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum2"></span>条内容</div>
+    <div class="pull-right pagechange">
+        <ul class="pagination" id="ampagination2"></ul>
+    </div>
 </div>
 <div class="modal fade" id="DeleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -54,7 +58,7 @@
             <div class="modal-footer">
                 <button id="deleteaccountbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button class="hidden" id="deletesuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+                <button class="hidden" id="deleteaccountsuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -65,8 +69,8 @@
         var accountid = 0;
         $("#createaccount").click(function () {
             $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/CreateAccount'></iframe>");
-            $("#Comiframe").show();
-            $("#Comiframeback").show();
+            $("#Comiframe").fadeIn(600);
+            $("#Comiframeback").fadeIn(600);
         });
 
         //删除
@@ -89,28 +93,84 @@
             var tb = document.getElementById("table3");
             search(tb, $("#select3").val(), $("#input3").val());
         });
-
-        
-
-        //列表删除编辑
-        function Delete(accountid) {
-            $.ajax({
-                url: '@Href("~/")Manage/Accountdelete',
-                data: { accountid: accountid },
-                type: 'post',
-                success: function (res) {
-                    if (res.msg == "success") {
-                        $("#deletesuccessbtn").trigger("click");
-                        $.ajax({
-                            url: '../Manage/Account',
-                            success: function (res) {
-                                $("#account").html(res);
-                                $("#account").fadeIn().siblings("div").hide();
-                            },
-                        });
+    });
+    //列表删除编辑
+    function Delete(accountid) {
+        $.ajax({
+            url: '@Href("~/")Manage/Accountdelete',
+            data: { accountid: accountid },
+            type: 'post',
+            success: function (res) {
+                if (res.msg == "success") {
+                    $("#deleteaccountsuccessbtn").trigger("click");
+                    $.ajax({
+                        url: '../Manage/Account',
+                        success: function (res) {
+                            $("#account").html(res);
+                            $("#account").fadeIn().siblings("div").hide();
+                        },
+                    });
+                }
+            }
+        });
+    }
+    function spiltpage() {
+        {
+            var tb = document.getElementById("accounttbody");
+            var rownum = tb.rows.length;
+            if (tb.rows.length > 16) {
+                $("#num2").removeClass("hidden");
+                $("#ampagination2").removeClass("hidden");
+                var table = [];
+                var allrownum = 0;
+                if (rownum % 16 == 0) {
+                    allrownum = rownum / 16;
+                }
+                else {
+                    allrownum = parseInt(rownum / 16) + 1;
+                }
+                for (var i = 0; i < allrownum; i++) {
+                    table.push([]);
+                    for (var j = 16 * i; j < 16 * (i + 1) ; j++) {
+                        if (typeof (tb.rows[j]) != "undefined") {
+                            table[i].push(tb.rows[j].innerHTML);
+                        }
                     }
                 }
-            });
+                for (i = 16; i < rownum; i++) {
+                    tb.deleteRow(16);
+                }
+                $("#nowpage2").html("1");
+                $("#pagenum2").html(allrownum);
+                $("#contentnum2").html(rownum);
+                $('#ampagination2').jqPaginator({
+                    totalPages: allrownum,
+                    visiblePages: 5,
+                    currentPage: 1,
+
+                    first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num) {
+                        $("#nowpage").html(num);
+                        var tb = document.getElementById("tbody2");
+                        rownum = tb.rows.length;
+                        for (i = 0; i < rownum; i++) {
+                            tb.deleteRow(0);
+                        }
+                        for (var i = 0; i < table[num - 1].length; i++) {
+                            var row = tb.insertRow(i);
+                            row.innerHTML = table[num - 1][i];
+                        }
+                    }
+                });
+            }
+            else {
+                $("#num2").addClass("hidden");
+                $("#ampagination2").addClass("hidden");
+            }
         }
-    });
+    }
 </script>

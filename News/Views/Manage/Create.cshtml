@@ -16,10 +16,10 @@
             <a>新闻发布</a>
         </li>
         <li>
-            <button id="toback" class="btn btn-default hidden">返回</button>
+            <button id="toback" class="btn btn5 btn-default hidden">返回</button>
         </li>
         <li>
-            <button id="submit" type="submit" class="btn btn-default pull-right">提交</button>
+            <button id="submit" type="submit" class="btn btn5 btn-default pull-right">提交</button>
             
             <button class="hidden" id="editsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
         </li>
@@ -116,9 +116,9 @@
         if (ISVIEW == "true") {
             $("ul.nav.nav-tabs>li:first-child").css("margin-right", "0");
             $("ul.nav.nav-tabs>li>a").text("新闻编辑").parent("li").next("li").css("margin-right", "57.1%");
-            $("#creatediv").removeClass("col-lg-11").addClass("col-lg-9");
-            $("label.col-lg-1").removeClass("col-lg-1").addClass("col-lg-2").siblings("div.col-lg-11").removeClass("col-lg-11").addClass("col-lg-10");
-            $("#clipboard").addClass("col-lg-3").show().height(window.innerHeight - 77);
+            $("#creatediv").removeClass("col-lg-11").addClass("col-lg-9").addClass("col-md-9").addClass("col-sm-9");
+            $("label.col-lg-1").removeClass("col-lg-1").addClass("col-lg-2").addClass("col-md-9").addClass("col-sm-9").siblings("div.col-lg-11").removeClass("col-lg-11").addClass("col-lg-10");
+            $("#clipboard").addClass("col-lg-3").show().height(window.innerHeight - 96);
             $("#toback").removeClass("hidden");
             $.ajax({
                 url: '@Href("~/")Manage/Edit',
@@ -236,6 +236,7 @@
         return theRequest;
     }
 
+    //检测表单是否有修改
     function formIsDirty(form) {
         for (var i = 0; i < form.elements.length; i++) {
             var element = form.elements[i];
@@ -261,15 +262,15 @@
         return false;
     }
 
-	window.onbeforeunload = function(e) {
-		e = e || window.event; 
-		if (formIsDirty(document.forms["form1"])) {
-			// For IE and Firefox
-			if (e) {
-			    e.returnValue = "还有未保存的操作，是否离开当前页面？";
-			}
-			// For Safari
-			return "还有未保存的操作，是否离开当前页面？";
-		}
-	}
+	//window.onbeforeunload = function(e) {
+	//	e = e || window.event; 
+	//	if (formIsDirty(document.forms["form1"])) {
+	//		// For IE and Firefox
+	//		if (e) {
+	//		    e.returnValue = "还有未保存的操作，是否离开当前页面？";
+	//		}
+	//		// For Safari
+	//		return "还有未保存的操作，是否离开当前页面？";
+	//	}
+	//}
 </script>

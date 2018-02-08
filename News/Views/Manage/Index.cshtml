@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "123";
+    ViewBag.Title = "新闻发布管理系统";
     Layout = "../shared/_LayoutPage1.cshtml";
 }
 @using System.Data;
@@ -24,6 +24,10 @@
         <div id="sideback"></div>
 
         <div id="main">
+            <div id="pic">
+
+
+            </div>
             <div id="create">
 
 
@@ -53,7 +57,7 @@
                 alert("当前登陆状态异常，请重新登陆");
                 window.location.href = "@Href("~/")Login/login";
             }
-            
+
 
             //获取username参数
             var username = "";
@@ -72,6 +76,7 @@
                             var array = res.authority.split(",");
                             for (var i = 0; i < array.length; i++) {
                                 switch (array[i]) {
+                                    case "图片轮播": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-picture sideGly"></i>图片轮播</a>'); break;
                                     case "新闻发布": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-edit sideGly"></i>新闻发布</a>'); break;
                                     case "新闻管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-list-alt sideGly"></i>新闻管理</a>'); break;
                                     case "评论管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-comment sideGly"></i>评论管理</a>'); break;
@@ -89,17 +94,27 @@
                 }
             });
 
-            
+
 
             $("#newsedit").hide(); $("#comment").hide(); $("#account").hide();
             $("#createiframe").load(function () {
                 $(this).height(window.innerHeight - $("#bar").height() - 38);
             });
-            
-            
+
+
         });
         function Switch(type) {
             switch (type) {
+                case "图片轮播": {
+                    $.ajax({
+                        url: '../Manage/Picauto',
+                        success: function (res) {
+                            $("#pic").html(res);
+                            $("#pic").fadeIn().siblings("div").hide();
+                        },
+                    });
+                    break;
+                }
                 case "新闻发布": {
                     //$.ajax({
                     //    url: '../Manage/Create',
@@ -109,14 +124,17 @@
                     //    },
                     //});
                     $("#create").html("<iframe id='createiframe' src='@Href("~/")Manage/Create'></iframe>");
+                    $("#create").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#createiframe").addClass("loadingback");
                     $("#create").fadeIn(500).siblings("div").hide();
                     $("#createiframe").load(function () {
                         $(this).height(window.innerHeight - $("#bar").height() - 38);
+                        $("#createiframe").removeClass("loadingback");
+                        $("img.loading").fadeOut();
                     });
                     break;
                 }
                 case "新闻管理": {
-                    document.getElementById("createiframe").contentWindow.location.reload(true);
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {

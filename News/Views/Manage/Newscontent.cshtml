@@ -32,17 +32,17 @@
         function setHTML(html) {
             UE.getEditor('NR').setContent(html);
         }
-        window.onbeforeunload = function (e) {
-            e = e || window.event;
-            if (getHTML() != "") {
-                // For IE and Firefox
-                if (e) {
-                    e.returnValue = "还有未保存的操作，是否离开当前页面？";
-                }
-                // For Safari
-                return "还有未保存的操作，是否离开当前页面？";
-            }
-        }
+        //window.onbeforeunload = function (e) {
+        //    e = e || window.event;
+        //    if (getHTML() != "") {
+        //        // For IE and Firefox
+        //        if (e) {
+        //            e.returnValue = "还有未保存的操作，是否离开当前页面？";
+        //        }
+        //        // For Safari
+        //        return "还有未保存的操作，是否离开当前页面？";
+        //    }
+        //}
     </script>
 </body>
 </html>

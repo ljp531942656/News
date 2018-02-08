@@ -165,6 +165,16 @@
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="scripts\bootstrap-table\bootstrap-table.js" />
+    <Content Include="scripts\fileinput\fileinput.css" />
+    <Content Include="scripts\fileinput\fileinput.js" />
+    <Content Include="scripts\fileinput\fileinput.min.css" />
+    <Content Include="scripts\fileinput\fileinput.min.js" />
+    <Content Include="scripts\fileinput\fileinput_locale_zh.js" />
+    <Content Include="scripts\fileinput\img\loading-sm.gif" />
+    <Content Include="scripts\fileinput\img\loading.gif" />
+    <Content Include="scripts\img\loading-sm.gif" />
+    <Content Include="scripts\img\loading.gif" />
+    <Content Include="scripts\jquery-2.0.3.min.js" />
     <Content Include="scripts\pagechange\css\am-pagination.css" />
     <Content Include="scripts\pagechange\js\am-pagination-old.js" />
     <Content Include="scripts\pagechange\js\am-pagination-old.min.js" />
@@ -198,22 +208,6 @@
     <Content Include="scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="scripts\datetimepicker\css\bootstrap-datetimepicker.css" />
     <Content Include="scripts\datetimepicker\css\bootstrap-datetimepicker.min.css" />
-    <Content Include="scripts\fileupload\css\bootstrap.min.css" />
-    <Content Include="scripts\fileupload\css\fileinput.css" />
-    <Content Include="scripts\fileupload\css\fileinput.min.css" />
-    <Content Include="scripts\fileupload\img\loading-sm.gif" />
-    <Content Include="scripts\fileupload\img\loading.gif" />
-    <Content Include="scripts\fileupload\js\bootstrap.min.js" />
-    <Content Include="scripts\fileupload\js\fileinput.js" />
-    <Content Include="scripts\fileupload\js\fileinput.min.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_de.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_es.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_hu.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_LANG.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_ru.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_uk.js" />
-    <Content Include="scripts\fileupload\js\fileinput_locale_zh.js" />
-    <Content Include="scripts\fileupload\js\jquery-2.0.3.min.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\jquery-2.1.3.js" />
     <Content Include="scripts\select\bootstrap-select.min.css" />
@@ -545,7 +539,6 @@
     <Content Include="scripts\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="scripts\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="scripts\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="scripts\fileupload\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Views\shared\siderbar.cshtml" />
     <Content Include="Views\Manage\Create.cshtml" />
     <Content Include="Views\shared\bar.cshtml" />
@@ -572,6 +565,8 @@
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
     <Content Include="apiapp.json" />
     <None Include="Properties\PublishProfiles\NewsConfig.pubxml" />
+    <Content Include="Views\Manage\Picauto.cshtml" />
+    <Content Include="scripts\fileinput\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

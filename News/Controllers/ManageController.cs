@@ -244,11 +244,14 @@ namespace News.Controllers
                     {
                         accountlist.Add(dr[i].ToString());
                     }
+                    sqlcommand = null;
+                    sqlcon.Close();
+                    sqlcon = null;
                     return Json(new { msg = "success", news = accountlist });
                 }
                 else
                 {
-                    var sql = string.Format(" update dbo.ACCOUNT set [USERNAME]='{0}',[PASSWORD]='{1}',[AUTHORITY]='{2}',[LOGABLE]='{3}' where [ID]='{4}'",form["username"],form["password"],form["authority"],form["logable"],form["accountid"]);
+                    string sql = string.Format(" update dbo.ACCOUNT set [USERNAME]='{0}',[PASSWORD]='{1}',[AUTHORITY]='{2}',[LOGABLE]='{3}' where [ID]='{4}'",form["username"],form["password"],form["authority"],form["logable"],form["accountid"]);
                     SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                     sqlcommand.ExecuteNonQuery();
                     sqlcommand = null;
@@ -414,6 +417,144 @@ namespace News.Controllers
             }
         }
 
+        public ActionResult Picauto()
+        {
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = "  select * from dbo.PIC order by STATUS DESC";
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "PICLIST");
+            DataTable dt = ds.Tables["PICLIST"];
+            ViewData["PICLIST"] = dt;
+            sqlcon.Close();
+            return View();
+        }
+        public ActionResult Picupload()
+        {
+            try
+            {
+                HttpPostedFileBase imgFile = Request.Files[0];
+                if (System.IO.File.Exists(Server.MapPath("~/imglist/") + imgFile.FileName))
+                {
+                    string fail = "名为" + imgFile.FileName + "的文件已存在，请确认后重新上传";
+                    return Json(new { code = 0, msg = fail });
+                }
+                else
+                {
+                    imgFile.SaveAs(Server.MapPath("~/IMGlist/") + imgFile.FileName);
+                }
+                var url = "/NewsReleaseSystem/imglist/" + imgFile.FileName;
+                return Json(new { msg = "success", url = url });
+            }
+            catch (Exception ex)
+            {
 
+                return Json(new { msg = ex });
+            }
+        }
+        public ActionResult setPic()
+        {
+            try
+            {
+                var form = Request.Form;
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = string.Format("insert into dbo.PIC(TITLE,PICORIGIN,TOURL,STATUS) values('{0}','{1}','{2}','{3}')", form["title"], form["picorigin"], form["tourl"], form["status"]);
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+                sqlcommand = null;
+                sqlcon.Close();
+                sqlcon = null;
+                return Json(new { msg = "success" });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { msg = ex });
+            }
+        }
+        public ActionResult editPic()
+        {
+            try
+            {
+                var id = Request["id"];
+                var type = Request["type"];
+                string sql = "";
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                if (type == "get")
+                {
+                    sql = string.Format("select * from dbo.PIC where id = '{0}'",id);
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "piclist");
+                    DataTable dt = ds.Tables["piclist"];
+                    DataRow dr = dt.Rows[0];
+                    List<string> piclist = new List<string>();
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        piclist.Add(dr[i].ToString());
+                    }
+                    sqlcommand = null;
+                    return Json(new { msg = "success", piclist = piclist });
+                }
+                else
+                {
+                    var form = Request.Form;
+                    sql = string.Format(" update dbo.PIC set [TITLE]='{0}',[PICORIGIN]='{1}',[TOURL]='{2}',[STATUS]='{3}' where [ID]='{4}'", form["pictitle"], form["picorigin"], form["tourl"], form["status"], form["picid"]);
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    sqlcommand.ExecuteNonQuery();
+                    sqlcommand = null;
+                    sqlcon.Close();
+                    sqlcon = null;
+                    return Json(new { msg = "success" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { msg = ex });
+            }
+        }
+        public ActionResult deletePic()
+        {
+            try
+            {
+                var type = Request["type"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = "";
+                if (type == "pic")
+                {
+                    var filename = Request["filename"];
+                    if (System.IO.File.Exists(Server.MapPath("~/imglist/") + filename))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~/imglist/") + filename);
+                    }
+                }
+                else
+                {
+                    var id = Request["id"];
+                    sql = string.Format("delete from dbo.PIC where id = '{0}'", id);
+                }
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+                sqlcommand = null;
+                sqlcon.Close();
+                sqlcon = null;
+                return Json(new { msg = "success" });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { msg = ex });
+            }
+        }
     }
 }

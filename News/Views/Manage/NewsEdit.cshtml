@@ -6,7 +6,7 @@
         </li>
     </ul>
     <div>
-        <div class="search btn-group col-lg-3">
+        <div class="search btn-group col-lg-4">
             <select id="select1" class="btn btn2">
                 <option value="title">标题</option>
                 <option value="author">编辑</option>
@@ -67,7 +67,7 @@
 
             </tbody>
         </table>
-        <div id="num1" class="col-lg-2 hidden">当前第<span id="nowpage1"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum1"></span>条内容</div>
+        <div id="num1" class="col-lg-5 hidden">当前第<span id="nowpage1"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum1"></span>条内容</div>
         <div class="pull-right pagechange">
             <ul class="pagination" id="ampagination1"></ul>
         </div>
@@ -82,9 +82,9 @@
             </div>
             <div class="modal-body">是否删除这条新闻？</div>
             <div class="modal-footer">
-                <button id="deletebtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
+                <button id="deletenewsbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button class="hidden" id="deletesuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+                <button class="hidden" id="deletenewssuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
@@ -110,7 +110,6 @@
         var newsid = 0;
         var issearch = "false";
         var array = [[]];
-        $("#newstype")
         $("#tbody1>thead>tr>th").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
@@ -118,7 +117,7 @@
         $("#tbody1>tr>td:first-child>a").on("click", function () {
             newsid = $(this).attr("newsid");
         });
-        $("#deletebtn").click(function () {
+        $("#deletenewsbtn").click(function () {
             Delete(newsid);
             $("div.modal-backdrop.fade.in").fadeOut(150);
         });
@@ -126,13 +125,21 @@
         $("#tbody1>tr>td:nth-child(2)>a").on("click", function () {
             newsid = $(this).attr("newsid");
             $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Create?ISVIEW=true&NEWSID=" + newsid + "'></iframe>");
+            $("#Comiframe").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#Commontiframe").addClass("loadingback");
             $("#Comiframe").show();
             $("#Comiframeback").show();
+            $("#Commontiframe").load(function () {
+                $(this.contentWindow.document.getElementById("Newsiframe")).ready(function () {
+                    var mainheight = $(this).contents().find("body").height() + 17;
+                    $(this).height(mainheight);
+
+                    $("#Commontiframe").removeClass("loadingback");
+                    $("img.loading").fadeOut();
+                });
+            });
         });
-        $("#Newsiframe").load(function () {
-            var mainheight = $(this).contents().find("body").height() + 17;
-            $(this).height(mainheight);
-        });
+        
         $("#search1").click(function () {
             var tb = document.getElementById("tbody1");
             //前端搜索
@@ -172,7 +179,7 @@
         
     });
 
-    //列表排序
+    //分页
     function spiltpage() {
         {
             var tb = document.getElementById("tbody1");
@@ -232,7 +239,7 @@
             }
         }
     }
-
+    //列表排序
     function sortNumberAsc(a, b) {
         return trans(a) - trans(b);
     }
@@ -413,7 +420,7 @@
             type: 'post',
             success: function (res) {
                 if (res.msg == "success") {
-                    $("#deletesuccessbtn").trigger("click");
+                    $("#deletenewssuccessbtn").trigger("click");
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {
