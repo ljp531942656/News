@@ -85,12 +85,15 @@
         spiltpage();
         var issearch = "false";
         var array = [[]];
-        $(".table thead tr th").on("click", function () {
+        $("#table2>thead>tr>th").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
         });
 
         $("#search2").click(function () {
+            $("#comment").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#comment").addClass("loadingback");
+
             var tb = document.getElementById("tbody2");
             //前端搜索
             //search(tb, $("#select2").val(), $("#input2").val());
@@ -125,7 +128,7 @@
                 issearch = "false";
             }
         });
-        
+
     });
 
     function spiltpage() {
@@ -185,6 +188,9 @@
                 $("#num").addClass("hidden");
                 $("#ampagination").addClass("hidden");
             }
+            
+            $("img.loading").fadeOut();
+            $("#comment").removeClass("loadingback");
         }
     }
 

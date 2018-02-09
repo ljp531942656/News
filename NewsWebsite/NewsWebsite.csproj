@@ -119,7 +119,7 @@
   <ItemGroup>
     <Content Include="CSS\bootstrap.css" />
     <Content Include="CSS\bootstrap.min.css" />
-    <Content Include="CSS\Site.css" />
+    <Content Include="CSS\index.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
@@ -171,6 +171,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\shared\_LayoutPage1.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\NewsList.cshtml" />
+    <Content Include="Views\Home\NewsPage.cshtml" />
+    <Content Include="Views\shared\footer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

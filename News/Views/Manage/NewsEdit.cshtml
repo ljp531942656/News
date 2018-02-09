@@ -110,7 +110,7 @@
         var newsid = 0;
         var issearch = "false";
         var array = [[]];
-        $("#tbody1>thead>tr>th").on("click", function () {
+        $("#table1>thead>tr>th").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
         });
@@ -121,7 +121,7 @@
             Delete(newsid);
             $("div.modal-backdrop.fade.in").fadeOut(150);
         });
-        
+
         $("#tbody1>tr>td:nth-child(2)>a").on("click", function () {
             newsid = $(this).attr("newsid");
             $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Create?ISVIEW=true&NEWSID=" + newsid + "'></iframe>");
@@ -139,8 +139,11 @@
                 });
             });
         });
-        
+
         $("#search1").click(function () {
+            $("#newsedit").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#newsedit").addClass("loadingback");
+
             var tb = document.getElementById("tbody1");
             //前端搜索
             //search(tb, $("#select1").val(), $("#input1").val());
@@ -176,7 +179,7 @@
                 issearch = "false";
             }
         });
-        
+
     });
 
     //分页
@@ -237,6 +240,9 @@
                 $("#num1").addClass("hidden");
                 $("#ampagination1").addClass("hidden");
             }
+
+            $("img.loading").fadeOut();
+            $("#newsedit").removeClass("loadingback");
         }
     }
     //列表排序

@@ -13,5 +13,13 @@ namespace NewsWebsite.Controllers
         {
             return View();
         }
+        public ActionResult NewsList()
+        {
+            return View();
+        }
+        public ActionResult NewsPage()
+        {
+            return View();
+        }
     }
 }
