@@ -20,12 +20,12 @@
     <table id="table3" class="table table-hover fixed-table-container">
         <thead>
             <tr>
-                <th>删除</th>
-                <th>修改</th>
-                <th>帐户</th>
-                <th>密码</th>
-                <th>权限</th>
-                <th>是否可登录</th>
+                <th width="6%">删除</th>
+                <th width="6%">修改</th>
+                <th width="24%">帐户</th>
+                <th width="24%">密码</th>
+                <th width="34%">权限</th>
+                <th width="6%">是否可登录</th>
             </tr>
         </thead>
         <tbody id="accounttbody">
@@ -93,6 +93,8 @@
             var tb = document.getElementById("table3");
             search(tb, $("#select3").val(), $("#input3").val());
         });
+
+        spiltpage();
     });
     //列表删除编辑
     function Delete(accountid) {

@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Data;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
@@ -36,25 +36,43 @@
             <div class="maintop col-lg-12 col-md-12">
                 <div class="lefttop col-lg-6 col-md-6">
                     <div class="pic">
-                        <div id="p1" class="p"></div>
-                        <div id="p2" class="p"></div>
-                        <div id="p3" class="p"></div>
-                        <div id="p4" class="p"></div>
+                        @{
+                            string[] title = new string[5];
+                            string[] tourl = new string[5];
+                            int i = 0;
+                            foreach (DataRow dr in (ViewData["PICList"] as DataTable).Rows)
+                            {
+                                title[i] = dr["title"].ToString();
+                                tourl[i] = dr["tourl"].ToString();
+                                i++;
+                                <div class="p" style="background-image:url('@dr["PICORIGIN"]');"></div>
+                            }
+                        }
                         <div class="point">
-                            <a id="ti">佛山市城市规划委员会会议</a>
-                            <div id="po1" class="po"></div>
-                            <div id="po2" class="po"></div>
-                            <div id="po3" class="po"></div>
-                            <div id="po4" class="po"></div>
+                            <a id="ti" href=""></a>
+                            <div id="po1" class="po" num="0"></div>
+                            <div id="po2" class="po" num="1"></div>
+                            <div id="po3" class="po" num="2"></div>
+                            <div id="po4" class="po" num="3"></div>
+                            <div id="po5" class="po" num="4"></div>
                         </div>
                     </div>
                 </div>
                 <div class="righttop col-lg-6 col-md-6">
-
+                    <div class="rttitle"></div>
+                    <div class="rtcontent">
+                        <div class="shadowblock"></div>
+                        <ul class="list-group">
+                            <li class="list-group-item"></li>
+                            <li class="list-group-item"></li>
+                            <li class="list-group-item"></li>
+                            <li class="list-group-item"></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="mainbottom col-lg-12 col-md-12">
-
+                
             </div>
         </div>
     </div>
@@ -77,14 +95,14 @@
             $(".newstypelist").css("left", "0");
             $(".mainlist").css("transform", "scale(0.93)");
             //$(".newstypelist").animate({ left: 0 });
-            $(".tobottom").css("opacity","1");
+            $(".tobottom").css("opacity", "1");
         });
         $(".newstypelist>li:first-child").click(function () {
             //$(".newstypelist").animate({ left: 160 });
             $(".mainlist>li:first-child").trigger("click");
             $(".newstypelist").css("left", "150px");
             $(".mainlist").css("transform", "scale(1)");
-            $(".newstypelist").css("opacity", "0");
+            $(".newstypelist").css("opacity", "0.7");
             $(".totop").css("opacity", "0");
             $(".tobottom").css("opacity", "0");
         });
@@ -96,17 +114,17 @@
             var viewH = $(this).height();
             var contentH = $(this).get(0).scrollHeight;
             var scrollTop = $(this).scrollTop();
-            if (scrollTop / (contentH - viewH) >= 0.95) { 
-                $(".tobottom").css("opacity", "0");;
+            if (scrollTop / (contentH - viewH) >= 0.95) {
+                $(".tobottom").css("opacity", "0");
             }
             else {
-                $(".tobottom").css("opacity", "1");;
+                $(".tobottom").css("opacity", "1");
             }
             if ($(this).scrollTop() != 0) {
-                $(".totop").css("opacity", "1");;
+                $(".totop").css("opacity", "1");
             }
             else {
-                $(".totop").css("opacity", "0");;
+                $(".totop").css("opacity", "0");
             }
 
         });
@@ -120,28 +138,37 @@
         var t = 0;
         var m;
         function show() {
-            $("#p1,#p2,#p3,#p4").fadeOut();
-            $("#po1,#po2,#po3,#po4").css("background-color", "#676c6d");
+            $(".p").fadeOut();
+            $(".po").css("background-color", "#676c6d");
 
             switch (t) {
                 case 0:
-                    $("#p1").fadeIn();
+                    $($(".pic").children(".p")[0]).fadeIn().attr("onclick", "window.open('@tourl[0]')");
                     $("#po1").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[0]").attr("href", "@tourl[0]").attr("target","_blank");
                     break;
                 case 1:
-                    $("#p2").fadeIn();
+                    $($(".pic").children(".p")[1]).fadeIn().attr("onclick", "window.open('@tourl[1]')");
                     $("#po2").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[1]").attr("href", "@tourl[1]");
                     break;
                 case 2:
-                    $("#p3").fadeIn();
+                    $($(".pic").children(".p")[2]).fadeIn().attr("onclick", "window.open('@tourl[2]')");
                     $("#po3").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[2]").attr("href", "@tourl[2]");
                     break;
                 case 3:
-                    $("#p4").fadeIn();
+                    $($(".pic").children(".p")[3]).fadeIn().attr("onclick", "window.open('@tourl[3]')");
                     $("#po4").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[3]").attr("href", "@tourl[3]");
+                    break;
+                case 4:
+                    $($(".pic").children(".p")[4]).fadeIn().attr("onclick", "window.open('@tourl[4]')");
+                    $("#po5").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[4]").attr("href", "@tourl[4]");
                     break;
             }
-            if (t >= 3) { t = 0; }
+            if (t >= 4) { t = 0; }
             else { t++; }
             m = setTimeout(show, 2000);
         }
@@ -151,37 +178,20 @@
         }
         show();
         $("#po1").css("background-color", "#a7b0af");
-        $("#po1").click(function () {
-            $("#po1").css("background-color", "#a7b0af");
-            $("#po2,#po3,#po4").css("background-color", "#676c6d");
-            t = 0;
+        $(".point>.po").click(function () {
+            $(this).css("background-color", "#a7b0af");
+            $(this).siblings("div.po").css("background-color", "#676c6d");
+            t = parseInt($(this).attr("num"));
             resetTimout(m);
         });
-        $("#po2").click(function () {
-            $("#po2").css("background-color", "#a7b0af");
-            $("#po1,#po3,#po4").css("background-color", "#676c6d");
-            t = 1;
-            resetTimout(m);
-        });
-        $("#po3").click(function () {
-            $("#po3").css("background-color", "#a7b0af");
-            $("#po1,#po2,#po4").css("background-color", "#676c6d");
-            t = 2;
-            resetTimout(m);
-        });
-        $("#po4").click(function () {
-            $("#po4").css("background-color", "#a7b0af");
-            $("#po1,#po2,#po3").css("background-color", "#676c6d");
-            $("#ydxkz").css("color", "white");
-            t = 3;
-            resetTimout(m);
-        });
-
+        $(".point").css("top", $(".pic").height() - $(".point").height());
     });
     $(window).resize(function () {
+        $(".main").height((window.innerHeight - $(".footer").height()) * 0.7);
         $(".totop").width($("#sider>ul>li").width());
         $(".tobottom").width($("#sider>ul>li").width());
         $(".totop").css("top", $(".main").css("margin-top"));
+        $(".point").css("top", $(".pic").height() - $(".point").height());
         $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
     });
 

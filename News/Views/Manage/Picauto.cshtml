@@ -19,14 +19,14 @@
     <table id="table0" class="table table-hover fixed-table-container">
         <thead>
             <tr>
-                <th>删除</th>
-                <th>修改</th>
-                <th>标题</th>
-                <th>跳转链接</th>
-                <th>是否展示</th>
+                <th width="6%">删除</th>
+                <th width="6%">修改</th>
+                <th width="52%">标题</th>
+                <th width="30%">跳转链接</th>
+                <th width="6%">是否展示</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="pictbody">
             @foreach (DataRow dr in (ViewData["PICLIST"] as DataTable).Rows)
             {
                 <tr>
@@ -43,6 +43,10 @@
             }
         </tbody>
     </table>
+    <div id="picnum" class="col-lg-5 hidden">当前第<span id="picnowpage"></span>页&nbsp;&nbsp;&nbsp;共<span id="picpagenum"></span>页&nbsp;&nbsp;&nbsp;共<span id="piccontentnum"></span>条内容</div>
+    <div class="pull-right pagechange">
+        <ul class="pagination" id="picampagination"></ul>
+    </div>
 </div>
 
 <div class="picupload">
@@ -77,13 +81,14 @@
         </div>
         <div class="col-lg-11 form-group">
             <label for="picorigin" class="col-lg-2 col-md-2 col-sm-3 control-label">图片源</label>
-            <input id="picorigin" name="picorigin" class="form-control" />
+            <input id="picorigin" name="picorigin" class="form-control" placeholder="可使用网络图片或上传图片" />
         </div>
         <div id="prepicview" class="col-lg-6 col-md-5 col-sm-5">
             <label id="previewlabel" style="width:28%;text-align:right;float:left">图片预览：</label>
             <div class="pull-right" data-control-type="button" style="margin:0 13% 0 0;">
                 <button id="delete" type="button" class="btn btn-danger" name="">删除</button>
             </div>
+            <div style="clear:both"></div>
             <div id='preimg'></div>
         </div>
         <div id="nowpicview" class="col-lg-5 col-md-5 col-sm-5">
@@ -151,7 +156,7 @@
                 type: "post",
                 success: function (res) {
                     if (res.msg == "success") {
-                        $("#preimg").html("");
+                        $("#preimg").css("background", "");
                         document.getElementById("picform").reset();
 
                         $("#Comiframeback").fadeIn();
@@ -167,7 +172,7 @@
                             $("#previewlabel").fadeIn();
                             $("#prepicview").height($(".picupload").height() * 0.5);
                             $("#nowpicview").height($(".picupload").height() * 0.5);
-                            $("#preimg").html("<img src='" + document.getElementById("picorigin").value + "'style='margin: 5px 0 0;height:inherit'>");
+                            $("#preimg").css("background", "url('" + document.getElementById("picorigin").value + "') no-repeat 50% 50%");
                         }
                     }
                     else {
@@ -178,6 +183,9 @@
 
         });
         $("#createpic").click(function () {
+            $("#picsubmit").attr("type", "create");
+            $("#preimg").css("background", "");
+            document.getElementById("picform").reset();
             $("#Comiframeback").fadeIn();
             $(".picupload").fadeIn();
         });
@@ -257,6 +265,67 @@
                 }
             });
         });
-    });
 
+        spiltpage();
+    });
+    //分页
+    function spiltpage() {
+        {
+            var tb = document.getElementById("pictbody");
+            var rownum = tb.rows.length;
+            if (tb.rows.length > 16) {
+                $("#picnum").removeClass("hidden");
+                $("#picampagination").removeClass("hidden");
+                var table = [];
+                var allrownum = 0;
+                if (rownum % 16 == 0) {
+                    allrownum = rownum / 16;
+                }
+                else {
+                    allrownum = parseInt(rownum / 16) + 1;
+                }
+                for (var i = 0; i < allrownum; i++) {
+                    table.push([]);
+                    for (var j = 16 * i; j < 16 * (i + 1) ; j++) {
+                        if (typeof (tb.rows[j]) != "undefined") {
+                            table[i].push(tb.rows[j].innerHTML);
+                        }
+                    }
+                }
+                for (i = 16; i < rownum; i++) {
+                    tb.deleteRow(16);
+                }
+                $("#picnowpage").html("1");
+                $("#picpagenum").html(allrownum);
+                $("#piccontentnum").html(rownum);
+                $('#picampagination').jqPaginator({
+                    totalPages: allrownum,
+                    visiblePages: 5,
+                    currentPage: 1,
+
+                    first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+                    prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
+                    next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+                    last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+                    page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+                    onPageChange: function (num) {
+                        $("#picnowpage").html(num);
+                        var tb = document.getElementById("pictbody");
+                        rownum = tb.rows.length;
+                        for (i = 0; i < rownum; i++) {
+                            tb.deleteRow(0);
+                        }
+                        for (var i = 0; i < table[num - 1].length; i++) {
+                            var row = tb.insertRow(i);
+                            row.innerHTML = table[num - 1][i];
+                        }
+                    }
+                });
+            }
+            else {
+                $("#picnum").addClass("hidden");
+                $("#picampagination").addClass("hidden");
+            }
+        }
+    }
 </script>

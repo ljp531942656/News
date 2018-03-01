@@ -422,7 +422,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "  select * from dbo.PIC order by STATUS DESC";
+            string sql = "  select * from dbo.PIC order by STATUS DESC,CREATETIME DESC";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();
@@ -463,7 +463,7 @@ namespace News.Controllers
                 var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
                 SqlConnection sqlcon = new SqlConnection(constring);
                 sqlcon.Open();
-                string sql = string.Format("insert into dbo.PIC(TITLE,PICORIGIN,TOURL,STATUS) values('{0}','{1}','{2}','{3}')", form["title"], form["picorigin"], form["tourl"], form["status"]);
+                string sql = string.Format("insert into dbo.PIC(TITLE,PICORIGIN,TOURL,STATUS,CREATETIME) values('{0}','{1}','{2}','{3}','{4}')", form["pictitle"], form["picorigin"], form["tourl"], form["status"], DateTime.Now);
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 sqlcommand.ExecuteNonQuery();
                 sqlcommand = null;

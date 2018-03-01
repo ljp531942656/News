@@ -6,7 +6,7 @@
 
 <link href="~/CSS/login.css" rel="stylesheet" />
 
-
+<div class="backgroundimg" ></div>
 <div class="container">
     <div class="tape"></div>
     <div class="title col-lg-12">
@@ -39,6 +39,11 @@
 <div class="back"></div>
 <script>
     $(document).ready(function () {
+        $(".backgroundimg").height(window.innerHeight);
+        $(window).resize(function () {
+            $(".backgroundimg").height(window.innerHeight);
+        });
+
         $("i.remeberme").click(function () {
             if ($(this).attr("remeber") == "false") {
                 $(this).children("i").animate({ left: "18" }, 300);
