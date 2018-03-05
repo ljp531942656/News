@@ -59,20 +59,45 @@
                     </div>
                 </div>
                 <div class="righttop col-lg-6 col-md-6">
-                    <div class="rttitle"></div>
                     <div class="rtcontent">
-                        <div class="shadowblock"></div>
+                        <div class="shadowblock"><a>今日热点</a></div>
                         <ul class="list-group">
-                            <li class="list-group-item"></li>
-                            <li class="list-group-item"></li>
-                            <li class="list-group-item"></li>
-                            <li class="list-group-item"></li>
+                            <li class="list-group-item"><a>1、测试1</a></li>
+                            <li class="list-group-item"><a>2、测试2</a></li>
+                            <li class="list-group-item"><a>3、测试3</a></li>
+                            <li class="list-group-item"><a>4、测试4</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="mainbottom col-lg-12 col-md-12">
-                
+                <a>热门评论</a>
+                <div class="hotcommont">
+                    <ul class="list-group">
+                        <li class="list-group-item"><a>1、测试1</a></li>
+                        <li class="list-group-item"><a>2、测试2</a></li>
+                        <li class="list-group-item"><a>3、测试3</a></li>
+                        <li class="list-group-item"><a>4、测试4</a></li>
+                        <li class="list-group-item"><a>5、测试5</a></li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a>1、测试1</a></li>
+                        <li class="list-group-item"><a>2、测试2</a></li>
+                        <li class="list-group-item"><a>3、测试3</a></li>
+                        <li class="list-group-item"><a>4、测试4</a></li>
+                        <li class="list-group-item"><a>5、测试5</a></li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a>1、测试1</a></li>
+                        <li class="list-group-item"><a>2、测试2</a></li>
+                        <li class="list-group-item"><a>3、测试3</a></li>
+                        <li class="list-group-item"><a>4、测试4</a></li>
+                        <li class="list-group-item"><a>5、测试5</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="typedetail" class="typedetail col-lg-12 col-md-12 hidden">
+                测试
             </div>
         </div>
     </div>
@@ -83,6 +108,7 @@
 <script>
     $(document).ready(function () {
         $(".main").height((window.innerHeight - $(".footer").height()) * 0.7);
+        $(".sider li").css("padding", $(".sider").height() / 10 - 15 + "px 0");
 
         $("#sider>ul>li:not(.zw)").click(function () {
             $(this).addClass("active");
@@ -94,11 +120,10 @@
             $(".newstypelist").css("opacity", "1");
             $(".newstypelist").css("left", "0");
             $(".mainlist").css("transform", "scale(0.93)");
-            //$(".newstypelist").animate({ left: 0 });
             $(".tobottom").css("opacity", "1");
         });
         $(".newstypelist>li:first-child").click(function () {
-            //$(".newstypelist").animate({ left: 160 });
+            $("#typedetail").addClass("hidden").siblings("div").fadeIn(200);
             $(".mainlist>li:first-child").trigger("click");
             $(".newstypelist").css("left", "150px");
             $(".mainlist").css("transform", "scale(1)");
@@ -106,6 +131,10 @@
             $(".totop").css("opacity", "0");
             $(".tobottom").css("opacity", "0");
         });
+        $(".newstypelist>li:not(first-child)").click(function () {
+            Switch($(this).text());
+        });
+
         $(".totop").width($("#sider>ul>li").width());
         $(".tobottom").width($("#sider>ul>li").width());
         $(".totop").css("top", $(".main").css("margin-top"));
@@ -193,16 +222,18 @@
         $(".totop").css("top", $(".main").css("margin-top"));
         $(".point").css("top", $(".pic").height() - $(".point").height());
         $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
+        $(".sider li").css("padding", $(".sider").height() / 10 - 15 + "px 0");
     });
 
 
     function Switch(type) {
         switch (type) {
             case "社会动态": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Picauto',
+                    url: '../Home/TypeDetail',
+                    data:{type:'社会动态'},
                     success: function (res) {
-                        $("#pic").html(res);
 
                     },
                 });

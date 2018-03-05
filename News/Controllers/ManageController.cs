@@ -446,7 +446,7 @@ namespace News.Controllers
                 {
                     imgFile.SaveAs(Server.MapPath("~/IMGlist/") + imgFile.FileName);
                 }
-                var url = "/NewsReleaseSystem/imglist/" + imgFile.FileName;
+                var url = "/imglist/" + imgFile.FileName;
                 return Json(new { msg = "success", url = url });
             }
             catch (Exception ex)

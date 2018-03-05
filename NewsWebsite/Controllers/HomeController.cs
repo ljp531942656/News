@@ -35,5 +35,20 @@ namespace NewsWebsite.Controllers
         {
             return View();
         }
+        public ActionResult TypeDetail()
+        {
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            string type = Request["type"];
+            sqlcon.Open();
+            string sql = string.Format("select * from NewsPage where newstype = '{0}'",type);
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "PICList");
+            DataTable dt = ds.Tables["PICList"];
+            sqlcon.Close();
+            return View();
+        }
     }
 }

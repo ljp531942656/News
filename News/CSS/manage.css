@@ -215,12 +215,12 @@ label{
 .table-hover>tbody>tr:hover{
     background-color:#eeeeee;
 }
-.table1 thead>tr>th:nth-child(6):hover,.table1 thead>tr>th:nth-child(7):hover{
+.table1 thead>tr>th:nth-child(6):hover,.table1 thead>tr>th:nth-child(7):hover,.table1 thead>tr>th:nth-child(8):hover{
     transition:0.3s ease-out;
     box-shadow:#aaa 0px 0px 5px 0;
     cursor:pointer;
 }
-.table1 thead>tr>th:nth-child(6):active,.table1 thead>tr>th:nth-child(7):active{
+.table1 thead>tr>th:nth-child(6):active,.table1 thead>tr>th:nth-child(7):active,.table1 thead>tr>th:nth-child(8):active{
     box-shadow:inset #eee 0px 0px 20px 9px;
 }
 .table2 thead>tr>th:not(:first-child):hover{
