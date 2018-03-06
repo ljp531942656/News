@@ -60,44 +60,56 @@
                 </div>
                 <div class="righttop col-lg-6 col-md-6">
                     <div class="rtcontent">
-                        <div class="shadowblock"><a>今日热点</a></div>
+                        <div class="shadowblock">
+                            <a>最新热点</a>
+                        </div>
                         <ul class="list-group">
-                            <li class="list-group-item"><a>1、测试1</a></li>
-                            <li class="list-group-item"><a>2、测试2</a></li>
-                            <li class="list-group-item"><a>3、测试3</a></li>
-                            <li class="list-group-item"><a>4、测试4</a></li>
+                            @foreach (DataRow dr in (ViewData["TOP7News"] as DataTable).Rows)
+                            {
+                                <li class="list-group-item">
+                                    <a newsid="@dr["ID"]" istop="@dr["ISTOP"]">@dr["TITLE"]</a>
+                                    <span>[@dr["DATE"]]</span>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="mainbottom col-lg-12 col-md-12">
-                <a>热门评论</a>
-                <div class="hotcommont">
-                    <ul class="list-group">
-                        <li class="list-group-item"><a>1、测试1</a></li>
-                        <li class="list-group-item"><a>2、测试2</a></li>
-                        <li class="list-group-item"><a>3、测试3</a></li>
-                        <li class="list-group-item"><a>4、测试4</a></li>
-                        <li class="list-group-item"><a>5、测试5</a></li>
+                
+                <div class="hotcomment">
+                    <a>热门评论</a>
+                    <ul id="comment" class="list-group">
+                        <li class="list-group-item">
+                            <a>1、测试1</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>2、测试2</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>3、测试3</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>4、测试4</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>5、测试5</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>6、测试6</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>7、测试7</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>8、测试8</a>
+                        </li>
                     </ul>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a>1、测试1</a></li>
-                        <li class="list-group-item"><a>2、测试2</a></li>
-                        <li class="list-group-item"><a>3、测试3</a></li>
-                        <li class="list-group-item"><a>4、测试4</a></li>
-                        <li class="list-group-item"><a>5、测试5</a></li>
-                    </ul>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a>1、测试1</a></li>
-                        <li class="list-group-item"><a>2、测试2</a></li>
-                        <li class="list-group-item"><a>3、测试3</a></li>
-                        <li class="list-group-item"><a>4、测试4</a></li>
-                        <li class="list-group-item"><a>5、测试5</a></li>
-                    </ul>
+
                 </div>
             </div>
             <div id="typedetail" class="typedetail col-lg-12 col-md-12 hidden">
-                测试
+                
             </div>
         </div>
     </div>
@@ -135,6 +147,17 @@
             Switch($(this).text());
         });
 
+        $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
+        $(".hotcomment .list-group-item").css("line-height", $(".hotcomment .list-group").height() / 5 - 3.2 + "px");
+        $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 10);
+        $(".rtcontent .list-group-item").height($(".rtcontent .list-group").height() / 7);
+        $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
+        $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
+        $(".rtcontent .list-group-item a[istop='是']").addClass("redfont");
+        $(".rtcontent .list-group-item a").click(function () {
+            window.open("NewsPage?newsid=" + $(this).attr("newsid"));
+        });
+
         $(".totop").width($("#sider>ul>li").width());
         $(".tobottom").width($("#sider>ul>li").width());
         $(".totop").css("top", $(".main").css("margin-top"));
@@ -164,6 +187,23 @@
             $("#sider>.newstypelist").animate({ scrollTop: $("#sider>.newstypelist").scrollTop() + 300 });
         });
 
+        //热门评论滚动
+        $(".hotcomment .list-group").append($(".hotcomment .list-group").html());
+        var scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+        $(".hotcomment .list-group-item").mouseover(function () {
+            clearInterval(scroll);
+        })
+        $(".hotcomment .list-group").mouseleave(function () { 
+            setTimeout(function () {
+                scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+            }, 600);
+        });
+        $(window).resize(function () {
+            clearInterval(scroll);
+            scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+        })
+
+
         var t = 0;
         var m;
         function show() {
@@ -174,7 +214,7 @@
                 case 0:
                     $($(".pic").children(".p")[0]).fadeIn().attr("onclick", "window.open('@tourl[0]')");
                     $("#po1").css("background-color", "#a7b0af");
-                    $("#ti").html("@title[0]").attr("href", "@tourl[0]").attr("target","_blank");
+                    $("#ti").html("@title[0]").attr("href", "@tourl[0]").attr("target", "_blank");
                     break;
                 case 1:
                     $($(".pic").children(".p")[1]).fadeIn().attr("onclick", "window.open('@tourl[1]')");
@@ -213,123 +253,167 @@
             t = parseInt($(this).attr("num"));
             resetTimout(m);
         });
-        $(".point").css("top", $(".pic").height() - $(".point").height());
+        $(".point").css("top", $(".pic").height() - $(".point").height() + 1);
     });
     $(window).resize(function () {
         $(".main").height((window.innerHeight - $(".footer").height()) * 0.7);
         $(".totop").width($("#sider>ul>li").width());
         $(".tobottom").width($("#sider>ul>li").width());
         $(".totop").css("top", $(".main").css("margin-top"));
-        $(".point").css("top", $(".pic").height() - $(".point").height());
+        $(".point").css("top", $(".pic").height() - $(".point").height() + 1);
         $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
         $(".sider li").css("padding", $(".sider").height() / 10 - 15 + "px 0");
+        $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
+        $(".hotcomment .list-group-item").css("line-height", $(".hotcomment .list-group").height() / 5 - 3.2 + "px");
+        $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 10);
+        $(".rtcontent .list-group-item").height($(".rtcontent .list-group").height() / 7);
+        $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
+        $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
     });
 
-
+    //新闻分类选择
     function Switch(type) {
         switch (type) {
             case "社会动态": {
                 $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
                     url: '../Home/TypeDetail',
-                    data:{type:'社会动态'},
+                    type:'post',
+                    data: { type: '社会动态' },
                     success: function (res) {
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "金融财经": {
-                //$.ajax({
-                //    url: '../Manage/Create',
-                //    success: function (res) {
-                //        $("#create").html(res);
-                //        $("#create").fadeIn(500).siblings("div").hide();
-                //    },
-                //});
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '金融财经' },
+                    success: function (res) {
+                        $("#typedetail").html(res.type);
+                    },
+                });
 
                 break;
             }
             case "激情体育": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Newsedit',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '激情体育' },
                     success: function (res) {
-                        $("#newsedit").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "科技前沿": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Comment',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '科技前沿' },
                     success: function (res) {
-                        $("#comment").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "汽车资讯": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '汽车资讯' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "房产": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '房产' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "军事": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '军事' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "娱乐": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '娱乐' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "健康": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '健康' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
             case "其它": {
+                $("#typedetail").removeClass("hidden").siblings("div").fadeOut(200);
                 $.ajax({
-                    url: '../Manage/Account',
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '其它' },
                     success: function (res) {
-                        $("#account").html(res);
-
+                        $("#typedetail").html(res.type);
                     },
                 });
                 break;
             }
+        }
+    }
+
+    //热门评论滚动
+    function ScrollComment() {
+        var hotcomment = document.getElementById("comment");
+        if (hotcomment.scrollTop >= hotcomment.clientHeight * 1.55) {
+            hotcomment.scrollTop = 0;
+        }
+        else if (hotcomment.scrollTop % parseInt(hotcomment.clientHeight / 5) == 0) {
+            clearInterval(scroll);
+            
+            setTimeout(function () {
+                hotcomment.scrollTop++;
+                ScrollComment();
+            }, 600);
+        }
+        else {
+            hotcomment.scrollTop++;
         }
     }
 </script>

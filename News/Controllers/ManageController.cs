@@ -80,7 +80,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP] from dbo.NewsPage order by [ISRELEASE] DESC,[DATE] DESC";
+            string sql = "  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP] from dbo.NewsPage order by [ISRELEASE] DESC,[ISTOP] DESC,[DATE] DESC";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();

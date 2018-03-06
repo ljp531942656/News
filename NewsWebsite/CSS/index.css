@@ -123,6 +123,18 @@
     height:100%;
     background:#fff;
 }
+    .content .list-group-item > a {
+        background: url('../Images/list_iconomal.png') left center no-repeat;
+        padding:0 0 0 10px;
+        white-space:nowrap;
+        overflow:hidden;
+        display:inline-block;
+        text-overflow:ellipsis;
+        cursor:pointer;
+    }
+    .content .list-group-item>span{
+        float:right;
+    }
 .maintop{
     height:60%;
     padding-top:10px;
@@ -169,7 +181,7 @@
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
-    transition:0.3s ease-in-out;
+    transition:color 0.3s ease-in-out;
 }
 
 #ti:hover{
@@ -233,31 +245,40 @@
     font-size:14px;
     line-height:24px;
 }
-.mainbottom>a:first-child{
+.rtcontent>.list-group{
+    height:86%;
+}
+.rtcontent .list-group-item{
+    padding:0 15px;
+}
+.hotcomment>a:first-child{
     background:#4479D4;
     color: #ffd985;
     font-size:14px;
     display:block;
-    width:2%;
+    width:6%;
     height:100%;
     text-align:center;
     padding:10px 0;
     float:left;
 }
-.hotcommont .list-group-item{
+.hotcomment .list-group-item{
     padding:0 15px;
-    height:20%;
+    border:none;
+    transition:0.5s ease-in-out;
 }
-.hotcommont{
-    width:98%;
+.hotcomment{
+    width:33.3%;
     height:100%;
     display:flex;
     justify-content:space-between;
+    box-shadow:-1px 0px 12px 0px #b2b2b2;
 }
-.hotcommont > ul{
-    width:33.3%;
+.hotcomment > ul{
+    width:94%;
     height:100%;
-    overflow-y:auto;
+    overflow:hidden;
+    border:1px solid #4479D4;
 }
 /*.hotcommont > ul:first-child{
     border-bottom:1px solid #4479D4;
@@ -287,7 +308,10 @@
         font-size:14px;
         line-height:24px;
     }
-    .mainbottom > a:first-child {
+    .hotcomment > a:first-child {
+        font-size:13px;
+    }
+    .content .list-group-item a{
         font-size:13px;
     }
 }
@@ -299,7 +323,10 @@
         font-size:16px;
         line-height:26px;
     }
-    .mainbottom > a:first-child {
+    .hotcomment > a:first-child {
+        font-size:15px;
+    }
+    .content .list-group-item a{
         font-size:15px;
     }
 }
@@ -311,19 +338,15 @@
         font-size:18px;
         line-height:28px;
     }
-    .mainbottom > a:first-child {
+    .hotcomment > a:first-child {
         font-size:18px;
+    }
+    .content .list-group-item a{
+        font-size:16px;
     }
 }
 
-/*-------------------------------------------------------footer----------------------------------------------------------------*/
-.footer{
-    width:100%;
-    background:#333333;
-    position:absolute;
-    left:0;
-    bottom:0;
-}
+
 
 
 /*-------------------------------------------------------common----------------------------------------------------------------*/
@@ -334,9 +357,15 @@ a,a:link,a:visited,a:hover{
 li{
     list-style:none;
     font-family:'Microsoft YaHei',sans-serif;
-    transition:0.18s ease-in-out;
+    transition:background-color 0.18s ease-in-out;
 }
 .list-group-item:hover{
     background-color:#eeeeee;
+}
+.redfont{
+    color:#ff4040;
+}
+.redfont:hover{
+    color:#d83939;
 }
 

@@ -4,5 +4,67 @@
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
 }
 
-<h2>NewsPage</h2>
+<link href="~/CSS/article.css" rel="stylesheet" />
 
+<div class="nav">
+    <span>您现在的位置：</span>
+    <a href="/NewsWebsite/home/Index">首页</a>
+</div>
+<div class="title">
+    <div class="mtitle">
+        <a>
+
+        </a>
+    </div>
+    <div class="ltitle">
+        <span>新闻类别：</span>
+        <a></a>
+    </div>
+</div>
+<div class="article">
+
+</div>
+
+
+@RenderPage("../shared/footer.cshtml")
+
+
+<script>
+    $(document).ready(function () {
+        var Request = new Object();
+        Request = GetRequest();
+        var newsid = Request["newsid"];
+        $.ajax({
+            url: '@Href("~/")Home/GetArticle',
+            type: 'post',
+            data: { newsid: newsid },
+            success: function (res) {
+                $(".nav").append("<span> > </span><a href=''>" + res.NewsPage[4] + "</a>");
+                $(".nav").append("<span> > </span><a>" + res.NewsPage[1] + "</a>");
+                $(".mtitle>a").html(res.NewsPage[1]);
+                $(".ltitle>a:nth-child(2)").html(res.NewsPage[4]);
+                if (res.NewsPage[2] != "") {
+                    $(".ltitle").append("<span>编辑：</span><a>" + res.NewsPage[2] + "</a>")
+                }
+                if (res.NewsPage[3] != "") {
+                    $(".ltitle").append("<span>来源：</span><a>" + res.NewsPage[3] + "</a>")
+                }
+                $(".ltitle").append("<span>发表时间：</span><a>" + res.NewsPage[5] + "</a>")
+                $(".article").html(res.NewsPage[6]);
+            }
+        })
+    });
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+</script>
