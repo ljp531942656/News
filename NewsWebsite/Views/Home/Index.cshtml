@@ -155,9 +155,10 @@
         });
 
         $("#about").click(function () {
-            $("#aboutme").removeClass("hidden");
-            $(".maintop").fadeOut();
-            $(".mainbottom").fadeOut();
+            $("#aboutme").siblings("div").fadeOut(200);
+            setTimeout(function () {
+                $("#aboutme").removeClass("hidden");
+            },200);
         });
 
         $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
