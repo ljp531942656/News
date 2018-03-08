@@ -31,9 +31,12 @@
 
 <script>
     $(document).ready(function () {
+        $(".footer").css("position", "relative");
+
         var Request = new Object();
         Request = GetRequest();
         var newsid = Request["newsid"];
+
         $.ajax({
             url: '@Href("~/")Home/GetArticle',
             type: 'post',

@@ -124,6 +124,7 @@
     <Content Include="CSS\index.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\aboutme.jpg" />
     <Content Include="Images\list_iconomal.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />

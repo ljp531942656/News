@@ -300,6 +300,14 @@
     height:100%;
 }
 
+.aboutme {
+    height:100%;
+    position:absolute;
+    background: url('../Images/aboutme.jpg') 50% 50% no-repeat;
+    background-size:98% 97%;
+}
+
+
 @media(min-height:700px){
     #ti{
         font-size: 19px;

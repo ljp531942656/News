@@ -13,7 +13,7 @@
             <ul class="mainlist">
                 <li class="active">主页</li>
                 <li id="newstypelist">新闻分类</li>
-                <li>关于</li>
+                <li id="about">关于</li>
                 <li class="zw"></li>
                 <li class="zw"></li>
             </ul>
@@ -111,11 +111,14 @@
             <div id="typedetail" class="typedetail col-lg-12 col-md-12 hidden">
                 
             </div>
+            <div id="aboutme" class="aboutme col-lg-12 col-md-12 hidden">
+                
+            </div>
         </div>
     </div>
-
-    @RenderPage("../shared/footer.cshtml")
 </div>
+
+@RenderPage("../shared/footer.cshtml")
 
 <script>
     $(document).ready(function () {
@@ -125,6 +128,10 @@
         $("#sider>ul>li:not(.zw)").click(function () {
             $(this).addClass("active");
             $(this).siblings("li").removeClass("active");
+        });
+
+        $(".mainlist>li:first-child").click(function () {
+            $("#aboutme").addClass("hidden").siblings("div").fadeIn(200);
         });
 
         $("#newstypelist").click(function () {
@@ -145,6 +152,12 @@
         });
         $(".newstypelist>li:not(first-child)").click(function () {
             Switch($(this).text());
+        });
+
+        $("#about").click(function () {
+            $("#aboutme").removeClass("hidden");
+            $(".maintop").fadeOut();
+            $(".mainbottom").fadeOut();
         });
 
         $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
