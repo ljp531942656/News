@@ -80,6 +80,7 @@
                     url: '@Href("~/")Login/CheckLogin',
                     traditional: true,
                     data: formdata,
+                    datatype:'json',
                     type: 'post',
                     async: false,
                     cache: false,
@@ -96,6 +97,7 @@
                             }
                             else {
                                 alert("用户名或密码不正确，请重试");
+                                $("#password").val("");
                             }
                         }
                         else {

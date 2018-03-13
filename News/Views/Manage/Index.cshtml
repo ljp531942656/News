@@ -108,11 +108,15 @@
         function Switch(type) {
             switch (type) {
                 case "图片轮播": {
+                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#pic").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Picauto',
                         success: function (res) {
                             $("#pic").html(res);
                             $("#pic").fadeIn().siblings("div").hide();
+                            $("#pic").removeClass("loadingback");
+                            $("img.loading").fadeOut();
                         },
                     });
                     break;
@@ -137,31 +141,43 @@
                     break;
                 }
                 case "新闻管理": {
+                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#newsedit").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {
                             $("#newsedit").html(res);
                             $("#newsedit").fadeIn().siblings("div").hide();
+                            $("#newsedit").removeClass("loadingback");
+                            $("img.loading").fadeOut();
                         },
                     });
                     break;
                 }
                 case "评论管理": {
+                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#comment").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Comment',
                         success: function (res) {
                             $("#comment").html(res);
                             $("#comment").fadeIn().siblings("div").hide();
+                            $("#comment").removeClass("loadingback");
+                            $("img.loading").fadeOut();
                         },
                     });
                     break;
                 }
                 case "帐户管理": {
+                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#account").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Account',
                         success: function (res) {
                             $("#account").html(res);
                             $("#account").fadeIn().siblings("div").hide();
+                            $("#account").removeClass("loadingback");
+                            $("img.loading").fadeOut();
                         },
                     });
                     break;

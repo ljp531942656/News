@@ -1,5 +1,7 @@
 ﻿body {
     background:#b6b6b6;
+    opacity:0;
+    transition:0.4s ease-in-out;
 }
 
 .main{
@@ -33,6 +35,7 @@
 .sider{
     width:13%;
     height:100%;
+    float:left\9;
 }
 .sider>ul{
     height:100%;
@@ -95,19 +98,19 @@
 .totop:hover, .tobottom:hover {
     background:rgba(255, 255, 255, 0.30);
 }
-@media(min-height:700px){
+@media(min-height:700px) and (min-width:800px){
     .sider>ul>li{
         font-size:17px;
         
     }
 }
-@media(min-height:770px){
+@media(min-height:770px) and (min-width:900px){
     .sider>ul>li{
         font-size:17px;
         
     }
 }
-@media(min-height:900px){
+@media(min-height:900px) and (min-width:1200px){
     .sider>ul>li{
         font-size:20px;
         
@@ -122,6 +125,7 @@
     width:87%;
     height:100%;
     background:#fff;
+    float:left\9;
 }
     .content .list-group-item > a {
         background: url('../Images/list_iconomal.png') left center no-repeat;
@@ -134,6 +138,11 @@
     }
     .content .list-group-item>span{
         float:right;
+    }
+    .content #comment>li>a{
+        background: url(../Images/message.png) left center no-repeat;
+        background-size: 6% 50%;
+        padding:0 0 0 30px;
     }
 .maintop{
     height:60%;
@@ -223,6 +232,17 @@
     box-shadow:0px 5px 20px 0px #aaaaaa;
     background:#4479D4;
 }
+    .shadowblock > a > .more {
+        background: url('../Images/more.png');
+        background-size: 100% 100%;
+        position: absolute;
+        top: 1.5%;
+        right: 1%;
+        width: 5%;
+        height: 6%;
+        cursor:pointer;
+    }
+    
 .rttitle{
     width:99%;
     height:10%;
@@ -279,6 +299,8 @@
     height:100%;
     overflow:hidden;
     border:1px solid #4479D4;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 /*.hotcommont > ul:first-child{
     border-bottom:1px solid #4479D4;

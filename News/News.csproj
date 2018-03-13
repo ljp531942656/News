@@ -504,7 +504,9 @@
     <Content Include="scripts\Ueditor\ueditor.config.js" />
     <Content Include="scripts\Ueditor\ueditor.parse.js" />
     <Content Include="scripts\Ueditor\ueditor.parse.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -566,6 +568,7 @@
     <None Include="Properties\PublishProfiles\NewsConfig.pubxml" />
     <Content Include="Views\Manage\Picauto.cshtml" />
     <Content Include="scripts\fileinput\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\TecentCloud.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
