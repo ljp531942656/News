@@ -195,7 +195,7 @@
             $(".picupload").fadeOut();
             $("#delete").fadeOut();
             $("#previewlabel").fadeOut();
-            
+
         });
         $("#picupload").fileinput({ 'showPreview': true, 'uploadAsync': true, 'allowedFileTypes': ['image'], 'maxFileCount': 1, 'maxFileSize': 4096, 'msgSizeTooLarge': '文件 "{name}" ({size} KB) 超过最大可上传文件大小 {maxSize} KB. 请重新上传!', 'msgInvalidFileType': '该文件格式"{name}"无效. 只支持 "{types}" 的文件格式.', 'msgValidationError': '文件上传异常', 'uploadUrl': '@Href("~/")Manage/Picupload' }).on("fileuploaded", function (event, data) {
 
@@ -268,7 +268,34 @@
         });
 
         spiltpage();
+
+        $("#search0").click(function () {
+            $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#pic").addClass("loadingback");
+
+            var tb = document.getElementById("pictbody");
+            //前端搜索
+            //search(tb, $("#select1").val(), $("#input1").val());
+            var searchstr = "";
+            searchstr = $("#input0").val();
+            array = searchinback("PIC", $("#select0").val(), searchstr, "pic");
+            var rownum = tb.rows.length
+            for (i = 0; i < rownum; i++) {
+                tb.deleteRow(0);
+            }
+            for (var i = 0; i < array.length; i++) {
+                var row = tb.insertRow(i);
+                row.insertCell(0).innerHTML = '<a newsid="' + array[i][0] + '">删除</a>';
+                row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">编辑</a>';
+                row.insertCell(2).innerHTML = array[i][1];
+                row.insertCell(3).innerHTML = array[i][2];
+                row.insertCell(4).innerHTML = array[i][3];
+            }
+            spiltpage();
+        });
+
     });
+
     //分页
     function spiltpage() {
         {
@@ -328,5 +355,7 @@
                 $("#picampagination").addClass("hidden");
             }
         }
+        $("img.loading").fadeOut();
+        $("#pic").removeClass("loadingback");
     }
 </script>

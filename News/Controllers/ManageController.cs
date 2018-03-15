@@ -315,9 +315,13 @@ namespace News.Controllers
                     isrelease = "and [ISRELEASE] = '是'";
                     ordertype = "[DATE] DESC,COMMONTNUM DESC";
                 }
-                else
+                else if(which == "newsedit")
                 {
                     ordertype = "ISRELEASE DESC,[DATE] DESC";
+                }
+                else
+                {
+                    ordertype = "STATUS DESC,[CREATETIME] DESC";
                 }
                 if (column == "newstype")
                 {
@@ -345,7 +349,14 @@ namespace News.Controllers
                 }
                 else
                 {
-                    sql = string.Format("  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where {1} LIKE '%'+'{2}'+'%'" + isrelease + "order by [DATE] DESC,COMMONTNUM DESC", table, column, str1);
+                    if(which == "pic")
+                    {
+                        sql = string.Format("select [ID],[TITLE],[TOURL],[STATUS],[CREATETIME] from {0} where {1} LIKE '%{2}%' order by " + ordertype, table,column,str1);
+                    }
+                    else
+                    {
+                        sql = string.Format("  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where {1} LIKE '%{2}%'" + isrelease + "order by [DATE] DESC,COMMONTNUM DESC", table, column, str1);
+                    }
                 }
                 
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);

@@ -511,7 +511,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -562,12 +562,13 @@
     <Content Include="scripts\Ueditor\net\README.md" />
     <Content Include="scripts\Ueditor\net\Web.config" />
     <Content Include="Views\Manage\CreateAccount.cshtml" />
-    <Content Include="Views\Login\login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
     <Content Include="apiapp.json" />
     <None Include="Properties\PublishProfiles\NewsConfig.pubxml" />
     <Content Include="Views\Manage\Picauto.cshtml" />
     <Content Include="scripts\fileinput\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\NewsReleaseSystem - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TecentCloud.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

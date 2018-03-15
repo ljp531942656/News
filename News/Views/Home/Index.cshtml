@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "login";
+    ViewBag.Title = "登陆";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
 }
 
@@ -77,7 +77,7 @@
                 }
                 var formdata = new FormData($("#form")[0]);
                 $.ajax({
-                    url: '@Href("~/")Login/CheckLogin',
+                    url: '@Href("~/")Home/CheckLogin',
                     traditional: true,
                     data: formdata,
                     datatype:'json',

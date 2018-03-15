@@ -15,7 +15,7 @@
         <button id="search3" class="btn btn3 btn-default">搜索</button>
     </div>
     <div class="pull-right btn-group" style="margin-right:1.9%;">
-     <button id="createaccount"  class="btn btn4 btn-green">新增</button>
+        <button id="createaccount" class="btn btn4 btn-green">新增</button>
     </div>
     <table id="table3" class="table table-hover fixed-table-container">
         <thead>
@@ -32,8 +32,12 @@
             @foreach (DataRow dr in (ViewData["ACCOUNT"] as DataTable).Rows)
             {
                 <tr>
-                    <td><a data-toggle="modal" data-target="#DeleteAccountModal" accountid="@dr["ID"]">删除</a></td>
-                    <td><a accountid="@dr["ID"]">修改</a></td>
+                    <td>
+                        <a data-toggle="modal" data-target="#DeleteAccountModal" accountid="@dr["ID"]">删除</a>
+                    </td>
+                    <td>
+                        <a accountid="@dr["ID"]">修改</a>
+                    </td>
                     <td>@dr["USERNAME"]</td>
                     <td>@dr["PASSWORD"]</td>
                     <td>@dr["AUTHORITY"]</td>
@@ -42,7 +46,12 @@
             }
         </tbody>
     </table>
-    <div id="num2" class="col-lg-5 hidden">当前第<span id="nowpage2"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum2"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum2"></span>条内容</div>
+    <div id="num2" class="col-lg-5 hidden">
+        当前第
+        <span id="nowpage2"></span>页&nbsp;&nbsp;&nbsp;共
+        <span id="pagenum2"></span>页&nbsp;&nbsp;&nbsp;共
+        <span id="contentnum2"></span>条内容
+    </div>
     <div class="pull-right pagechange">
         <ul class="pagination" id="ampagination2"></ul>
     </div>

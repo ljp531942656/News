@@ -180,6 +180,7 @@
     <Content Include="Views\Home\NewsList.cshtml" />
     <Content Include="Views\Home\NewsPage.cshtml" />
     <Content Include="Views\shared\footer.cshtml" />
+    <None Include="Properties\PublishProfiles\NewsWebSite - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\NewsWebSite.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
