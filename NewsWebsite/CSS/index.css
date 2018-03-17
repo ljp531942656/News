@@ -232,6 +232,14 @@
     box-shadow:0px 5px 20px 0px #aaaaaa;
     background:#4479D4;
 }
+    .shadowblock>a{
+        display: inline-block;
+        color: #ffd985;
+        width: 100%;
+        text-align: center;
+        font-size:14px;
+        line-height:24px;
+    }
     .shadowblock > a > .more {
         background: url('../Images/more.png');
         background-size: 100% 100%;
@@ -257,14 +265,7 @@
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-.rtcontent>.shadowblock>a{
-    display: inline-block;
-    color: #ffd985;
-    width: 100%;
-    text-align: center;
-    font-size:14px;
-    line-height:24px;
-}
+
 .rtcontent>.list-group{
     height:86%;
 }
@@ -321,6 +322,25 @@
     left:0;
     height:100%;
 }
+
+.PW{
+    height:100%;
+    padding:10px;
+}
+.PWinside{
+    height:50%;
+}
+    .PWinside>img{
+        height:87%;
+        display:block;
+        margin:auto;
+    }
+    .PWinside>a{
+        width:100%;
+        display:block;
+        text-align:center;
+        font-size:20px;
+    }
 
 .aboutme {
     height:100%;

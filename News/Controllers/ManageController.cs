@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Timers;
+using System.Threading;
 
 namespace News.Controllers
 {
@@ -15,7 +17,6 @@ namespace News.Controllers
         // GET: Manage
         public ActionResult Index()
         {
-
             return View();
         }
         public ActionResult Authority()
@@ -567,5 +568,120 @@ namespace News.Controllers
                 return Json(new { msg = ex });
             }
         }
+    }
+
+
+    public class WebTimer_AutoRepayment
+    {
+        static WebTimer_AutoRepayment()
+        {
+            _WebTimerTask = new WebTimer_AutoRepayment();
+        }
+        public static WebTimer_AutoRepayment Instance()
+        {
+            return _WebTimerTask;
+        }
+
+        private void ExecuteMain()
+        {
+            //定义你自己要执行的Job
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = string.Format(" delete from NewsPage where DATEDIFF(day,NewsPage.DATE,convert(char(50),GETDATE(),21)) >= 90  ");
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            sqlcommand.ExecuteNonQuery();
+        }
+        #region Timer 计时器定义
+        
+
+        private static int Period = 24 * 60 * 60 * 1000;
+        ///
+
+        /// 调用 callback 之前延迟的时间量（以毫秒为单位）。指定 Timeout.Infinite 以防止计时器开始计时。指定零 (0) 以立即启动计时器。
+        ///
+
+        private static int dueTime = 3 * 1000;//三分钟后启动
+
+        ///第几次执行
+        ///
+
+        private long Times = 0;
+        ///
+
+        /// 实例化一个对象
+        ///
+
+        private static readonly WebTimer_AutoRepayment _WebTimerTask = null;
+        private System.Threading.Timer WebTimerObj = null;
+        ///
+
+        /// 是否正在执行中
+        ///
+
+        private int _IsRunning;
+        ///
+
+        /// 开始
+        ///
+
+        public void Start()
+        {
+            if (WebTimerObj == null)
+            {
+                DateTime now = DateTime.Now;
+                int hour = now.Hour;
+                int minute = now.Minute;
+                int second = now.Second;
+                if (hour >= 12)
+                {
+                    dueTime = 0;//立即启动
+                }
+                else
+                {
+                    dueTime = (12 - hour) * (60-minute) * (60-second) * 1000;//到某个时间点的23时启动
+                }
+                WebTimerObj = new System.Threading.Timer(new TimerCallback(WebTimer_Callback), null, dueTime, Period);
+            }
+        }
+        ///
+
+        /// WebTimer的主函数
+        ///
+
+        /// 
+        private void WebTimer_Callback(object sender)
+        {
+            try
+            {
+                if (Interlocked.Exchange(ref _IsRunning, 1) == 0)
+                {
+                    ExecuteMain();
+                    Times++;
+                    Times = (Times % 100000);
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                Interlocked.Exchange(ref _IsRunning, 0);
+            }
+        }
+        ///
+
+        /// 停止
+        ///
+
+        public void Stop()
+        {
+            if (WebTimerObj != null)
+            {
+                WebTimerObj.Dispose();
+                WebTimerObj = null;
+            }
+        }
+        #endregion
     }
 }

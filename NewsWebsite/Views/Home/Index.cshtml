@@ -111,20 +111,26 @@
             <div id="typedetail" class="typedetail col-lg-12 col-md-12 hidden">
                 <div class="PW col-lg-8 col-md-8 col-xs-8">
                     <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-                        
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
                     </div>
                     <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
                     </div>
                     <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
                     </div>
                     <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
                     </div>
                 </div>
-                <div class="W">
-                    <div class="shadowblock"></div>
+                <div class="W col-lg-4 col-md-4 col-xs-4">
+                    <div class="shadowblock">
+                        <a>社会动态</a>
+                    </div>
                 </div>
             </div>
             <div id="aboutme" class="aboutme col-lg-12 col-md-12 hidden">
@@ -312,7 +318,7 @@
                     type: 'post',
                     data: { type: '社会动态' },
                     success: function (res) {
-                        $("#typedetail").html(res.type);
+                        ;
                     },
                 });
                 break;

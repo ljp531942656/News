@@ -1,4 +1,5 @@
-﻿using System;
+﻿using News.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,13 @@ namespace News
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            WebTimer_AutoRepayment.Instance().Start();
+        }
+
+        void Application_End(object sender, EventArgs e)
+        {
+            WebTimer_AutoRepayment.Instance().Stop();
         }
     }
+
 }
