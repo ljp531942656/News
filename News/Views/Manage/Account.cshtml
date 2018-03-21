@@ -77,9 +77,10 @@
     $(document).ready(function () {
         var accountid = 0;
         $("#createaccount").click(function () {
-            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/CreateAccount'></iframe>");
-            $("#Comiframe").fadeIn(600);
-            $("#Comiframeback").fadeIn(600);
+            $("#Comiframe").html("<iframe id='Commontiframe' style='opacity:0;' src='@Href("~/")Manage/CreateAccount'></iframe>");
+            $("#Comiframe").fadeIn(300);
+            $("#Commontiframe").css("opacity", "1")
+            $("#Comiframeback").fadeIn(300);
         });
 
         //删除
@@ -93,9 +94,10 @@
 
         $(".table tr td:nth-child(2) a").on("click", function () {
             accountid = $(this).attr("accountid");
-            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/CreateAccount?ISVIEW=true&ACCOUNTID=" + accountid + "'></iframe>");
-            $("#Comiframe").show();
-            $("#Comiframeback").show();
+            $("#Comiframe").html("<iframe id='Commontiframe' style='opacity:0;' src='@Href("~/")Manage/CreateAccount?ISVIEW=true&ACCOUNTID=" + accountid + "'></iframe>");
+            $("#Comiframe").fadeIn(300);
+            $("#Commontiframe").css("opacity", "1");
+            $("#Comiframeback").fadeIn(300);
         });
 
         $("#search3").click(function () {

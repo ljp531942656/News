@@ -24,23 +24,12 @@
         <div id="sideback"></div>
 
         <div id="main">
-            <div id="pic">
-
-
-            </div>
-            <div id="create">
-
-
-            </div>
-            <div id="newsedit">
-
-            </div>
-            <div id="comment">
-
-            </div>
-            <div id="account">
-
-            </div>
+            <div id="pic"></div>
+            <div id="create"></div>
+            <div id="newsedit"></div>
+            <div id="comment"></div>
+            <div id="account"></div>
+            <div id="filed"></div>
         </div>
 
     </div>
@@ -169,6 +158,20 @@
                     break;
                 }
                 case "帐户管理": {
+                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#account").addClass("loadingback");
+                    $.ajax({
+                        url: '../Manage/Account',
+                        success: function (res) {
+                            $("#account").html(res);
+                            $("#account").fadeIn().siblings("div").hide();
+                            $("#account").removeClass("loadingback");
+                            $("img.loading").fadeOut();
+                        },
+                    });
+                    break;
+                }
+                case "归档": {
                     $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
                     $("#account").addClass("loadingback");
                     $.ajax({

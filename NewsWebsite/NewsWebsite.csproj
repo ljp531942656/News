@@ -125,6 +125,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\aboutme.jpg" />
+    <Content Include="Images\favicon.ico" />
     <Content Include="Images\list_iconomal.png" />
     <Content Include="Images\message.png" />
     <Content Include="Images\more.png" />
@@ -180,6 +181,7 @@
     <Content Include="Views\Home\NewsList.cshtml" />
     <Content Include="Views\Home\NewsPage.cshtml" />
     <Content Include="Views\shared\footer.cshtml" />
+    <None Include="Properties\PublishProfiles\NewsWebSite - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\NewsWebSite - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\NewsWebSite.pubxml" />
     <None Include="Web.Debug.config">

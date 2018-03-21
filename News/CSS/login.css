@@ -1,6 +1,7 @@
 /* CSS Document */
 body {
-
+    opacity:0;
+    transition:0.4s;
 }
 .backgroundimg{
     width:100%;
@@ -84,8 +85,9 @@ div.col-lg-12 .form-group:nth-child(2){
 .Myform-control:focus{
 	outline: 0;
 	border-bottom: 1px solid #89ba75;
-	box-shadow: 0px 3px 5px 0px rgba(137, 186, 117, 0.20);
-	-webkit-box-shadow: 0px 3px 5px 0px rgba(137, 186, 117, 0.20);
+    -moz-box-shadow: 0 3px 5px 0 rgba(137, 186, 117, 0.20);
+	-webkit-box-shadow: 0 3px 5px 0 rgba(137, 186, 117, 0.20);
+    box-shadow: 0 3px 5px 0 rgba(137, 186, 117, 0.20);
 }
 
 .usericon{
@@ -117,8 +119,9 @@ div.col-lg-12 .form-group:nth-child(2){
 	border: 1px solid #eeeeee;
 	border-radius: 7px;
 	background: #cccccc;
-	box-shadow: inset 1px 2px 2px 1px rgba(81, 81, 81, 0.24);
+    -moz-box-shadow: inset 1px 2px 2px 1px rgba(81, 81, 81, 0.24);
 	-webkit-box-shadow: inset 1px 2px 2px 1px rgba(81, 81, 81, 0.24);
+	box-shadow: inset 1px 2px 2px 1px rgba(81, 81, 81, 0.24);
 	cursor: pointer;
 	transition: 0.6s;
 }
@@ -134,8 +137,9 @@ div.col-lg-12 .form-group:nth-child(2){
 	border-radius: 50%;
 	width: 16px;
 	height: 16px;
-	box-shadow: inset 2px 2px 11px 3px #f4f4f4;
+    -moz-box-shadow: inset 2px 2px 11px 3px #f4f4f4;
 	-webkit-box-shadow: inset 2px 2px 11px 3px #f4f4f4;
+	box-shadow: inset 2px 2px 11px 3px #f4f4f4;
 }
 .btn{
 	padding: 1px 18px;

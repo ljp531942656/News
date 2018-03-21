@@ -14,7 +14,7 @@ body {
     width:90%;
     float:left;
     background:#fafafa;
-    padding:0px 0 25px 0;
+    padding:0 0 25px 0;
     transition:0.6s;
 }
 #create{
@@ -27,7 +27,7 @@ body {
     display: none;  
     margin:14px -13px;
     border:1px solid #333;
-    border-color:rgba(169,169,169,1);
+    border-color:rgb(169,169,169);
     background:#fff;  
     border-radius:10px;  
     line-height: 20px;  
@@ -36,9 +36,7 @@ body {
     color:#666;  
     resize: none;  
     outline: none;  
-    overflow-y: auto;  
-    border:1px solid #333;  
-    border-color:rgba(169,169,169,1);  
+    overflow-y: auto;
     text-align: left; 
 }
 
@@ -63,6 +61,7 @@ body {
 }
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
     background:#89ba75;
+    border:1px solid rgb(189, 189, 189);
     border:1px solid rgba(0, 0, 0, 0.10);
     transition:0.6s;
 }
@@ -88,6 +87,7 @@ body {
 #barback{
     background:transparent;
     padding:4px 0;
+    color:#ffffff;
     color:rgba(0, 0, 0, 0.00);
 }
 #listicon{
@@ -115,19 +115,20 @@ body {
     top:0;
     bottom:0;
     margin:auto;
-    transition:0.8s;
+    transition:0.2s;
 }
 #Comiframe{
     width:100%;
     height:97%;
     position:absolute;
     z-index:200;
-    transition:0.8s;
+    transition:0.2s;
 }
 #Comiframeback{
     z-index:100;
     position:absolute;
     width:100%;
+    background:rgb(161, 161, 161);
     background:rgba(0, 0, 0, 0.43);
 }
 
@@ -174,9 +175,7 @@ label{
     background:transparent;
     padding:10px 30px;
 }
-.btn{
-    
-}
+
 .btn-green{
     color:#666;
     background-color:#e7f8e0;
@@ -217,19 +216,19 @@ label{
 }
 .table1 thead>tr>th:nth-child(6):hover,.table1 thead>tr>th:nth-child(7):hover,.table1 thead>tr>th:nth-child(8):hover{
     transition:0.3s ease-out;
-    box-shadow:#aaa 0px 0px 5px 0;
+    box-shadow:#aaa 0 0 5px 0;
     cursor:pointer;
 }
 .table1 thead>tr>th:nth-child(6):active,.table1 thead>tr>th:nth-child(7):active,.table1 thead>tr>th:nth-child(8):active{
-    box-shadow:inset #eee 0px 0px 20px 9px;
+    box-shadow:inset #eee 0 0 20px 9px;
 }
 .table2 thead>tr>th:not(:first-child):hover{
     transition:0.3s ease-out;
-    box-shadow:#aaa 0px 0px 5px 0;
+    box-shadow:#aaa 0 0 5px 0;
     cursor:pointer;
 }
 .table2 thead>tr>th:not(:first-child):active{
-    box-shadow:inset #eee 0px 0px 20px 9px;
+    box-shadow:inset #eee 0 0 20px 9px;
 }
 .btn-group{
     margin:10px;

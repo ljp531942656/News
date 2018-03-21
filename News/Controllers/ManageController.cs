@@ -178,7 +178,23 @@ namespace News.Controllers
             sqlcon.Close();
             return View();
         }
+        public ActionResult Commentmana()
+        {
+            return View();
+        }
+        public ActionResult Commentdelete()
+        {
+            try
+            {
 
+                return Json(new { msg = "success" });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
+        }
 
         public ActionResult Account()
         {
@@ -567,6 +583,22 @@ namespace News.Controllers
             {
                 return Json(new { msg = ex });
             }
+        }
+
+        public ActionResult Filed()
+        {
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = "select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[ISFILED] from dbo.NewsPage where [ISFILED] = '是'";
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "FILED");
+            DataTable dt = ds.Tables["FILED"];
+            ViewData["FILED"] = dt;
+            sqlcon.Close();
+            return View();
         }
     }
 
