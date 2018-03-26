@@ -1,87 +1,78 @@
-﻿@using System.Data;
+﻿
+@using System.Data;
+
 <div>
     <ul class="nav nav-tabs">
         <li class="active">
-            <a>新闻管理</a>
+            <a>已归档新闻</a>
         </li>
     </ul>
-    <div class="search btn-group col-lg-4">
-        <select id="select1" class="btn btn2">
-            <option value="title">标题</option>
-            <option value="author">编辑</option>
-            <option value="newstype">新闻类别</option>
-        </select>
-        <input id="input1" class="pull-left form-control" />
-        <select class="form-control mutiselect selectpicker show-tick" name="newstypeselect1" type="text" id="newstypeselect1" multiple data-live-search="false" data-show-content="true" data-none-selected-text="选择" data-actions-box="true" data-deselect-all-text="全不选" data-select-all-text="全选">
-            <option value="社会动态">社会动态</option>
-            <option value="金融财经">金融财经</option>
-            <option value="激情体育">激情体育</option>
-            <option value="科技前沿">科技前沿</option>
-            <option value="汽车资讯">汽车资讯</option>
-            <option value="房产">房产</option>
-            <option value="军事">军事</option>
-            <option value="娱乐">娱乐</option>
-            <option value="健康">健康</option>
-            <option value="其它">其它</option>
-        </select>
-        <button id="search1" class="btn btn3 btn-default">搜索</button>
-    </div>
+    <div>
+        <div class="search btn-group col-lg-4">
+            <select id="select4" class="btn btn2">
+                <option value="title">标题</option>
+                <option value="author">编辑</option>
+                <option value="newstype">新闻类别</option>
+            </select>
+            <input id="input4" class="pull-left form-control" />
+            <select class="form-control mutiselect selectpicker show-tick" name="newstypeselect4" type="text" id="newstypeselect4" multiple data-live-search="false" data-show-content="true" data-none-selected-text="选择" data-actions-box="true" data-deselect-all-text="全不选" data-select-all-text="全选">
+                <option value="社会动态">社会动态</option>
+                <option value="金融财经">金融财经</option>
+                <option value="激情体育">激情体育</option>
+                <option value="科技前沿">科技前沿</option>
+                <option value="汽车资讯">汽车资讯</option>
+                <option value="房产">房产</option>
+                <option value="军事">军事</option>
+                <option value="娱乐">娱乐</option>
+                <option value="健康">健康</option>
+                <option value="其它">其它</option>
+            </select>
+            <button id="search4" class="btn btn3 btn-default">搜索</button>
+        </div>
 
-    <div class="pull-right btn-group" style="margin-right:1.9%;">
-        <button id="mutidelete" class="btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
-        <button id="mutichoose" class="btn btn4 btn-green">批量处理</button>
-        <button id="mutifile" class="btn btn4 btn-default" style="right:60px">归档</button>
-    </div>
-
-    <table id="table1" class="table table1 table-hover fixed-table-container">
-        <thead>
-            <tr>
-                <th width="6%">删除</th>
-                <th width="6%">编辑</th>
-                <th width="8%">新闻类别</th>
-                <th width="30%">标题</th>
-                <th width="20%">编辑</th>
-                <th id="th0" width="14%" class="asc">
-                    日期
-                    <span class="pull-right glyphicon glyphicon-sort tableGly"></span>
-                </th>
-                <th id="th1" width="8%" class="asc">
-                    是否发布
-                    <span class="pull-right glyphicon glyphicon-sort tableGly"></span>
-                </th>
-                <th id="th2" width="8%" class="asc">
-                    是否置顶
-                    <span class="pull-right glyphicon glyphicon-sort tableGly"></span>
-                </th>
-            </tr>
-        </thead>
-        <tbody id="tbody1">
-
-            @foreach (DataRow dr in (ViewData["NewsList"] as DataTable).Rows)
-            {
+        <table id="table4" class="table table1 table-hover fixed-table-container">
+            <thead>
                 <tr>
-                    <td>
-                        <a data-toggle="modal" data-target="#DeleteModal" newsid="@dr["ID"]">删除</a>
-                    </td>
-                    <td>
-                        <a newsid="@dr["ID"]">编辑</a>
-                    </td>
-                    <td>@dr["NEWSTYPE"]</td>
-                    <td>@dr["TITLE"]</td>
-                    <td>@dr["AUTHOR"]</td>
-                    <td name="td0">@dr["DATE"]</td>
-                    <td name="td1">@dr["ISRELEASE"]</td>
-                    <td name="td2">@dr["ISTOP"]</td>
+                    <th width="8%">删除</th>
+                    <th width="8%">取消归档</th>
+                    <th width="10%">新闻类别</th>
+                    <th width="35%">标题</th>
+                    <th width="25%">编辑</th>
+                    <th id="th40" width="14%" class="asc">
+                        日期
+                        <span class="pull-right glyphicon glyphicon-sort tableGly"></span>
+                    </th>
                 </tr>
-            }
+            </thead>
+            <tbody id="tbody4">
 
-        </tbody>
-    </table>
-    <div id="num1" class="col-lg-5 hidden">
-        当前第<span id="nowpage1"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum1"></span>条内容
-    </div>
-    <div class="pull-right pagechange">
-        <ul class="pagination" id="ampagination1"></ul>
+                @foreach (DataRow dr in (ViewData["Filed"] as DataTable).Rows)
+                {
+                    <tr>
+                        <td>
+                            <a data-toggle="modal" data-target="#DeleteModal" newsid="@dr["ID"]">删除</a>
+                        </td>
+                        <td>
+                            <a data-toggle="modal" data-target="#CancelModal" newsid="@dr["ID"]">取消归档</a>
+                        </td>
+                        <td>@dr["NEWSTYPE"]</td>
+                        <td>@dr["TITLE"]</td>
+                        <td>@dr["AUTHOR"]</td>
+                        <td name="td40">@dr["DATE"]</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div id="num4" class="col-lg-5 hidden">
+            当前第
+            <span id="nowpage4"></span>页&nbsp;&nbsp;&nbsp;共
+            <span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共
+            <span id="contentnum4"></span>条内容
+        </div>
+        <div class="pull-right pagechange">
+            <ul class="pagination" id="ampagination4"></ul>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -100,12 +91,27 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
+<div class="modal fade" id="CancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">取消归档</h4>
+            </div>
+            <div class="modal-body">是否取消这条新闻的归档？</div>
+            <div class="modal-footer">
+                <button id="cancelnewsbtn" type="button" data-dismiss="modal" class="btn btn-green">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="hidden" id="deletenewssuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#newstypeselect1").selectpicker();
-        $("#newstypeselect1").selectpicker('setStyle', 'btn3', 'add');
+        $("#newstypeselect4").selectpicker();
+        $("#newstypeselect4").selectpicker('setStyle', 'btn3', 'add');
         $("div.bootstrap-select").addClass("hidden");
         $("#select1").on("change", function () {
             if ($(this).val() == "newstype") {
@@ -121,51 +127,41 @@
         var newsid = 0;
         var issearch = "false";
         var array = [[]];
-        $("#table1>thead>tr>th").on("click", function () {
+        $("#table4>thead>tr>th").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
         });
-        $("#tbody1>tr>td:first-child>a").on("click", function () {
+        $("#tbody4>tr>td:first-child>a").on("click", function () {
+            newsid = $(this).attr("newsid");
+        });
+        $("#tbody4>tr>td:nth-child(2)>a").on("click", function () {
             newsid = $(this).attr("newsid");
         });
         $("#deletenewsbtn").click(function () {
             Delete(newsid);
             $("div.modal-backdrop.fade.in").fadeOut(150);
         });
-
-        $("#tbody1>tr>td:nth-child(2)>a").on("click", function () {
-            newsid = $(this).attr("newsid");
-            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Create?ISVIEW=true&NEWSID=" + newsid + "'></iframe>");
-            $("#Comiframe").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
-            $("#Commontiframe").addClass("loadingback");
-            $("#Comiframe").show();
-            $("#Comiframeback").show();
-            $("#Commontiframe").load(function () {
-                $(this.contentWindow.document.getElementById("Newsiframe")).ready(function () {
-                    var mainheight = $(this).contents().find("body").height() + 17;
-                    $(this).height(mainheight);
-
-                    $("#Commontiframe").removeClass("loadingback");
-                    $("img.loading").fadeOut();
-                });
-            });
+        $("#cancelnewsbtn").click(function () {
+            Cancel(newsid);
+            $("div.modal-backdrop.fade.in").fadeOut(150);
         });
 
-        $("#search1").click(function () {
-            $("#newsedit").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
-            $("#newsedit").addClass("loadingback");
 
-            var tb = document.getElementById("tbody1");
+        $("#search4").click(function () {
+            $("#filed").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#filed").addClass("loadingback");
+
+            var tb = document.getElementById("tbody4");
             //前端搜索
             //search(tb, $("#select1").val(), $("#input1").val());
             var searchstr = "";
-            if ($("#input1").hasClass("hidden")) {
-                searchstr = $("#newstypeselect1").val();
+            if ($("#input4").hasClass("hidden")) {
+                searchstr = $("#newstypeselect4").val();
             }
             else {
-                searchstr = $("#input1").val();
+                searchstr = $("#input4").val();
             }
-            array = searchinback("NewsPage", $("#select1").val(), searchstr, "newsedit");
+            array = searchinback("NewsPage", $("#select4").val(), searchstr, "filed");
             var rownum = tb.rows.length
             for (i = 0; i < rownum; i++) {
                 tb.deleteRow(0);
@@ -173,38 +169,31 @@
             for (var i = 0; i < array.length; i++) {
                 var row = tb.insertRow(i);
                 row.insertCell(0).innerHTML = '<a newsid="' + array[i][0] + '">删除</a>';
-                row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">编辑</a>';
+                row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">取消归档</a>';
                 row.insertCell(2).innerHTML = array[i][4];
                 row.insertCell(3).innerHTML = array[i][1];
                 row.insertCell(4).innerHTML = array[i][2];
                 row.insertCell(5).innerHTML = array[i][5];
-                row.insertCell(6).innerHTML = array[i][6];
-                row.insertCell(7).innerHTML = array[i][7];
             }
-            $("#tbody1>tr>td:nth-child(6n)").attr("name", "td0");
-            $("#tbody1>tr>td:nth-child(7n)").attr("name", "td1");
-            $("#tbody1>tr>td:nth-child(8n)").attr("name", "td2");
+            $("#tbody4>tr>td:nth-child(6n)").attr("name", "td40");
             spiltpage();
-            if ($("#input1").val() != "") {
+            if ($("#input4").val() != "") {
                 issearch = "true";
             }
             else {
                 issearch = "false";
             }
         });
-        
-        $("#mutichoose").click(function () {
-            mutichoose($(this).parent("div"));
-        })
+
     });
 
     //分页
     function spiltpage() {
         {
-            var tb = document.getElementById("tbody1");
+            var tb = document.getElementById("tbody4");
             var rownum = tb.rows.length;
             if (tb.rows.length > 16) {
-                $("#num1").removeClass("hidden");
+                $("#num4").removeClass("hidden");
                 $("#ampagination1").removeClass("hidden");
                 var table = [];
                 var allrownum = 0;
@@ -225,10 +214,10 @@
                 for (i = 16; i < rownum; i++) {
                     tb.deleteRow(16);
                 }
-                $("#nowpage1").html("1");
-                $("#pagenum1").html(allrownum);
-                $("#contentnum1").html(rownum);
-                $('#ampagination1').jqPaginator({
+                $("#nowpage4").html("1");
+                $("#pagenum4").html(allrownum);
+                $("#contentnum4").html(rownum);
+                $('#ampagination4').jqPaginator({
                     totalPages: allrownum,
                     visiblePages: 5,
                     currentPage: 1,
@@ -239,8 +228,8 @@
                     last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
                     page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
                     onPageChange: function (num) {
-                        $("#nowpage1").html(num);
-                        var tb = document.getElementById("tbody1");
+                        $("#nowpage4").html(num);
+                        var tb = document.getElementById("tbody4");
                         rownum = tb.rows.length;
                         for (i = 0; i < rownum; i++) {
                             tb.deleteRow(0);
@@ -253,20 +242,20 @@
                 });
             }
             else {
-                $("#num1").addClass("hidden");
-                $("#ampagination1").addClass("hidden");
+                $("#num4").addClass("hidden");
+                $("#ampagination4").addClass("hidden");
             }
 
             $("img.loading").fadeOut();
-            $("#newsedit").removeClass("loadingback");
+            $("#filed").removeClass("loadingback");
         }
     }
     //列表排序
     function sortNumberAsc(a, b) {
-        return trans2(a) - trans2(b);
+        return trans(a) - trans(b);
     }
     function sortNumberDesc(a, b) {
-        return trans2(b) - trans2(a);
+        return trans(b) - trans(a);
     }
     function sortDateAsc(a, b) {
         if (a > b) {
@@ -290,8 +279,20 @@
             return -1;
         }
     }
+    function trans(str) {
+        if (str == "是") {
+            str = "1";
+        }
+        else if (str == "否") {
+            str = "0";
+        }
+        else {
+
+        }
+        return str;
+    }
     function SortTable(obj, issearch, array) {
-        var tb = document.getElementById("tbody1");
+        var tb = document.getElementById("tbody4");
         rownum = tb.rows.length;
         var sort = obj.className;
         if (issearch == "true") {
@@ -301,74 +302,43 @@
             for (var i = 0; i < array.length; i++) {
                 var row = tb.insertRow(i);
                 row.insertCell(0).innerHTML = '<a newsid="' + array[i][0] + '">删除</a>';
-                row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">编辑</a>';
+                row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">取消归档</a>';
                 row.insertCell(2).innerHTML = array[i][1];
                 row.insertCell(3).innerHTML = array[i][2];
                 row.insertCell(4).innerHTML = array[i][4];
                 row.insertCell(5).innerHTML = array[i][5];
-                row.insertCell(6).innerHTML = array[i][6];
-                row.insertCell(7).innerHTML = array[i][7];
             }
-            $("#tbody1>tr>td:nth-child(6n)").attr("name", "td0");
-            $("#tbody1>tr>td:nth-child(7n)").attr("name", "td1");
-            $("#tbody1>tr>td:nth-child(8n)").attr("name", "td2");
+            $("#tbody4>tr>td:nth-child(6n)").attr("name", "td40");
 
-            var td0s = document.getElementsByName("td0");
-            var td1s = document.getElementsByName("td1");
-            var td2s = document.getElementsByName("td2");
+            var td0s = document.getElementsByName("td40");
 
             var tdArray0 = [];
-            var tdArray1 = [];
-            var tdArray2 = [];
 
             for (var i = 0; i < td0s.length; i++) {
                 tdArray0.push(td0s[i].innerHTML);
             }
-            for (var i = 0; i < td1s.length; i++) {
-                tdArray1.push(td1s[i].innerHTML);
-            }
-            for (var i = 0; i < td2s.length; i++) {
-                tdArray2.push(td2s[i].innerHTML);
-            }
-            var tds = document.getElementsByName("td" + obj.id.substr(2, 1));
+            var tds = document.getElementsByName("td" + obj.id.substr(2, 2));
             var columnArray = [];
 
             for (var i = 0; i < tds.length; i++) {
                 columnArray.push(tds[i].innerHTML);
             }
-            if ($("#tbody1").siblings("thead").children("tr").children("th:first-child").text() == "选择") {
-                $("#tbody1").siblings("thead").children("tr").children("th:first-child").remove();
-            }
+
 
             var orginArray = [];
             for (var i = 0; i < columnArray.length; i++) {
                 orginArray.push(columnArray[i]);
             }
+            columnArray.sort(sortDateDesc);
             if (obj.className == "asc") {
-                if (obj.id == "th0") {
-                    columnArray.sort(sortDateAsc);
-                }
-                else {
-                    columnArray.sort(sortNumberAsc); //排序后的新值
-                }
-
                 obj.className = "desc";
             } else {
-                if (obj.id == "th0") {
-                    columnArray.sort(sortDateDesc);
-                }
-                else {
-                    columnArray.sort(sortNumberDesc);//排序后的新值
-                }
-
                 obj.className = "asc";
             }
             for (var i = 0; i < columnArray.length; i++) {
                 for (var j = 0; j < orginArray.length; j++) {
                     if (orginArray[j] == columnArray[i]) {
-                        document.getElementsByName("td0")[i].innerHTML = tdArray0[j];
-                        document.getElementsByName("td1")[i].innerHTML = tdArray1[j];
-                        document.getElementsByName("td2")[i].innerHTML = tdArray2[j];
+                        document.getElementsByName("td40")[i].innerHTML = tdArray0[j];
                         orginArray[j] = null;
                         break;
                     }
@@ -377,41 +347,27 @@
             spiltpage();
         }
         else {
-            var column;
-            if (obj.id == "th0") {
-                column = "date";
-            }
-            else if (obj.id == "th1") {
-                column = "isrelease";
-            }
-            else {
-                column = "istop";
-            }
+            var column = "date";
             $.ajax({
                 url: '@Href("~/")Manage/sort',
                 type: 'post',
-                data: { sort: sort, type: 'newsedit', column: column },
+                data: { sort: sort, type: 'filed', column: column },
                 success: function (res) {
-                    var tb = document.getElementById("tbody1");
+                    var tb = document.getElementById("tbody4");
                     var array = [[]];
                     array = res.sortlist;
                     var rownum = tb.rows.length
                     for (i = 0; i < rownum; i++) {
                         tb.deleteRow(0);
                     }
-                    if ($("#tbody1").siblings("thead").children("tr").children("th:first-child").text() == "选择") {
-                        $("#tbody1").siblings("thead").children("tr").children("th:first-child").remove();
-                    }
                     for (var i = 0; i < array.length; i++) {
                         var row = tb.insertRow(i);
                         row.insertCell(0).innerHTML = '<a newsid="' + array[i][0] + '">删除</a>';
-                        row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">编辑</a>';
+                        row.insertCell(1).innerHTML = '<a newsid="' + array[i][0] + '">取消归档</a>';
                         row.insertCell(2).innerHTML = array[i][1];
                         row.insertCell(3).innerHTML = array[i][2];
-                        row.insertCell(4).innerHTML = array[i][4];
-                        row.insertCell(5).innerHTML = array[i][5];
-                        row.insertCell(6).innerHTML = array[i][6];
-                        row.insertCell(7).innerHTML = array[i][7];
+                        row.insertCell(4).innerHTML = array[i][3];
+                        row.insertCell(5).innerHTML = array[i][4];
                     }
                     if (obj.className == "asc") {
                         obj.className = "desc";
@@ -449,14 +405,36 @@
                 if (res.msg == "success") {
                     $("#deletenewssuccessbtn").trigger("click");
                     $.ajax({
-                        url: '../Manage/Newsedit',
+                        url: '../Manage/Filed',
                         success: function (res) {
-                            $("#newsedit").html(res);
+                            $("#filed").html(res);
+                            $("#filed").fadeIn().siblings("div").hide();
                         },
                     });
                 }
             }
         });
+    }
+
+    //取消归档
+    function Cancel(newsid) {
+        $.ajax({
+            url: '@Href("~/")Manage/CancelFiled',
+            data: { newsid: newsid },
+            type: 'post',
+            success: function (res) {
+                if (res.msg == "success") {
+                    $("#submitsuccessbtn").trigger("click");
+                    $.ajax({
+                        url: '../Manage/Filed',
+                        success: function (res) {
+                            $("#filed").html(res);
+                            $("#filed").fadeIn().siblings("div").hide();
+                        },
+                    });
+                }
+            }
+        })
     }
 
     //批量操作
@@ -542,7 +520,6 @@
                 td.remove();
             }
         }
-       
+
     }
 </script>
-

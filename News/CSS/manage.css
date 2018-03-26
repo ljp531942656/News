@@ -123,6 +123,7 @@ body {
     position:absolute;
     z-index:200;
     transition:0.2s;
+    bottom:0;
 }
 #Comiframeback{
     z-index:100;
@@ -130,6 +131,7 @@ body {
     width:100%;
     background:rgb(161, 161, 161);
     background:rgba(0, 0, 0, 0.43);
+    bottom:0;
 }
 
 
@@ -232,6 +234,15 @@ label{
 }
 .btn-group{
     margin:10px;
+}
+#mutichoose{
+    position:relative;
+    z-index:100;
+}
+#mutidelete,#mutifile{
+    position: relative;
+    z-index: 50;
+    transition:0.18s ease-in-out;
 }
 .tableGly{
     margin:2px 0;

@@ -210,7 +210,7 @@
                     success: function (res) {
                         if (res.msg == "success") {
                             parent.$("#submitsuccessbtn").trigger("click");
-                            parent.$("#SubmitSuccessModal button").click(function () {
+                            parent.$("#SubmitSuccessModal").click(function () {
                                 parent.window.location.reload(true);
                             });
                         }

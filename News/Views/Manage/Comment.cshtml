@@ -12,6 +12,7 @@
             <option value="author">编辑</option>
             <option value="newstype">新闻类别</option>
         </select>
+
         <input id="input2" class="pull-left form-control" />
         <select class="form-control mutiselect selectpicker show-tick" name="newstypeselect2" type="text" id="newstypeselect2" multiple data-live-search="false" data-show-content="true" data-none-selected-text="选择" data-actions-box="true" data-deselect-all-text="全不选" data-select-all-text="全选">
             <option value="社会动态">社会动态</option>
@@ -27,13 +28,18 @@
         </select>
         <button id="search2" class="btn btn3 btn-default">搜索</button>
     </div>
+    <div class="pull-right btn-group" style="margin-right:1.9%;">
+        <button id="mutidelete" class="btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
+        <button id="mutichoose" class="btn btn4 btn-green">批量处理</button>
+        <button id="mutifile" class="btn btn4 btn-default" style="right:60px">归档</button>
+    </div>
     <table id="table2" class="table table2 table-hover fixed-table-container">
         <thead>
             <tr>
                 <th width="6%">查看</th>
+                <th width="10%">新闻类别</th>
                 <th width="38%">标题</th>
                 <th width="23%">编辑</th>
-                <th width="10%">新闻类别</th>
                 <th width="15%" id="th00" name="date" class="asc">
                     日期
                     <span class="pull-right glyphicon glyphicon-sort tableGly"></span>
@@ -51,9 +57,9 @@
                     <td>
                         <a newsid="@dr["id"]">查看评论</a>
                     </td>
+                    <td>@dr["newstype"]</td>
                     <td>@dr["title"]</td>
                     <td>@dr["author"]</td>
-                    <td>@dr["newstype"]</td>
                     <td name="td00">@dr["date"]</td>
                     <td name="td11">@dr["commontnum"]</td>
                 </tr>
@@ -112,9 +118,9 @@
             for (var i = 0; i < array.length; i++) {
                 var row = tb.insertRow(i);
                 row.insertCell(0).innerHTML = '<a newsid="' + array[i][0] + '">查看评论</a>';
-                row.insertCell(1).innerHTML = array[i][1];
-                row.insertCell(2).innerHTML = array[i][2];
-                row.insertCell(3).innerHTML = array[i][4];
+                row.insertCell(1).innerHTML = array[i][4];
+                row.insertCell(2).innerHTML = array[i][1];
+                row.insertCell(3).innerHTML = array[i][2];
                 row.insertCell(4).innerHTML = array[i][5];
                 row.insertCell(5).innerHTML = array[i][9];
             }
@@ -195,10 +201,10 @@
     }
 
     function sortNumberAsc(a, b) {
-        return trans(a) - trans(b);
+        return trans2(a) - trans2(b);
     }
     function sortNumberDesc(a, b) {
-        return trans(b) - trans(a);
+        return trans2(b) - trans2(a);
     }
     function sortDateAsc(a, b) {
         if (a > b) {
@@ -221,18 +227,6 @@
         else if (b < a) {
             return -1;
         }
-    }
-    function trans(str) {
-        if (str == "是") {
-            str = "1";
-        }
-        else if (str == "否") {
-            str = "0";
-        }
-        else {
-
-        }
-        return str;
     }
     function SortTable(obj, issearch, array) {
         var tb = document.getElementById("tbody2");
@@ -365,4 +359,89 @@
         }
     }
 
+    //批量操作
+    function mutichoose(but) {
+        var tableid = but.next("table").attr("id");
+        if ($("#" + tableid).children("thead").children("tr").children("th:first-child").text() != "选择") {
+            $("#mutidelete").css("left", "0");
+            $("#mutifile").css("right", "0");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "27%");
+            $("#" + tableid).children("thead").children("tr").prepend("<th width='3%'>选择</th>");
+            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
+                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
+                var td = tr.children("td:first-child");
+                tr.prepend("<td><input newsid='" + td.children("a").attr("newsid") + "' type='checkbox'/></td>");
+            }
+
+            var newsids = [];
+            $("table tbody tr td:not(:first-child)").click(function () {
+                if ($(this).siblings("td:first-child").children("input").get(0).checked) {
+                    $(this).siblings("td:first-child").children("input").removeAttr("checked");
+                    newsids.splice(newsids.indexOf($(this).siblings("td:first-child").children("input").attr("newsid")), 1);
+                }
+                else {
+                    $(this).siblings("td:first-child").children("input").prop("checked", "checked");
+                    newsids.push($(this).siblings("td:first-child").children("input").attr("newsid"));
+                }
+            });
+            $("table tbody td input[type='checkbox']").change(function () {
+                if (this.checked) {
+                    newsids.push($(this).attr("newsid"));
+                }
+                else {
+                    newsids.splice(newsids.indexOf($(this).attr("newsid")), 1);
+                }
+            });
+            //批量删除
+            $("#mutidelete").click(function () {
+                if (newsids != []) {
+                    var newsidss = newsids.join(",");
+                    $("#deletenewsbtn").click(function () {
+                        Delete(newsidss);
+                        $("div.modal-backdrop.fade.in").fadeOut(150);
+                    });
+                }
+                else {
+                    alert("请选择选项后才执行删除操作");
+                }
+            });
+            //批量归档
+            $("#mutifile").click(function () {
+                if (newsids != []) {
+                    var newsidss = newsids.join(",");
+                    $.ajax({
+                        url: '@Href("~/")Manage/file',
+                        data: { newsid: newsidss },
+                        type: 'post',
+                        success: function (res) {
+                            if (res.msg == "success") {
+                                $("#submitsuccessbtn").trigger("click");
+                                $.ajax({
+                                    url: '../Manage/Newsedit',
+                                    success: function (res) {
+                                        $("#newsedit").html(res);
+                                    },
+                                });
+                            }
+                        }
+                    });
+                }
+                else {
+                    alert("请选择选项后才执行归档操作");
+                }
+            });
+        }
+        else {
+            $("#mutidelete").css("left", "60px");
+            $("#mutifile").css("right", "60px");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "30%");
+            $("#" + tableid).children("thead").children("tr").children("th:first-child").remove();
+            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
+                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
+                var td = tr.children("td:first-child");
+                td.remove();
+            }
+        }
+
+    }
 </script>

@@ -30,14 +30,14 @@
             <div id="comment"></div>
             <div id="account"></div>
             <div id="filed"></div>
+            <img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />
         </div>
-
+        <div class="clearfix"></div>
     </div>
 
     <script>
         $(document).ready(function () {
             $("body").css("opacity", "1");
-
             var Request = new Object();
             Request = GetRequest();
             var customerid = Request["customerid"];
@@ -72,6 +72,7 @@
                                     case "新闻管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-list-alt sideGly"></i>新闻管理</a>'); break;
                                     case "评论管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-comment sideGly"></i>评论管理</a>'); break;
                                     case "帐户管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-user sideGly"></i>帐户管理</a>'); break;
+                                    case "归档新闻": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-file sideGly"></i>归档新闻</a>'); break;
                                 }
                             }
                             $("#siderbar a").on("click", function () {
@@ -97,13 +98,13 @@
         function Switch(type) {
             switch (type) {
                 case "图片轮播": {
-                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("img.loading").fadeIn(100);
                     $("#pic").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Picauto',
                         success: function (res) {
                             $("#pic").html(res);
-                            $("#pic").fadeIn().siblings("div").hide();
+                            $("#pic").fadeIn().siblings("div").html("").hide();
                             $("#pic").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
@@ -130,13 +131,13 @@
                     break;
                 }
                 case "新闻管理": {
-                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("img.loading").fadeIn(100);
                     $("#newsedit").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {
                             $("#newsedit").html(res);
-                            $("#newsedit").fadeIn().siblings("div").hide();
+                            $("#newsedit").fadeIn().siblings("div").html("").hide();
                             $("#newsedit").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
@@ -144,13 +145,13 @@
                     break;
                 }
                 case "评论管理": {
-                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("img.loading").fadeIn(100);
                     $("#comment").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Comment',
                         success: function (res) {
                             $("#comment").html(res);
-                            $("#comment").fadeIn().siblings("div").hide();
+                            $("#comment").fadeIn().siblings("div").html("").hide();
                             $("#comment").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
@@ -158,28 +159,28 @@
                     break;
                 }
                 case "帐户管理": {
-                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("img.loading").fadeIn(100);
                     $("#account").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Account',
                         success: function (res) {
                             $("#account").html(res);
-                            $("#account").fadeIn().siblings("div").hide();
+                            $("#account").fadeIn().siblings("div").html("").hide();
                             $("#account").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
                     break;
                 }
-                case "归档": {
-                    $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                case "归档新闻": {
+                    $("img.loading").fadeIn(100);
                     $("#account").addClass("loadingback");
                     $.ajax({
-                        url: '../Manage/Account',
+                        url: '../Manage/Filed',
                         success: function (res) {
-                            $("#account").html(res);
-                            $("#account").fadeIn().siblings("div").hide();
-                            $("#account").removeClass("loadingback");
+                            $("#filed").html(res);
+                            $("#filed").fadeIn().siblings("div").html("").hide();
+                            $("#filed").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });

@@ -143,11 +143,10 @@ namespace News.Controllers
             try
             {
                 string newsid = Request["newsid"];
-                var form = Request.Form;
                 var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
                 SqlConnection sqlcon = new SqlConnection(constring);
                 sqlcon.Open();
-                string sql = string.Format("delete from dbo.NewsPage where id = '{0}'", newsid);
+                string sql = string.Format("delete from dbo.NewsPage where id in ({0})", newsid);
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 sqlcommand.ExecuteNonQuery();
                 sqlcommand = null;
@@ -325,20 +324,24 @@ namespace News.Controllers
                 SqlConnection sqlcon = new SqlConnection(constring);
                 sqlcon.Open();
                 string sql = "";
-                var isrelease = "";
+                var where1 = "";
                 var ordertype = "";
                 if(which == "comment")
                 {
-                    isrelease = "and [ISRELEASE] = '是'";
+                    where1 = "and [ISRELEASE] = '是'";
                     ordertype = "[DATE] DESC,COMMONTNUM DESC";
                 }
                 else if(which == "newsedit")
                 {
                     ordertype = "ISRELEASE DESC,[DATE] DESC";
                 }
-                else
+                else if(which == "pic")
                 {
                     ordertype = "STATUS DESC,[CREATETIME] DESC";
+                }
+                else if(which == "filed")
+                {
+                    where1 = "and [ISFILED] = '是'";
                 }
                 if (column == "newstype")
                 {
@@ -346,7 +349,7 @@ namespace News.Controllers
                     
                     if (str[0] == "")
                     {
-                        sql = string.Format("select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where 1=1 " + isrelease + " order by " + ordertype, table);
+                        sql = string.Format("select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where 1=1 " + where1 + " order by " + ordertype, table);
                     }
                     else
                     {
@@ -361,7 +364,7 @@ namespace News.Controllers
                                 newstypestr = newstypestr + "," + "'" + str[i] + "'";
                             }
                         }
-                        sql = string.Format("select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where newstype in ({1})" + isrelease + "order by " + ordertype, table, newstypestr);
+                        sql = string.Format("select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where newstype in ({1})" + where1 + "order by " + ordertype, table, newstypestr);
                     }
                 }
                 else
@@ -372,7 +375,7 @@ namespace News.Controllers
                     }
                     else
                     {
-                        sql = string.Format("  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where {1} LIKE '%{2}%'" + isrelease + "order by [DATE] DESC,COMMONTNUM DESC", table, column, str1);
+                        sql = string.Format("  select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[COMMONTNUM] from {0} where {1} LIKE '%{2}%'" + where1 + "order by [DATE] DESC,COMMONTNUM DESC", table, column, str1);
                     }
                 }
                 
@@ -416,9 +419,13 @@ namespace News.Controllers
                 {
                     sql = string.Format(" select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[COMMONTNUM] from dbo.NewsPage where [ISRELEASE] = '是' order by {0} {1} ",column,sort);
                 }
-                else
+                else if(type == "newsedit")
                 {
                     sql = string.Format(" select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP] from dbo.NewsPage order by {0} {1} ", column, sort);
+                }
+                else
+                {
+                    sql = string.Format(" select [ID],[NEWSTYPE],[TITLE],[AUTHOR],convert(varchar(16),[DATE],120) [DATE],[ISFILED] from dbo.NewsPage where [ISFILED] = '是' order by {0} {1} ", column, sort);
                 }
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
@@ -590,15 +597,59 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP],[NEWSCONTENT],[ISFILED] from dbo.NewsPage where [ISFILED] = '是'";
+            string sql = "select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISFILED] from dbo.NewsPage where [ISFILED] = '是'";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();
-            adapter.Fill(ds, "FILED");
-            DataTable dt = ds.Tables["FILED"];
-            ViewData["FILED"] = dt;
+            adapter.Fill(ds, "Filed");
+            DataTable dt = ds.Tables["Filed"];
+            ViewData["Filed"] = dt;
             sqlcon.Close();
             return View();
+        }
+        public ActionResult CancelFiled()
+        {
+            try
+            {
+                string newsid = Request["newsid"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = string.Format("update NewsPage set ISFILED = '否' where id in ({0})", newsid);
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+                sqlcommand = null;
+                sqlcon.Close();
+                sqlcon = null;
+                return Json(new { msg = "success" });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
+        }
+        public ActionResult File()
+        {
+            try
+            {
+                string newsid = Request["newsid"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = string.Format("update NewsPage set ISFILED = '是' where id in ({0})", newsid);
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+                sqlcommand = null;
+                sqlcon.Close();
+                sqlcon = null;
+                return Json(new { msg = "success" });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
         }
     }
 

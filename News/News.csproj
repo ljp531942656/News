@@ -569,6 +569,7 @@
     <None Include="Properties\PublishProfiles\NewsReleaseSystem - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TecentCloud.pubxml" />
     <Content Include="Views\Manage\Commentmana.cshtml" />
+    <Content Include="Views\Manage\Filed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -579,7 +580,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Timer\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
