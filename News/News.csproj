@@ -568,8 +568,8 @@
     <Content Include="scripts\fileinput\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\NewsReleaseSystem - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TecentCloud.pubxml" />
-    <Content Include="Views\Manage\Commentmana.cshtml" />
     <Content Include="Views\Manage\Filed.cshtml" />
+    <Content Include="Views\Manage\Commentmana.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

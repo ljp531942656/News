@@ -28,11 +28,7 @@
         </select>
         <button id="search2" class="btn btn3 btn-default">搜索</button>
     </div>
-    <div class="pull-right btn-group" style="margin-right:1.9%;">
-        <button id="mutidelete" class="btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
-        <button id="mutichoose" class="btn btn4 btn-green">批量处理</button>
-        <button id="mutifile" class="btn btn4 btn-default" style="right:60px">归档</button>
-    </div>
+
     <table id="table2" class="table table2 table-hover fixed-table-container">
         <thead>
             <tr>
@@ -71,6 +67,7 @@
         <ul class="pagination" id="ampagination"></ul>
     </div>
 </div>
+
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -359,89 +356,5 @@
         }
     }
 
-    //批量操作
-    function mutichoose(but) {
-        var tableid = but.next("table").attr("id");
-        if ($("#" + tableid).children("thead").children("tr").children("th:first-child").text() != "选择") {
-            $("#mutidelete").css("left", "0");
-            $("#mutifile").css("right", "0");
-            $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "27%");
-            $("#" + tableid).children("thead").children("tr").prepend("<th width='3%'>选择</th>");
-            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
-                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
-                var td = tr.children("td:first-child");
-                tr.prepend("<td><input newsid='" + td.children("a").attr("newsid") + "' type='checkbox'/></td>");
-            }
-
-            var newsids = [];
-            $("table tbody tr td:not(:first-child)").click(function () {
-                if ($(this).siblings("td:first-child").children("input").get(0).checked) {
-                    $(this).siblings("td:first-child").children("input").removeAttr("checked");
-                    newsids.splice(newsids.indexOf($(this).siblings("td:first-child").children("input").attr("newsid")), 1);
-                }
-                else {
-                    $(this).siblings("td:first-child").children("input").prop("checked", "checked");
-                    newsids.push($(this).siblings("td:first-child").children("input").attr("newsid"));
-                }
-            });
-            $("table tbody td input[type='checkbox']").change(function () {
-                if (this.checked) {
-                    newsids.push($(this).attr("newsid"));
-                }
-                else {
-                    newsids.splice(newsids.indexOf($(this).attr("newsid")), 1);
-                }
-            });
-            //批量删除
-            $("#mutidelete").click(function () {
-                if (newsids != []) {
-                    var newsidss = newsids.join(",");
-                    $("#deletenewsbtn").click(function () {
-                        Delete(newsidss);
-                        $("div.modal-backdrop.fade.in").fadeOut(150);
-                    });
-                }
-                else {
-                    alert("请选择选项后才执行删除操作");
-                }
-            });
-            //批量归档
-            $("#mutifile").click(function () {
-                if (newsids != []) {
-                    var newsidss = newsids.join(",");
-                    $.ajax({
-                        url: '@Href("~/")Manage/file',
-                        data: { newsid: newsidss },
-                        type: 'post',
-                        success: function (res) {
-                            if (res.msg == "success") {
-                                $("#submitsuccessbtn").trigger("click");
-                                $.ajax({
-                                    url: '../Manage/Newsedit',
-                                    success: function (res) {
-                                        $("#newsedit").html(res);
-                                    },
-                                });
-                            }
-                        }
-                    });
-                }
-                else {
-                    alert("请选择选项后才执行归档操作");
-                }
-            });
-        }
-        else {
-            $("#mutidelete").css("left", "60px");
-            $("#mutifile").css("right", "60px");
-            $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "30%");
-            $("#" + tableid).children("thead").children("tr").children("th:first-child").remove();
-            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
-                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
-                var td = tr.children("td:first-child");
-                td.remove();
-            }
-        }
-
-    }
+    
 </script>

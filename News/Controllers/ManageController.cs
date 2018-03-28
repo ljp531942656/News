@@ -576,7 +576,7 @@ namespace News.Controllers
                 else
                 {
                     var id = Request["id"];
-                    sql = string.Format("delete from dbo.PIC where id = '{0}'", id);
+                    sql = string.Format("delete from dbo.PIC where id in({0})", id);
                 }
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 sqlcommand.ExecuteNonQuery();
@@ -597,7 +597,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISFILED] from dbo.NewsPage where [ISFILED] = '是'";
+            string sql = "select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISFILED] from dbo.NewsPage where [ISFILED] = '是' order by date desc";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();
@@ -607,7 +607,7 @@ namespace News.Controllers
             sqlcon.Close();
             return View();
         }
-        public ActionResult CancelFiled()
+        public ActionResult CancelFile()
         {
             try
             {

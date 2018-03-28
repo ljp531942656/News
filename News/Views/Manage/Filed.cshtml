@@ -29,7 +29,11 @@
             </select>
             <button id="search4" class="btn btn3 btn-default">搜索</button>
         </div>
-
+        <div class="pull-right btn-group" style="margin-right:1.9%;">
+            <button class="mutidelete btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
+            <button class="mutichoose btn btn4 btn-green">批量处理</button>
+            <button class="mutifile btn btn4 btn-default" style="right:85px">取消归档</button>
+        </div>
         <table id="table4" class="table table1 table-hover fixed-table-container">
             <thead>
                 <tr>
@@ -67,7 +71,7 @@
         <div id="num4" class="col-lg-5 hidden">
             当前第
             <span id="nowpage4"></span>页&nbsp;&nbsp;&nbsp;共
-            <span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共
+            <span id="pagenum4"></span>页&nbsp;&nbsp;&nbsp;共
             <span id="contentnum4"></span>条内容
         </div>
         <div class="pull-right pagechange">
@@ -80,27 +84,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">删除</h4>
+                <h4 class="modal-title" id="myModalLabel">新闻发布管理系统</h4>
             </div>
-            <div class="modal-body">是否删除这条新闻？</div>
+            <div class="modal-body">确定要进行删除？</div>
             <div class="modal-footer">
                 <button id="deletenewsbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button class="hidden" id="deletenewssuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<div class="modal fade" id="CancelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">取消归档</h4>
-            </div>
-            <div class="modal-body">是否取消这条新闻的归档？</div>
-            <div class="modal-footer">
-                <button id="cancelnewsbtn" type="button" data-dismiss="modal" class="btn btn-green">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button class="hidden" id="deletenewssuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
             </div>
@@ -113,13 +101,13 @@
         $("#newstypeselect4").selectpicker();
         $("#newstypeselect4").selectpicker('setStyle', 'btn3', 'add');
         $("div.bootstrap-select").addClass("hidden");
-        $("#select1").on("change", function () {
+        $("#select4").on("change", function () {
             if ($(this).val() == "newstype") {
-                $("#input1").addClass("hidden");
+                $("#input4").addClass("hidden");
                 $("div.bootstrap-select").removeClass("hidden");
             }
             else {
-                $("#input1").removeClass("hidden");
+                $("#input4").removeClass("hidden");
                 $("div.bootstrap-select").addClass("hidden");
             }
         });
@@ -136,13 +124,10 @@
         });
         $("#tbody4>tr>td:nth-child(2)>a").on("click", function () {
             newsid = $(this).attr("newsid");
+            Cancel(newsid);
         });
         $("#deletenewsbtn").click(function () {
             Delete(newsid);
-            $("div.modal-backdrop.fade.in").fadeOut(150);
-        });
-        $("#cancelnewsbtn").click(function () {
-            Cancel(newsid);
             $("div.modal-backdrop.fade.in").fadeOut(150);
         });
 
@@ -184,8 +169,11 @@
                 issearch = "false";
             }
         });
-
+        $(".mutichoose").click(function () {
+            mutichoose($(this).parent("div"));
+        })
     });
+
 
     //分页
     function spiltpage() {
@@ -194,7 +182,7 @@
             var rownum = tb.rows.length;
             if (tb.rows.length > 16) {
                 $("#num4").removeClass("hidden");
-                $("#ampagination1").removeClass("hidden");
+                $("#ampagination4").removeClass("hidden");
                 var table = [];
                 var allrownum = 0;
                 if (rownum % 16 == 0) {
@@ -228,6 +216,12 @@
                     last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
                     page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
                     onPageChange: function (num) {
+                        var ismulti = 0;
+                        if ($("#table1 thead th:first-child").text() == "选择") {
+                            ismulti = 1;
+                            $(".mutichoose").trigger("click");
+                        }
+
                         $("#nowpage4").html(num);
                         var tb = document.getElementById("tbody4");
                         rownum = tb.rows.length;
@@ -238,6 +232,19 @@
                             var row = tb.insertRow(i);
                             row.innerHTML = table[num - 1][i];
                         }
+
+                        if (ismulti == 1) {
+                            $(".mutichoose").trigger("click");
+                            if (newsids.length != 0) {
+                                for (var i = 0; i < tb.rows.length; i++) {
+                                    for (var j = 0; j < newsids.length; j++) {
+                                        if (tb.rows[i].firstChild.firstChild.attributes["newsid"].value == newsids[j]) {
+                                            tb.rows[i].firstChild.firstChild.checked = "true";
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -245,7 +252,9 @@
                 $("#num4").addClass("hidden");
                 $("#ampagination4").addClass("hidden");
             }
+            if ($("#table4 thead th:first-child").text() != "选择") {
 
+            }
             $("img.loading").fadeOut();
             $("#filed").removeClass("loadingback");
         }
@@ -408,7 +417,6 @@
                         url: '../Manage/Filed',
                         success: function (res) {
                             $("#filed").html(res);
-                            $("#filed").fadeIn().siblings("div").hide();
                         },
                     });
                 }
@@ -419,7 +427,7 @@
     //取消归档
     function Cancel(newsid) {
         $.ajax({
-            url: '@Href("~/")Manage/CancelFiled',
+            url: '@Href("~/")Manage/CancelFile',
             data: { newsid: newsid },
             type: 'post',
             success: function (res) {
@@ -429,7 +437,6 @@
                         url: '../Manage/Filed',
                         success: function (res) {
                             $("#filed").html(res);
-                            $("#filed").fadeIn().siblings("div").hide();
                         },
                     });
                 }
@@ -438,12 +445,13 @@
     }
 
     //批量操作
+    var newsids = [];
     function mutichoose(but) {
         var tableid = but.next("table").attr("id");
         if ($("#" + tableid).children("thead").children("tr").children("th:first-child").text() != "选择") {
-            $("#mutidelete").css("left", "0");
-            $("#mutifile").css("right", "0");
-            $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "27%");
+            $(".mutidelete").css("left", "0");
+            $(".mutifile").css("right", "0");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "32%");
             $("#" + tableid).children("thead").children("tr").prepend("<th width='3%'>选择</th>");
             for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
                 var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
@@ -451,7 +459,6 @@
                 tr.prepend("<td><input newsid='" + td.children("a").attr("newsid") + "' type='checkbox'/></td>");
             }
 
-            var newsids = [];
             $("table tbody tr td:not(:first-child)").click(function () {
                 if ($(this).siblings("td:first-child").children("input").get(0).checked) {
                     $(this).siblings("td:first-child").children("input").removeAttr("checked");
@@ -471,7 +478,7 @@
                 }
             });
             //批量删除
-            $("#mutidelete").click(function () {
+            $(".mutidelete").click(function () {
                 if (newsids != []) {
                     var newsidss = newsids.join(",");
                     $("#deletenewsbtn").click(function () {
@@ -483,26 +490,12 @@
                     alert("请选择选项后才执行删除操作");
                 }
             });
-            //批量归档
-            $("#mutifile").click(function () {
+            //批量取消归档
+            $(".mutifile").click(function () {
                 if (newsids != []) {
                     var newsidss = newsids.join(",");
-                    $.ajax({
-                        url: '@Href("~/")Manage/file',
-                        data: { newsid: newsidss },
-                        type: 'post',
-                        success: function (res) {
-                            if (res.msg == "success") {
-                                $("#submitsuccessbtn").trigger("click");
-                                $.ajax({
-                                    url: '../Manage/Newsedit',
-                                    success: function (res) {
-                                        $("#newsedit").html(res);
-                                    },
-                                });
-                            }
-                        }
-                    });
+                    Cancel(newsidss);
+                    $("div.modal-backdrop.fade.in").fadeOut(150);
                 }
                 else {
                     alert("请选择选项后才执行归档操作");
@@ -510,9 +503,9 @@
             });
         }
         else {
-            $("#mutidelete").css("left", "60px");
-            $("#mutifile").css("right", "60px");
-            $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "30%");
+            $(".mutidelete").css("left", "60px");
+            $(".mutifile").css("right", "85px");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "35%");
             $("#" + tableid).children("thead").children("tr").children("th:first-child").remove();
             for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
                 var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");

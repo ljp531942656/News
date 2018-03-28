@@ -216,30 +216,30 @@ label{
 .table-hover>tbody>tr:hover{
     background-color:#eeeeee;
 }
-.table1 thead>tr>th:nth-child(6):hover,.table1 thead>tr>th:nth-child(7):hover,.table1 thead>tr>th:nth-child(8):hover{
+.table1 thead>tr>th:nth-last-child(3):hover,.table1 thead>tr>th:nth-last-child(2):hover,.table1 thead>tr>th:nth-last-child(1):hover{
     transition:0.3s ease-out;
     box-shadow:#aaa 0 0 5px 0;
     cursor:pointer;
 }
-.table1 thead>tr>th:nth-child(6):active,.table1 thead>tr>th:nth-child(7):active,.table1 thead>tr>th:nth-child(8):active{
+.table1 thead>tr>th:nth-last-child(3):active,.table1 thead>tr>th:nth-last-child(2):active,.table1 thead>tr>th:nth-last-child(1):active{
     box-shadow:inset #eee 0 0 20px 9px;
 }
-.table2 thead>tr>th:not(:first-child):hover{
+.table2 thead>tr>th:nth-last-child(1):hover,.table2 thead>tr>th:nth-last-child(2):hover{
     transition:0.3s ease-out;
     box-shadow:#aaa 0 0 5px 0;
     cursor:pointer;
 }
-.table2 thead>tr>th:not(:first-child):active{
+.table2 thead>tr>th:nth-last-child(1):active,.table2 thead>tr>th:nth-last-child(2):active{
     box-shadow:inset #eee 0 0 20px 9px;
 }
 .btn-group{
     margin:10px;
 }
-#mutichoose{
+.btn-group>.mutichoose,.btn-group>.mutichoose:hover,.btn-group>.mutichoose:focus{
     position:relative;
     z-index:100;
 }
-#mutidelete,#mutifile{
+.btn-group>.mutidelete,.btn-group>.mutifile{
     position: relative;
     z-index: 50;
     transition:0.18s ease-in-out;

@@ -28,9 +28,9 @@
     </div>
 
     <div class="pull-right btn-group" style="margin-right:1.9%;">
-        <button id="mutidelete" class="btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
-        <button id="mutichoose" class="btn btn4 btn-green">批量处理</button>
-        <button id="mutifile" class="btn btn4 btn-default" style="right:60px">归档</button>
+        <button class="mutidelete btn btn4 btn-danger" style="left:60px" data-toggle="modal" data-target="#DeleteModal">删除</button>
+        <button class="mutichoose btn btn4 btn-green" ismuti="false">批量处理</button>
+        <button class="mutifile btn btn4 btn-default" style="right:60px">归档</button>
     </div>
 
     <table id="table1" class="table table1 table-hover fixed-table-container">
@@ -89,9 +89,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">删除</h4>
+                <h4 class="modal-title" id="myModalLabel">新闻发布管理系统</h4>
             </div>
-            <div class="modal-body">是否删除这条新闻？</div>
+            <div class="modal-body">确定要进行删除？</div>
             <div class="modal-footer">
                 <button id="deletenewsbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -121,7 +121,7 @@
         var newsid = 0;
         var issearch = "false";
         var array = [[]];
-        $("#table1>thead>tr>th").on("click", function () {
+        $("#table1>thead>tr>th:nth-last-child(1),#table1>thead>tr>th:nth-last-child(2),#table1>thead>tr>th:nth-last-child(3)").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
         });
@@ -193,10 +193,15 @@
             }
         });
         
-        $("#mutichoose").click(function () {
+        $(".mutichoose").click(function () {
             mutichoose($(this).parent("div"));
-        })
+
+        });
+
+        
     });
+
+
 
     //分页
     function spiltpage() {
@@ -222,6 +227,8 @@
                         }
                     }
                 }
+                
+
                 for (i = 16; i < rownum; i++) {
                     tb.deleteRow(16);
                 }
@@ -239,6 +246,12 @@
                     last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
                     page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
                     onPageChange: function (num) {
+                        var ismulti = 0;
+                        if ($("#table1 thead th:first-child").text() == "选择") {
+                            ismulti = 1;
+                            $(".mutichoose").trigger("click");
+                        }
+
                         $("#nowpage1").html(num);
                         var tb = document.getElementById("tbody1");
                         rownum = tb.rows.length;
@@ -249,6 +262,19 @@
                             var row = tb.insertRow(i);
                             row.innerHTML = table[num - 1][i];
                         }
+                        
+                        if (ismulti == 1) {
+                            $(".mutichoose").trigger("click");
+                            if (newsids.length != 0) {
+                                for (var i = 0; i < tb.rows.length; i++) {
+                                    for (var j = 0; j < newsids.length; j++) {
+                                        if (tb.rows[i].firstChild.firstChild.attributes["newsid"].value == newsids[j]) {
+                                            tb.rows[i].firstChild.firstChild.checked = "true";
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -256,7 +282,7 @@
                 $("#num1").addClass("hidden");
                 $("#ampagination1").addClass("hidden");
             }
-
+            
             $("img.loading").fadeOut();
             $("#newsedit").removeClass("loadingback");
         }
@@ -294,6 +320,14 @@
         var tb = document.getElementById("tbody1");
         rownum = tb.rows.length;
         var sort = obj.className;
+
+        var ismulti = 0;
+        if ($("#table1 thead th:first-child").text() == "选择") {
+            ismulti = 1;
+            $(".mutichoose").trigger("click");
+            newsids = [];
+        }
+
         if (issearch == "true") {
             for (i = 0; i < rownum; i++) {
                 tb.deleteRow(0);
@@ -460,11 +494,12 @@
     }
 
     //批量操作
+    var newsids = [];
     function mutichoose(but) {
         var tableid = but.next("table").attr("id");
         if ($("#" + tableid).children("thead").children("tr").children("th:first-child").text() != "选择") {
-            $("#mutidelete").css("left", "0");
-            $("#mutifile").css("right", "0");
+            $(".mutidelete").css("left", "0");
+            $(".mutifile").css("right", "0");
             $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "27%");
             $("#" + tableid).children("thead").children("tr").prepend("<th width='3%'>选择</th>");
             for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
@@ -473,8 +508,7 @@
                 tr.prepend("<td><input newsid='" + td.children("a").attr("newsid") + "' type='checkbox'/></td>");
             }
 
-            var newsids = [];
-            $("table tbody tr td:not(:first-child)").click(function () {
+            $("table tbody tr td:not(:first-child)").on("click",function () {
                 if ($(this).siblings("td:first-child").children("input").get(0).checked) {
                     $(this).siblings("td:first-child").children("input").removeAttr("checked");
                     newsids.splice(newsids.indexOf($(this).siblings("td:first-child").children("input").attr("newsid")), 1);
@@ -482,18 +516,20 @@
                 else {
                     $(this).siblings("td:first-child").children("input").prop("checked", "checked");
                     newsids.push($(this).siblings("td:first-child").children("input").attr("newsid"));
+                    console.log(newsids);
                 }
             });
-            $("table tbody td input[type='checkbox']").change(function () {
+            $("table tbody td input[type='checkbox']").on("change", function () {
                 if (this.checked) {
                     newsids.push($(this).attr("newsid"));
+                    console.log(newsids);
                 }
                 else {
                     newsids.splice(newsids.indexOf($(this).attr("newsid")), 1);
                 }
             });
             //批量删除
-            $("#mutidelete").click(function () {
+            $(".mutidelete").click(function () {
                 if (newsids != []) {
                     var newsidss = newsids.join(",");
                     $("#deletenewsbtn").click(function () {
@@ -506,11 +542,11 @@
                 }
             });
             //批量归档
-            $("#mutifile").click(function () {
+            $(".mutifile").click(function () {
                 if (newsids != []) {
                     var newsidss = newsids.join(",");
                     $.ajax({
-                        url: '@Href("~/")Manage/file',
+                        url: '@Href("~/")Manage/File',
                         data: { newsid: newsidss },
                         type: 'post',
                         success: function (res) {
@@ -532,8 +568,8 @@
             });
         }
         else {
-            $("#mutidelete").css("left", "60px");
-            $("#mutifile").css("right", "60px");
+            $(".mutidelete").css("left", "60px");
+            $(".mutifile").css("right", "60px");
             $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "30%");
             $("#" + tableid).children("thead").children("tr").children("th:first-child").remove();
             for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {

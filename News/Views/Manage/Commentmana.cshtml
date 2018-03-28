@@ -1,8 +1,67 @@
-﻿
-@{
-    ViewBag.Title = "评论管理";
-    Layout = "~/Views/shared/_LayoutPage1.cshtml";
-}
+﻿<link href="~/scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/CSS/manage.css" rel="stylesheet" />
+<script src="~/scripts/jquery-2.0.3.min.js"></script>
+<script src="~/scripts/bootstrap.min.js"></script>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a>评论管理</a>
+        </li>
+        <li>
+            <button id="accounttoback" class="btn btn5 btn-default">返回</button>
+        </li>
+        <li>
+            
+
+            <button class="hidden" id="editsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
+        </li>
+    </ul>
+    <div id="" class="col-lg-11">
+        
+    </div>
+</div>
 
 
+<script>
+    $(document).ready(function () {
 
+
+        //获取ISVIEW参数
+        var Request = new Object();
+        Request = GetRequest();
+        var ISVIEW = Request["ISVIEW"];
+        var ACCOUNTID = Request["ACCOUNTID"];
+
+        if (ISVIEW == "true") {
+            $("ul.nav.nav-tabs>li>a").text("帐户编辑");
+            $.ajax({
+                url: '@Href("~/")Manage/AccountEdit',
+                type: 'post',
+                data: { ACCOUNTID: ACCOUNTID, status: "get" },
+                success: function (res) {
+                    $("#accountid").val(res.news[0]);
+                    $("#username").val(res.news[1]);
+                    $("#password").val(res.news[2]);
+                    var array = [];
+                    array = res.news[3].split(",");
+                    $("#authority").selectpicker("val", array);
+                    $("#logable").val(res.news[4]);
+                }
+            });
+        }
+    });
+
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+</script>

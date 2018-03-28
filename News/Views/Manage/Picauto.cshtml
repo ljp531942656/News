@@ -15,6 +15,8 @@
     </div>
     <div class="pull-right btn-group" style="margin-right:1.9%;">
         <button id="createpic" class="btn btn4 btn-green">新增</button>
+        <button class="mutichoose btn btn4 btn-green" ismuti="false">批量处理</button>
+        <button class="mutidelete btn btn4 btn-danger" style="right:60px" data-toggle="modal" data-target="#DeletepicModal">删除</button>
     </div>
     <table id="table0" class="table table-hover fixed-table-container">
         <thead>
@@ -43,7 +45,12 @@
             }
         </tbody>
     </table>
-    <div id="picnum" class="col-lg-5 hidden">当前第<span id="picnowpage"></span>页&nbsp;&nbsp;&nbsp;共<span id="picpagenum"></span>页&nbsp;&nbsp;&nbsp;共<span id="piccontentnum"></span>条内容</div>
+    <div id="picnum" class="col-lg-5 hidden">
+        当前第
+        <span id="picnowpage"></span>页&nbsp;&nbsp;&nbsp;共
+        <span id="picpagenum"></span>页&nbsp;&nbsp;&nbsp;共
+        <span id="piccontentnum"></span>条内容
+    </div>
     <div class="pull-right pagechange">
         <ul class="pagination" id="picampagination"></ul>
     </div>
@@ -103,9 +110,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">删除</h4>
+                <h4 class="modal-title" id="myModalLabel">新闻发布管理系统</h4>
             </div>
-            <div class="modal-body">是否删除这条图片记录？</div>
+            <div class="modal-body">确定进行删除操作？</div>
             <div class="modal-footer">
                 <button id="deletepicbtn" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -124,28 +131,7 @@
             id = $(this).attr("picid");
         });
         $("#deletepicbtn").click(function () {
-            $.ajax({
-                url: "@Href("~/")Manage/deletePic",
-                data: { id: id, type: "list" },
-                type: "post",
-                success: function (res) {
-                    if (res.msg == "success") {
-                        $("#deletepicsuccessbtn").trigger("click");
-                        $("#DeleteSuccessModal").click(function () {
-                            $.ajax({
-                                url: '../Manage/Picauto',
-                                success: function (res) {
-                                    $("#pic").html(res);
-                                    $("#pic").fadeIn().siblings("div").hide();
-                                },
-                            });
-                        });
-                    }
-                    else {
-                        alert(res.msg);
-                    }
-                }
-            });
+            Delete(id);
         });
         $("#table0>tbody>tr>td:nth-child(2)>a").click(function () {
             id = $(this).attr("picid");
@@ -294,6 +280,9 @@
             spiltpage();
         });
 
+        $(".mutichoose").click(function () {
+            mutichoose($(this).parent("div"));
+        });
     });
 
     //分页
@@ -357,5 +346,87 @@
         }
         $("img.loading").fadeOut();
         $("#pic").removeClass("loadingback");
+    }
+
+    //删除
+    function Delete(id) {
+        $.ajax({
+            url: "@Href("~/")Manage/deletePic",
+            data: { id: id, type: "list" },
+            type: "post",
+            success: function (res) {
+                if (res.msg == "success") {
+                    $("#deletepicsuccessbtn").trigger("click");
+                    $.ajax({
+                        url: '../Manage/Picauto',
+                        success: function (res) {
+                            $("#pic").html(res);
+                        },
+                    });
+                }
+                else {
+                    alert(res.msg);
+                }
+            }
+        });
+    }
+
+    //批量操作
+    var picids = [];
+    function mutichoose(but) {
+        var tableid = but.next("table").attr("id");
+        if ($("#" + tableid).children("thead").children("tr").children("th:first-child").text() != "选择") {
+            $(".mutidelete").css("right", "0");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(4)").attr("width", "27%");
+            $("#" + tableid).children("thead").children("tr").prepend("<th width='3%'>选择</th>");
+            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
+                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
+                var td = tr.children("td:first-child");
+                tr.prepend("<td><input picid='" + td.children("a").attr("picid") + "' type='checkbox'/></td>");
+            }
+
+            $("table tbody tr td:not(:first-child)").on("click", function () {
+                if ($(this).siblings("td:first-child").children("input").get(0).checked) {
+                    $(this).siblings("td:first-child").children("input").removeAttr("checked");
+                    picids.splice(picids.indexOf($(this).siblings("td:first-child").children("input").attr("picid")), 1);
+                }
+                else {
+                    $(this).siblings("td:first-child").children("input").prop("checked", "checked");
+                    picids.push($(this).siblings("td:first-child").children("input").attr("picid"));
+                }
+            });
+            $("table tbody td input[type='checkbox']").on("change", function () {
+                if (this.checked) {
+                    picids.push($(this).attr("picid"));
+                }
+                else {
+                    picids.splice(picids.indexOf($(this).attr("picid")), 1);
+                }
+            });
+            //批量删除
+            $(".mutidelete").click(function () {
+                if (picids != []) {
+                    var picidss = picids.join(",");
+                    $("#deletepicbtn").click(function () {
+                        Delete(picidss);
+                        $("div.modal-backdrop.fade.in").fadeOut(150);
+                    });
+                }
+                else {
+                    alert("请选择选项后才执行删除操作");
+                }
+            });
+        }
+        else {
+            $(".mutidelete").css("right", "60px");
+            $("#" + tableid).children("thead").children("tr").children("th:nth-child(5)").attr("width", "30%");
+            $("#" + tableid).children("thead").children("tr").children("th:first-child").remove();
+            for (var i = 0; i < document.getElementById(tableid).rows.length; i++) {
+                var tr = $("#" + tableid).children("tbody").children("tr:nth-child(" + (i + 1) + ")");
+                var td = tr.children("td:first-child");
+                td.remove();
+            }
+        }
+
     }
 </script>
