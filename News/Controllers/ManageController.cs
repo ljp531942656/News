@@ -471,17 +471,32 @@ namespace News.Controllers
         {
             try
             {
+                var type = Request["type"];
+                var num = Request["num"];
+                var path = "";
+                var url = "";
                 HttpPostedFileBase imgFile = Request.Files[0];
-                if (System.IO.File.Exists(Server.MapPath("~/imglist/") + imgFile.FileName))
+                if(num != "")
                 {
-                    string fail = "名为" + imgFile.FileName + "的文件已存在，请确认后重新上传";
-                    return Json(new { code = 0, msg = fail });
+                    path = type + "/" + num;
+                    imgFile.SaveAs(Server.MapPath("~/imglist/") + path + imgFile.FileName.Substring(imgFile.FileName.LastIndexOf("."), (imgFile.FileName.Length - imgFile.FileName.LastIndexOf("."))));
+                    url = "/imglist/" + path + imgFile.FileName.Substring(imgFile.FileName.LastIndexOf(".") + 1 ,(imgFile.FileName.Length - imgFile.FileName.LastIndexOf(".") - 1));
                 }
                 else
                 {
-                    imgFile.SaveAs(Server.MapPath("~/IMGlist/") + imgFile.FileName);
+                    path = type + "/" + imgFile.FileName;
+                    if (System.IO.File.Exists(Server.MapPath("~/imglist/") + path))
+                    {
+                        string fail = "名为" + imgFile.FileName + "的文件已存在，请确认后重新上传";
+                        return Json(new { code = 0, msg = fail });
+                    }
+                    else
+                    {
+                        imgFile.SaveAs(Server.MapPath("~/imglist/") + path);
+                    }
+                    url = "/imglist/" + type + "/" + imgFile.FileName;
                 }
-                var url = "/imglist/" + imgFile.FileName;
+                
                 return Json(new { msg = "success", url = url });
             }
             catch (Exception ex)
@@ -644,6 +659,60 @@ namespace News.Controllers
                 sqlcon.Close();
                 sqlcon = null;
                 return Json(new { msg = "success" });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
+        }
+
+        public ActionResult indexConfig()
+        {
+            return View();
+        }
+        public ActionResult ConfigPic()
+        {
+            try
+            {
+                var type = Request["type"];
+                var num = Request["num"];
+                var SG = Request["SG"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+
+                if(SG == "get")
+                {
+                    var sql = string.Format("select * from dbo.PIC where NEWSTYPE = '{0}' and TYPENUM = '{1}'", type, num);
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "piclist");
+                    DataTable dt = ds.Tables["piclist"];
+                    DataRow dr = dt.Rows[0];
+                    List<string> piclist = new List<string>();
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        piclist.Add(dr[i].ToString());
+                    }
+
+                    sqlcommand = null;
+                    sqlcon.Close();
+                    sqlcon = null;
+                    return Json(new { msg = "success", piclist = piclist });
+                }
+                else
+                {
+                    var form = Request.Form;
+                    var sql = string.Format(" update dbo.PIC set [TITLE]='{0}',[RESUME]='{1}',[PICORIGIN]='{2}',[TOURL]='{3}', where [NEWSTYPE]='{4}' and [TYPENUM]='{5}'", form["pictitle"], form["resume"], form["picorigin"], form["tourl"], type, num);
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    sqlcommand.ExecuteNonQuery();
+                    sqlcommand = null;
+                    sqlcon.Close();
+                    sqlcon = null;
+                    return Json(new { msg = "success" });
+                }
             }
             catch (Exception ex)
             {

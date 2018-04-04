@@ -36,6 +36,30 @@ namespace NewsWebsite.Controllers
             sqlcon.Close();
             return View();
         }
+        public ActionResult MobileIndex()
+        {
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = "select top 5 * from PIC where STATUS = '是' order by CREATETIME desc";
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "PICList");
+            DataTable dt = ds.Tables["PICList"];
+            ViewData["PICList"] = dt;
+
+            string sql2 = "select top 7 ID,TITLE,convert(varchar(10),DATE,23) DATE,ISTOP from [NewsPage] where ISRELEASE = '是' order by ISTOP desc , DATE desc";
+            sqlcommand = new SqlCommand(sql2, sqlcon);
+            adapter = new SqlDataAdapter(sqlcommand);
+            ds = new DataSet();
+            adapter.Fill(ds, "TOP7News");
+            dt = ds.Tables["TOP7News"];
+            ViewData["TOP7News"] = dt;
+
+            sqlcon.Close();
+            return View();
+        }
         public ActionResult NewsList()
         {
             return View();

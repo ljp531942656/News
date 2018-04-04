@@ -183,7 +183,7 @@
             $("#previewlabel").fadeOut();
 
         });
-        $("#picupload").fileinput({ 'showPreview': true, 'uploadAsync': true, 'allowedFileTypes': ['image'], 'maxFileCount': 1, 'maxFileSize': 4096, 'msgSizeTooLarge': '文件 "{name}" ({size} KB) 超过最大可上传文件大小 {maxSize} KB. 请重新上传!', 'msgInvalidFileType': '该文件格式"{name}"无效. 只支持 "{types}" 的文件格式.', 'msgValidationError': '文件上传异常', 'uploadUrl': '@Href("~/")Manage/Picupload' }).on("fileuploaded", function (event, data) {
+        $("#picupload").fileinput({ 'showPreview': true, 'uploadAsync': true, 'allowedFileTypes': ['image'], 'maxFileCount': 1, 'maxFileSize': 4096, 'msgSizeTooLarge': '文件 "{name}" ({size} KB) 超过最大可上传文件大小 {maxSize} KB. 请重新上传!', 'msgInvalidFileType': '该文件格式"{name}"无效. 只支持 "{types}" 的文件格式.', 'msgValidationError': '文件上传异常', 'uploadUrl': '@Href("~/")Manage/Picupload', 'uploadExtraData': {"path":"INDEX"} }).on("fileuploaded", function (event, data) {
 
             if (data.response.url) {
                 document.getElementById("picorigin").value = data.response.url;

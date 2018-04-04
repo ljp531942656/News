@@ -1,0 +1,136 @@
+﻿
+<div id="text" type="SHDT" num="1" style="border:1px solid #aaa;width:200px;height:200px;">
+
+</div>
+<div class="picupload" style="display:none">
+    <ul class="nav nav-tabs">
+        <li class="active" style="margin-right: 0px;">
+            <a>图片上传</a>
+        </li>
+        <li>
+            <button id="pictoback2" class="btn btn5 btn-default">返回</button>
+        </li>
+        <li style="margin-right: 1.6%;float:right">
+            <button id="picsubmit2" type="submit" class="btn btn5 btn-default">提交</button>
+
+            <button class="hidden" id="piceditsuccessbtn2" data-toggle="modal" data-target="#EditSuccessModal"></button>
+        </li>
+    </ul>
+    <form id="picform2">
+        <div class="col-lg-11 col-md-11 col-sm-11 form-group" enctype="multipart/form-data" role="form">
+            <label for="pictitle2" class="col-lg-2 col-md-2 col-sm-3 control-label">标题</label>
+            <input id="pictitle2" name="pictitle" class="form-control" />
+        </div>
+        <div class="col-lg-11 col-md-11 col-sm-11 form-group">
+            <label for="resume2" class="col-lg-2 col-md-2 col-sm-3 control-label">简述</label>
+            <input id="resume2" name="tourl" class="form-control" />
+        </div>
+        <div class="col-lg-11 col-md-11 col-sm-11 form-group">
+            <label for="tourl2" class="col-lg-2 col-md-2 col-sm-3 control-label">跳转连接</label>
+            <input id="tourl2" name="tourl" class="form-control" />
+        </div>
+        <div class="col-lg-11 form-group">
+            <label for="picorigin2" class="col-lg-2 col-md-2 col-sm-3 control-label">图片源</label>
+            <input id="picorigin2" name="picorigin" class="form-control" placeholder="可使用网络图片或上传图片" />
+        </div>
+        <div id="prepicview2" class="col-lg-6 col-md-5 col-sm-5">
+            <label id="previewlabel2" style="width:28%;text-align:right;float:left">图片预览：</label>
+            <div class="pull-right" data-control-type="button" style="margin:0 13% 0 0;">
+                <button id="delete2" type="button" class="btn btn-danger" name="">删除</button>
+            </div>
+            <div style="clear:both"></div>
+            <div id='preimg2'></div>
+        </div>
+        <div id="nowpicview2" class="col-lg-5 col-md-5 col-sm-5">
+            <label style="width:100%;text-align:left">图片上传：</label>
+            <input id="picupload2" class="form-control" type="file" />
+        </div>
+        <input id="picid2" name="picid2" class="hidden" />
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var type = "";
+        var num = "";
+        $("#delete2").hide();
+        $("#previewlabel2").hide();
+        $("#text").click(function () {
+            type = $(this).attr("type");
+            num = $(this).attr("num");
+
+            $("#picupload2").fileinput({ 'showPreview': true, 'uploadAsync': true, 'allowedFileTypes': ['image'], 'maxFileCount': 1, 'maxFileSize': 4096, 'msgSizeTooLarge': '文件 "{name}" ({size} KB) 超过最大可上传文件大小 {maxSize} KB. 请重新上传!', 'msgInvalidFileType': '该文件格式"{name}"无效. 只支持 "{types}" 的文件格式.', 'msgValidationError': '文件上传异常', 'uploadUrl': '@Href("~/")Manage/Picupload', 'uploadExtraData': { "type": type, "num": num } }).on("fileuploaded", function (event, data) {
+                if (data.response.url) {
+                    document.getElementById("picorigin2").value = data.response.url;
+                }
+                else {
+                    alert(data.response.msg);
+                }
+            });
+
+            $.ajax({
+                url: '@Href("~/")manage/ConfigPic',
+                type: 'post',
+                data: { SG:"get", type: type, num: num },
+                success: function (res) {
+                    $("#picid2").val(res.piclist[0])
+                    $("#pictitle2").val(res.piclist[1]);
+                    $("#picorigin2").val(res.piclist[2]);
+                    $("#tourl2").val(res.piclist[3]);
+                    $("#resume2").val(res.piclist[8]);
+                    if (document.getElementById("picorigin2").value) {
+                        $("#delete2").fadeIn();
+                        $("#previewlabel2").fadeIn();
+                        $("#prepicview2").height($(".picupload").height() * 0.5);
+                        $("#nowpicview2").height($(".picupload").height() * 0.5);
+                        $("#preimg2").css("background", "url('" + document.getElementById("picorigin2").value + "') no-repeat 50% 50%");
+                        $("#preimg2").css("background-size", "contain");
+                    }
+                }
+            });
+
+            $("#Comiframeback").fadeIn();
+            $(".picupload").fadeIn();
+        });
+        
+
+        $("#pictoback2").click(function () {
+            $("#Comiframeback").fadeOut();
+            $(".picupload").fadeOut();
+
+        });
+
+        $("#picsubmit2").click(function () {
+            var formdata = new FormData($("#picform2")[0]);
+            
+            $.ajax({
+                url: '@Href("~/")manage/ConfigPic',
+                traditional: true,
+                data: formdata,
+                type: 'post',
+                async: false,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.msg == "success") {
+                        $("#submitsuccessbtn").trigger("click");
+                        $("#SubmitSuccessModal").click(function () {
+                            $("#pictoback2").trigger("click");
+                            $.ajax({
+                                url: '../Manage/INDEXconfig',
+                                success: function (res) {
+                                    $("#pic").html(res);
+                                },
+                            });
+                        });
+                    }
+                    else {
+                        alert(res.msg);
+                    }
+                }
+            });
+        });
+    });
+
+</script>

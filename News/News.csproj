@@ -570,6 +570,7 @@
     <None Include="Properties\PublishProfiles\TecentCloud.pubxml" />
     <Content Include="Views\Manage\Filed.cshtml" />
     <Content Include="Views\Manage\Commentmana.cshtml" />
+    <Content Include="Views\Manage\indexConfig.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

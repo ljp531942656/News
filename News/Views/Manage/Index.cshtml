@@ -25,6 +25,7 @@
 
         <div id="main">
             <div id="pic"></div>
+            <div id="indexconfig"></div>
             <div id="create"></div>
             <div id="newsedit"></div>
             <div id="comment"></div>
@@ -68,6 +69,7 @@
                             for (var i = 0; i < array.length; i++) {
                                 switch (array[i]) {
                                     case "图片轮播": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-picture sideGly"></i>图片轮播</a>'); break;
+                                    case "首页配置": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-picture sideGly"></i>首页配置</a>'); break;
                                     case "新闻发布": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-edit sideGly"></i>新闻发布</a>'); break;
                                     case "新闻管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-list-alt sideGly"></i>新闻管理</a>'); break;
                                     case "评论管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-comment sideGly"></i>评论管理</a>'); break;
@@ -106,6 +108,20 @@
                             $("#pic").html(res);
                             $("#pic").fadeIn().siblings("div").html("").hide();
                             $("#pic").removeClass("loadingback");
+                            $("img.loading").fadeOut();
+                        },
+                    });
+                    break;
+                }
+                case "首页配置": {
+                    $("img.loading").fadeIn(100);
+                    $("#indexconfig").addClass("loadingback");
+                    $.ajax({
+                        url: '../Manage/INDEXconfig',
+                        success: function (res) {
+                            $("#indexconfig").html(res);
+                            $("#indexconfig").fadeIn().siblings("div").html("").hide();
+                            $("#indexconfig").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });

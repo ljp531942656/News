@@ -60,7 +60,7 @@ body {
     color:#303932;
 }
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
-    background:#89ba75;
+    background:#9ccb77;
     border:1px solid rgb(189, 189, 189);
     border:1px solid rgba(0, 0, 0, 0.10);
     transition:0.6s;
@@ -76,7 +76,7 @@ body {
 
 /*------------------------------bar----------------------------------*/
 #bar{
-    background:#9caa91;
+    background:#9ccb77;
     width:100%;
     color:#ffffff;
     padding:4px 0;
@@ -156,7 +156,7 @@ a:hover{
 .loadingback{
     filter:blur(4px);
 }
-label{
+.form-group>label{
     font-size:20px;
     margin:4px 0;
     text-align:right;
@@ -185,7 +185,7 @@ label{
 }
 .btn-green:hover{
     color:white;
-    background-color:#89ba75;
+    background-color:#89cc6e;
     border-color:#7cae68;
 }
 .btn2{
@@ -283,10 +283,10 @@ div.btn-group.bootstrap-select.show-tick.col-lg-5.col-md-4.col-xs-3{
     z-index:101;
     background:#fff;
 }
-#prepicview{
+#prepicview,#prepicview2{
     text-align:center;
 }
-#preimg{
+#preimg,#preimg2{
     margin:auto;
     height:inherit;
     width:80%;
