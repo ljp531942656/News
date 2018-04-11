@@ -67,7 +67,7 @@
                         <a newsid="@dr["ID"]">编辑</a>
                     </td>
                     <td>@dr["NEWSTYPE"]</td>
-                    <td><a href="/News">@dr["TITLE"]</a></td>
+                    <td><a href="http://newswebsite.chinacloudsites.cn/Home/NewsPage?newsid=@dr["ID"]" target="_blank">@dr["TITLE"]</a></td>
                     <td>@dr["AUTHOR"]</td>
                     <td name="td0">@dr["DATE"]</td>
                     <td name="td1">@dr["ISRELEASE"]</td>
@@ -78,7 +78,7 @@
         </tbody>
     </table>
     <div id="num1" class="col-lg-5 hidden">
-        当前第<span id="nowpage1"></span>页&nbsp;&nbsp;&nbsp;共<span id="pagenum1"></span>页&nbsp;&nbsp;&nbsp;共<span id="contentnum1"></span>条内容
+        当前第 <span id="nowpage1"></span> 页&nbsp;&nbsp;&nbsp;共 <span id="pagenum1"></span> 页&nbsp;&nbsp;&nbsp;共 <span id="contentnum1"></span> 条内容
     </div>
     <div class="pull-right pagechange">
         <ul class="pagination" id="ampagination1"></ul>

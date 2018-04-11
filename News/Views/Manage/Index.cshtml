@@ -31,7 +31,7 @@
             <div id="comment"></div>
             <div id="account"></div>
             <div id="filed"></div>
-            <img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />
+            <img class="loading" src="@Href("~/")image/loading.gif" />
         </div>
         <div class="clearfix"></div>
     </div>
@@ -69,12 +69,12 @@
                             for (var i = 0; i < array.length; i++) {
                                 switch (array[i]) {
                                     case "图片轮播": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-picture sideGly"></i>图片轮播</a>'); break;
-                                    case "首页配置": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-picture sideGly"></i>首页配置</a>'); break;
+                                    case "首页配置": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-wrench sideGly"></i>首页配置</a>'); break;
                                     case "新闻发布": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-edit sideGly"></i>新闻发布</a>'); break;
                                     case "新闻管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-list-alt sideGly"></i>新闻管理</a>'); break;
                                     case "评论管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-comment sideGly"></i>评论管理</a>'); break;
-                                    case "帐户管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-user sideGly"></i>帐户管理</a>'); break;
                                     case "归档新闻": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-file sideGly"></i>归档新闻</a>'); break;
+                                    case "帐户管理": $("#item>.list-group").append('<a href="javascript:void(0)" class="list-group-item"><i class="glyphicon glyphicon-user sideGly"></i>帐户管理</a>'); break;
                                 }
                             }
                             $("#siderbar a").on("click", function () {
@@ -101,13 +101,13 @@
             switch (type) {
                 case "图片轮播": {
                     $("img.loading").fadeIn(100);
-                    $("#pic").addClass("loadingback");
+                    $("#pic").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Picauto',
                         success: function (res) {
                             $("#pic").html(res);
                             $("#pic").fadeIn().siblings("div").html("").hide();
-                            $("#pic").removeClass("loadingback");
+                            $("#pic").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
@@ -115,30 +115,23 @@
                 }
                 case "首页配置": {
                     $("img.loading").fadeIn(100);
-                    $("#indexconfig").addClass("loadingback");
+                    $("#indexconfig").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/INDEXconfig',
                         success: function (res) {
                             $("#indexconfig").html(res);
                             $("#indexconfig").fadeIn().siblings("div").html("").hide();
-                            $("#indexconfig").removeClass("loadingback");
+                            $("#indexconfig").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
                     break;
                 }
                 case "新闻发布": {
-                    //$.ajax({
-                    //    url: '../Manage/Create',
-                    //    success: function (res) {
-                    //        $("#create").html(res);
-                    //        $("#create").fadeIn(500).siblings("div").hide();
-                    //    },
-                    //});
                     $("#create").html("<iframe id='createiframe' src='@Href("~/")Manage/Create'></iframe>");
-                    $("#create").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+                    $("#create").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
                     $("#createiframe").addClass("loadingback");
-                    $("#create").fadeIn(500).siblings("div").hide();
+                    $("#create").fadeIn(500).siblings("div").html("").hide();
                     $("#createiframe").load(function () {
                         $(this).height(window.innerHeight - $("#bar").height() - 38);
                         $("#createiframe").removeClass("loadingback");
@@ -148,13 +141,13 @@
                 }
                 case "新闻管理": {
                     $("img.loading").fadeIn(100);
-                    $("#newsedit").addClass("loadingback");
+                    $("#newsedit").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Newsedit',
                         success: function (res) {
                             $("#newsedit").html(res);
                             $("#newsedit").fadeIn().siblings("div").html("").hide();
-                            $("#newsedit").removeClass("loadingback");
+                            $("#newsedit").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
@@ -162,13 +155,13 @@
                 }
                 case "评论管理": {
                     $("img.loading").fadeIn(100);
-                    $("#comment").addClass("loadingback");
+                    $("#comment").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Comment',
                         success: function (res) {
                             $("#comment").html(res);
                             $("#comment").fadeIn().siblings("div").html("").hide();
-                            $("#comment").removeClass("loadingback");
+                            $("#comment").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
@@ -176,13 +169,13 @@
                 }
                 case "帐户管理": {
                     $("img.loading").fadeIn(100);
-                    $("#account").addClass("loadingback");
+                    $("#account").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Account',
                         success: function (res) {
                             $("#account").html(res);
                             $("#account").fadeIn().siblings("div").html("").hide();
-                            $("#account").removeClass("loadingback");
+                            $("#account").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });
@@ -190,13 +183,13 @@
                 }
                 case "归档新闻": {
                     $("img.loading").fadeIn(100);
-                    $("#account").addClass("loadingback");
+                    $("#account").siblings("div").addClass("loadingback");
                     $.ajax({
                         url: '../Manage/Filed',
                         success: function (res) {
                             $("#filed").html(res);
                             $("#filed").fadeIn().siblings("div").html("").hide();
-                            $("#filed").removeClass("loadingback");
+                            $("#filed").siblings("div").removeClass("loadingback");
                             $("img.loading").fadeOut();
                         },
                     });

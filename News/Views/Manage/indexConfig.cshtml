@@ -1,7 +1,176 @@
-﻿
-<div id="text" type="SHDT" num="1" style="border:1px solid #aaa;width:200px;height:200px;">
+﻿@using System.Data;
 
+<link href="~/CSS/indexconfig.css" rel="stylesheet" />
+
+<div class="main">
+    <div id="sider" class="sider">
+        <div class="totop glyphicon glyphicon-chevron-up"></div>
+        <ul class="newstypelist">
+            <li class="active">社会动态</li>
+            <li>金融财经</li>
+            <li>激情体育</li>
+            <li>科技前沿</li>
+            <li>汽车资讯</li>
+            <li>房产</li>
+            <li>军事</li>
+            <li>娱乐</li>
+            <li>健康</li>
+            <li>其它</li>
+        </ul>
+        <div class="tobottom glyphicon glyphicon-chevron-down"></div>
+    </div>
+    <div id="content" class="content">
+        <div id="shdt" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["SHDT"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>社会动态<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a newsid="1156" istop="是" class="redfont">测试批量删除</a>
+                        <span>[2018-03-26]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="1157" istop="是" class="redfont">测试批量删除</a>
+                        <span>[2018-03-26]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="47" istop="是" class="redfont">修改测试标题</a>
+                        <span>[2018-01-18]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="14" istop="是" class="redfont">3测试</a>
+                        <span>[2018-01-18]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="1161" istop="否">1</a>
+                        <span>[2018-03-29]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="147" istop="否">map</a>
+                        <span>[2018-02-05]</span>
+                    </li>
+                    <li class="list-group-item">
+                        <a newsid="142" istop="否">1</a>
+                        <span>[2018-01-30]</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="jrcj" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-4 col-md-4 col-xs-4">
+                @foreach (DataRow dr in (ViewData["JRCJ"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@dr["PICORIGIN"]" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-8 col-md-8 col-xs-8">
+                <div class="shadowblock">
+                    <a>金融财经<span class="glyphicon more"></span></a>
+                </div>
+            </div>
+        </div>
+
+        <div id="jqty" class="typedetail col-lg-12 col-md-12">
+            <div class="W col-lg-8 col-md-8 col-xs-8">
+                <div class="shadowblock">
+                    <a>激情体育<span class="glyphicon more"></span></a>
+                </div>
+            </div>
+            <div class="PW col-lg-4 col-md-4 col-xs-4">
+                @foreach (DataRow dr in (ViewData["JQTY"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@dr["PICORIGIN"]" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="kjqy" class="typedetail col-lg-12 col-md-12">
+            <div class="W col-lg-8 col-md-8 col-xs-8">
+                <div class="shadowblock">
+                    <a>激情体育<span class="glyphicon more"></span></a>
+                </div>
+            </div>
+            <div class="PW col-lg-4 col-md-4 col-xs-4">
+                @foreach (DataRow dr in (ViewData["KJQY"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@dr["PICORIGIN"]" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <div id="qczx" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+        <div id="fc" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+        <div id="js" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+        <div id="yl" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+        <div id="jk" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+        <div id="qt" class="typedetail col-lg-12 col-md-12">
+
+        </div>
+
+    </div>
 </div>
+
+
 <div class="picupload" style="display:none">
     <ul class="nav nav-tabs">
         <li class="active" style="margin-right: 0px;">
@@ -23,7 +192,7 @@
         </div>
         <div class="col-lg-11 col-md-11 col-sm-11 form-group">
             <label for="resume2" class="col-lg-2 col-md-2 col-sm-3 control-label">简述</label>
-            <input id="resume2" name="tourl" class="form-control" />
+            <input id="resume2" name="resume" class="form-control" />
         </div>
         <div class="col-lg-11 col-md-11 col-sm-11 form-group">
             <label for="tourl2" class="col-lg-2 col-md-2 col-sm-3 control-label">跳转连接</label>
@@ -45,7 +214,8 @@
             <label style="width:100%;text-align:left">图片上传：</label>
             <input id="picupload2" class="form-control" type="file" />
         </div>
-        <input id="picid2" name="picid2" class="hidden" />
+        <input id="type2" name="type" class="hidden" />
+        <input id="typenum2" name="typenum" class="hidden" />
     </form>
 </div>
 
@@ -53,9 +223,18 @@
     $(document).ready(function () {
         var type = "";
         var num = "";
+        $("#shdt").css("display", "block");
+
         $("#delete2").hide();
         $("#previewlabel2").hide();
-        $("#text").click(function () {
+
+        $("#sider>ul>li").click(function () {
+            $(this).addClass("active");
+            $(this).siblings("li").removeClass("active");
+            Switch($(this).text());
+        });
+
+        $(".content .imgupload").click(function () {
             type = $(this).attr("type");
             num = $(this).attr("num");
 
@@ -71,13 +250,15 @@
             $.ajax({
                 url: '@Href("~/")manage/ConfigPic',
                 type: 'post',
-                data: { SG:"get", type: type, num: num },
+                data: { SG: "get", type: type, num: num },
                 success: function (res) {
                     $("#picid2").val(res.piclist[0])
                     $("#pictitle2").val(res.piclist[1]);
                     $("#picorigin2").val(res.piclist[2]);
                     $("#tourl2").val(res.piclist[3]);
                     $("#resume2").val(res.piclist[8]);
+                    $("#type2").val(type);
+                    $("#typenum2").val(num);
                     if (document.getElementById("picorigin2").value) {
                         $("#delete2").fadeIn();
                         $("#previewlabel2").fadeIn();
@@ -92,7 +273,7 @@
             $("#Comiframeback").fadeIn();
             $(".picupload").fadeIn();
         });
-        
+
 
         $("#pictoback2").click(function () {
             $("#Comiframeback").fadeOut();
@@ -102,7 +283,7 @@
 
         $("#picsubmit2").click(function () {
             var formdata = new FormData($("#picform2")[0]);
-            
+
             $.ajax({
                 url: '@Href("~/")manage/ConfigPic',
                 traditional: true,
@@ -118,9 +299,9 @@
                         $("#SubmitSuccessModal").click(function () {
                             $("#pictoback2").trigger("click");
                             $.ajax({
-                                url: '../Manage/INDEXconfig',
+                                url: '../Manage/indexConfig',
                                 success: function (res) {
-                                    $("#pic").html(res);
+                                    $("#indexconfig").html(res);
                                 },
                             });
                         });
@@ -130,6 +311,71 @@
                     }
                 }
             });
+        });
+
+        //新闻分类选择
+        function Switch(type) {
+            switch (type) {
+                case "社会动态": {
+                    $("#shdt").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "金融财经": {
+                    $("#jrcj").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "激情体育": {
+                    $("#jqty").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "科技前沿": {
+                    $("#kjqy").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "汽车资讯": {
+                    $("#qczx").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "房产": {
+                    $("#fc").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "军事": {
+                    $("#js").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "娱乐": {
+                    $("#yl").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "健康": {
+                    $("#jk").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+                case "其它": {
+                    $("#qt").fadeIn(100).siblings("div").fadeOut(200);
+                    break;
+                }
+            }
+        }
+
+        $(".PWinside").mouseenter(function () {
+            $(this).children(".imgback").height($(this).height());
+            $(this).children(".imgback").css("top", -28 - 1 * $(this).children("p").height() - $(this).height()).css("opacity", "1");
+            $(this).children("a").css("top", -28 - $(this).children("p").height());
+            $(this).children("p").css("top", -28 - $(this).children("p").height()).css("opacity", "1");
+        });
+        $(".PWinside").mouseleave(function () {
+            $(this).children(".imgback").height(0);
+            $(this).children(".imgback").css("top", -28 - 1 * $(this).children("p").height()).css("opacity", "0");
+            $(this).children("a").css("top", -28);
+            $(this).children("p").css("top", -28).css("opacity", "0");
+        });
+
+
+        $(".W .list-group-item a[istop='是']").addClass("redfont");
+        $(".W .list-group-item a").click(function () {
+            window.open("NewsPage?newsid=" + $(this).attr("newsid"));
         });
     });
 

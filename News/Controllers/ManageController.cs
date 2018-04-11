@@ -478,9 +478,9 @@ namespace News.Controllers
                 HttpPostedFileBase imgFile = Request.Files[0];
                 if(num != "")
                 {
-                    path = type + "/" + num;
+                    path = "INDEX/" + type + "_" + num;
                     imgFile.SaveAs(Server.MapPath("~/imglist/") + path + imgFile.FileName.Substring(imgFile.FileName.LastIndexOf("."), (imgFile.FileName.Length - imgFile.FileName.LastIndexOf("."))));
-                    url = "/imglist/" + path + imgFile.FileName.Substring(imgFile.FileName.LastIndexOf(".") + 1 ,(imgFile.FileName.Length - imgFile.FileName.LastIndexOf(".") - 1));
+                    url = "/imglist/" + path + imgFile.FileName.Substring(imgFile.FileName.LastIndexOf("."), (imgFile.FileName.Length - imgFile.FileName.LastIndexOf(".")));
                 }
                 else
                 {
@@ -669,7 +669,32 @@ namespace News.Controllers
 
         public ActionResult indexConfig()
         {
-            return View();
+            try
+            {
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                for (int i = 1; i <= 10; i++)
+                {
+                    SqlCommand sqlcommand = new SqlCommand(("select * from dbo.PIC where NEWSTYPE = '" + trans(i) + "' and TYPENUM <> 'null' order by TYPENUM"), sqlcon);
+                    SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "piclist");
+                    DataTable dt = ds.Tables["piclist"];
+                    ViewData[trans(i)] = dt;
+                    sqlcommand = null;
+                }
+
+                sqlcon.Close();
+                sqlcon = null;
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex },JsonRequestBehavior.AllowGet);
+            }
+            
         }
         public ActionResult ConfigPic()
         {
@@ -705,7 +730,7 @@ namespace News.Controllers
                 else
                 {
                     var form = Request.Form;
-                    var sql = string.Format(" update dbo.PIC set [TITLE]='{0}',[RESUME]='{1}',[PICORIGIN]='{2}',[TOURL]='{3}', where [NEWSTYPE]='{4}' and [TYPENUM]='{5}'", form["pictitle"], form["resume"], form["picorigin"], form["tourl"], type, num);
+                    var sql = string.Format(" update dbo.PIC set [TITLE]='{0}',[RESUME]='{1}',[PICORIGIN]='{2}',[TOURL]='{3}' where [NEWSTYPE]='{4}' and [TYPENUM]='{5}'", form["pictitle"], form["resume"], form["picorigin"], form["tourl"], form["type"], form["typenum"]);
                     SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                     sqlcommand.ExecuteNonQuery();
                     sqlcommand = null;
@@ -720,8 +745,26 @@ namespace News.Controllers
                 return Json(new { msg = ex });
             }
         }
-    }
 
+        public string trans(int i)
+        {
+            string str = "";
+            switch (i)
+            {
+                case 1: str = "SHDT"; break;
+                case 2: str = "JRCJ"; break;
+                case 3: str = "JQTY"; break;
+                case 4: str = "KJQY"; break;
+                case 5: str = "QCZX"; break;
+                case 6: str = "FC"; break;
+                case 7: str = "JS"; break;
+                case 8: str = "YL"; break;
+                case 9: str = "JK"; break;
+                case 0: str = "QT"; break;
+            }
+            return str;
+        }
+    }
 
     public class WebTimer_AutoRepayment
     {
@@ -740,7 +783,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = string.Format(" delete from NewsPage where DATEDIFF(day,NewsPage.DATE,convert(char(50),GETDATE(),21)) >= 90  ");
+            string sql = string.Format(" delete from NewsPage where DATEDIFF(day,NewsPage.DATE,convert(char(50),GETDATE(),21)) >= 365  ");
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             sqlcommand.ExecuteNonQuery();
         }

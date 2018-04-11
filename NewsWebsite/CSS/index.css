@@ -1,0 +1,440 @@
+﻿body {
+    background:#b6b6b6;
+    opacity:0;
+    transition:0.4s ease-in-out;
+}
+
+.main{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    width:900px;
+    display:flex;
+    transition:0.3s ease-in-out;
+}
+@media(min-width:1200px){
+    .main {
+        width:1000px;
+        height:416px;
+    }
+}
+@media(min-width:1400px){
+    .main {
+        width:1200px;
+        height:500px;
+    }
+}
+@media(min-width:1600px){
+    .main {
+        width:1400px;
+        height:583px;
+    }
+}
+
+
+/*-------------------------------------------------------sider----------------------------------------------------------------*/
+.sider{
+    width:13%;
+    height:100%;
+    float:left\9;
+}
+.sider>ul{
+    height:100%;
+    overflow-y:scroll;
+    padding:0 10px;
+}
+.sider>ul>li{
+    font-size:16px;
+    padding:30% 0;
+    background:#4479D4;
+    height:20%;
+    text-align:center;
+    color:#fff;
+    cursor:pointer;
+    position: relative;
+    z-index: 100;
+    transition: 0.2s ease-in-out;
+}
+.zw{
+    cursor:default!important;
+}
+.sider>ul>li:hover:not(.zw){
+    -ms-transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    transform: scale(1.02);
+    background:#5895ff;
+    
+}
+.sider>ul>li:focus:not(.zw),.sider>ul>li:active:not(.zw),.sider>ul>li.active:not(.zw){
+    background:#2C61BA;
+    color:#ffd985;
+    -ms-transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+    -o-transform: scale(1.0);
+    -moz-transform: scale(1.0);
+    transform: scale(1.0);
+}
+.mainlist{
+    transition:0.35s ease-in-out;
+}
+.newstypelist{
+    position: absolute;
+    top: 0;
+    width:13%;
+    left: 160px; 
+    opacity:0;
+    transition:0.38s ease-in-out;
+}
+.totop,.tobottom{
+    width:13%;
+    background:rgb(100, 149, 225);
+    background:rgba(255, 255, 255, 0.20);
+    text-align:center;
+    opacity:0;
+    margin:0 10px;
+    position:fixed;
+    z-index:102;
+    font-size:20px;
+    color:#eeeeee;
+    cursor:pointer;
+    transition:0.18s ease-in-out;
+}
+.totop:hover, .tobottom:hover {
+    background:rgb(124, 161, 225);
+    background:rgba(255, 255, 255, 0.30);
+}
+@media(min-height:700px) and (min-width:800px){
+    .sider>ul>li{
+        font-size:17px;
+        
+    }
+}
+@media(min-height:770px) and (min-width:900px){
+    .sider>ul>li{
+        font-size:17px;
+        
+    }
+}
+@media(min-height:900px) and (min-width:1200px){
+    .sider>ul>li{
+        font-size:20px;
+        
+    }
+}
+
+
+/*-------------------------------------------------------content----------------------------------------------------------------*/
+.content{
+    position:relative;
+    right:27px;
+    width:87%;
+    height:100%;
+    background:#fff;
+    float:left\9;
+}
+    .content .list-group-item > a {
+        background: url('../Images/list_iconomal.png') left center no-repeat;
+        padding:0 0 0 10px;
+        white-space:nowrap;
+        overflow:hidden;
+        display:inline-block;
+        text-overflow:ellipsis;
+        cursor:pointer;
+    }
+    .content .list-group-item>span{
+        float:right;
+    }
+    .content #comment>li>a{
+        background: url(../Images/message.png) left center no-repeat;
+        background-size: 6% 56%;
+        padding:0 0 0 30px;
+    }
+.maintop{
+    height:60%;
+    padding-top:10px;
+}
+.mainbottom{
+    height:40%;
+    padding:15px;
+}
+.lefttop,.righttop{
+    height:100%;
+    padding:0;
+}
+.pic
+{
+	width: 100%;
+	height: 100%;
+	background-color:#CCC;
+    box-shadow:0 2px 6px 0 #b2b2b2;
+}
+.pic>.p
+{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+    background-size:100% 100%;
+    cursor:pointer;
+}
+.pic>.point
+{
+	width: 100%;
+    background-color: rgb(94, 94, 94);
+	background-color: rgba(0, 0, 0, 0.65);
+	position: relative;
+	z-index: 5;
+	text-align: left;
+}
+#ti
+{
+    width:74%;
+	font-size: 18px;
+	color: white;
+	padding:0 10px;
+	line-height: 47px;
+    display:block;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    transition:color 0.3s ease-in-out;
+}
+
+#ti:hover{
+    color:#ffd985;
+}
+.pic>.point>.po
+{
+	width: 12px;
+	height: 12px;
+	background-color: #676c6d;
+	border-radius: 50%;
+	position: absolute;
+	z-index: 106;
+    top: 20px;
+}
+#po1
+{
+	left: 75%;
+}
+#po2
+{
+	left: 80%;
+}
+#po3
+{
+	left: 85%;
+}
+#po4
+{
+	left: 90%;
+}
+#po5
+{
+    left: 95%;
+}
+.shadowblock{
+    width:100%;
+    height:9%;
+    box-shadow:0 5px 20px 0 #aaaaaa;
+    background:#4479D4;
+}
+    .shadowblock>a{
+        display: inline-block;
+        color: #ffd985;
+        width: 100%;
+        text-align: center;
+        font-size:14px;
+        line-height:24px;
+    }
+    .shadowblock > a > .more {
+        background: url('../Images/more.png');
+        background-size: 100% 100%;
+        position: absolute;
+        top: 1.5%;
+        right: 1%;
+        width: 5%;
+        height: 6%;
+        cursor:pointer;
+    }
+    
+.rttitle{
+    width:99%;
+    height:10%;
+    margin:0 10px;
+}
+.rtcontent{
+    width:99%;
+    height:100%;
+    border:1px solid #4479D4;
+    margin:0 10px;
+    box-shadow: 0 2px 12px 0 #b2b2b2;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.rtcontent>.list-group{
+    height:86%;
+}
+.rtcontent .list-group-item{
+    padding:0 15px;
+}
+.hotcomment>a:first-child{
+    background:#4479D4;
+    color: #ffd985;
+    font-size:14px;
+    display:block;
+    width:6%;
+    height:100%;
+    text-align:center;
+    padding:10px 0;
+    float:left;
+}
+.hotcomment .list-group-item{
+    padding:0 15px;
+    border:none;
+    transition:0.5s ease-in-out;
+}
+.hotcomment{
+    width:33.3%;
+    height:100%;
+    display:flex;
+    justify-content:space-between;
+    box-shadow:-1px 0 12px 0 #b2b2b2;
+}
+.hotcomment > ul{
+    width:94%;
+    height:100%;
+    overflow:hidden;
+    border:1px solid #4479D4;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+/*.hotcommont > ul:first-child{
+    border-bottom:1px solid #4479D4;
+    border-right:1px solid #4479D4;
+    border-bottom-right-radius:5px;
+}
+.hotcommont > ul:nth-child(2){
+    border-top:1px solid #4479D4;
+}
+.hotcommont > ul:nth-child(3){
+    border-bottom:1px solid #4479D4;
+    border-left:1px solid #4479D4;
+    border-bottom-left-radius:5px;
+}*/
+.typedetail{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    display:none;
+}
+
+.PW{
+    height:100%;
+    padding:10px;
+}
+.PWinside{
+    height:50%;
+}
+    .PWinside>img{
+        height:87%;
+        display:block;
+        margin:auto;
+    }
+    .PWinside>a{
+        width:100%;
+        display:block;
+        text-align:center;
+        font-size:20px;
+    }
+
+.aboutme {
+    display:none;
+    height:100%;
+    position:absolute;
+    background: url('../Images/aboutme.jpg') 50% 50% no-repeat;
+    background-size:98% 97%;
+}
+.search{
+    display:none;
+    height:100%;
+    position:absolute;
+    background: #fff;
+}
+
+
+@media(min-height:700px){
+    #ti{
+        font-size: 19px;
+    }
+    .rtcontent>.shadowblock>a{
+        font-size:14px;
+        line-height:24px;
+    }
+    .hotcomment > a:first-child {
+        font-size:13px;
+    }
+    .content .list-group-item a{
+        font-size:13px;
+    }
+}
+@media(min-height:770px){
+    #ti{
+        font-size: 20px;
+    }
+    .rtcontent>.shadowblock>a{
+        font-size:16px;
+        line-height:26px;
+    }
+    .hotcomment > a:first-child {
+        font-size:15px;
+    }
+    .content .list-group-item a{
+        font-size:15px;
+    }
+}
+@media(min-height:900px){
+    #ti{
+        font-size: 21px;
+    }
+    .rtcontent>.shadowblock>a{
+        font-size:18px;
+        line-height:28px;
+    }
+    .hotcomment > a:first-child {
+        font-size:18px;
+    }
+    .content .list-group-item a{
+        font-size:16px;
+    }
+}
+
+
+
+
+/*-------------------------------------------------------common----------------------------------------------------------------*/
+a,a:link,a:visited,a:hover{
+    text-decoration:none;
+    font-family:'Microsoft YaHei',sans-serif;
+}
+li{
+    list-style:none;
+    font-family:'Microsoft YaHei',sans-serif;
+    transition:background-color 0.18s ease-in-out;
+}
+.list-group-item:hover{
+    background-color:#eeeeee;
+}
+.redfont{
+    color:#ff4040;
+}
+.redfont:hover{
+    color:#d83939;
+}
+

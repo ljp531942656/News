@@ -1,8 +1,509 @@
-﻿
+﻿@using System.Data;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
 }
+<link href="~/CSS/index.css" rel="stylesheet" />
+
+<div class="container">
+
+    <div class="main">
+        <div id="sider" class="sider">
+            <div class="totop glyphicon glyphicon-chevron-up"></div>
+            <ul class="mainlist">
+                <li class="active">主页</li>
+                <li id="newstypelist">新闻分类</li>
+                <li id="search">搜索</li>
+                <li id="about">关于</li>
+                <li class="zw"></li>
+            </ul>
+            <ul class="newstypelist">
+                <li>返回</li>
+                <li>社会动态</li>
+                <li>金融财经</li>
+                <li>激情体育</li>
+                <li>科技前沿</li>
+                <li>汽车资讯</li>
+                <li>房产</li>
+                <li>军事</li>
+                <li>娱乐</li>
+                <li>健康</li>
+                <li>其它</li>
+            </ul>
+            <div class="tobottom glyphicon glyphicon-chevron-down"></div>
+        </div>
+        <div id="content" class="content">
+            <div class="maintop col-lg-12 col-md-12 col-xs-12">
+                <div class="lefttop col-lg-6 col-md-6 col-xs-6">
+                    <div class="pic">
+                        @{
+                            string[] title = new string[5];
+                            string[] tourl = new string[5];
+                            int i = 0;
+                            foreach (DataRow dr in (ViewData["PICList"] as DataTable).Rows)
+                            {
+                                title[i] = dr["title"].ToString();
+                                tourl[i] = dr["tourl"].ToString();
+                                i++;
+                                <div class="p" style="background-image:url('@dr["PICORIGIN"]');"></div>
+                            }
+                        }
+                        <div class="point">
+                            <a id="ti" href=""></a>
+                            <div id="po1" class="po" num="0"></div>
+                            <div id="po2" class="po" num="1"></div>
+                            <div id="po3" class="po" num="2"></div>
+                            <div id="po4" class="po" num="3"></div>
+                            <div id="po5" class="po" num="4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="righttop col-lg-6 col-md-6 col-xs-6">
+                    <div class="rtcontent">
+                        <div class="shadowblock">
+                            <a>最新热点<span class="glyphicon more"></span></a>
+                        </div>
+                        <ul class="list-group">
+                            @foreach (DataRow dr in (ViewData["TOP7News"] as DataTable).Rows)
+                            {
+                                <li class="list-group-item">
+                                    <a newsid="@dr["ID"]" istop="@dr["ISTOP"]">@dr["TITLE"]</a>
+                                    <span>[@dr["DATE"]]</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mainbottom col-lg-12 col-md-12 col-xs-12">
+
+                <div class="hotcomment">
+                    <a>热门评论</a>
+                    <ul id="comment" class="list-group">
+                        <li class="list-group-item">
+                            <a>1、测试1</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>2、测试2</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>3、测试3</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>4、测试4</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>5、测试5</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>6、测试6</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>7、测试7</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a>8、测试8</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
 
 
+            <div id="shdt" class="typedetail col-lg-12 col-md-12">
+                <div class="PW col-lg-8 col-md-8 col-xs-8">
+                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试标题</a>
+                        <p>测试段落</p>
+                    </div>
+                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
+                    </div>
+                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
+                    </div>
+                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
+                        <img src="@Href("~/")Images/message.png" />
+                        <a href="">测试</a>
+                    </div>
+                </div>
+                <div class="W col-lg-4 col-md-4 col-xs-4">
+                    <div class="shadowblock">
+                        <a>社会动态</a>
+                    </div>
+                </div>
+            </div>
+            <div id="jrcj" class="typedetail col-lg-12 col-md-12">
+                
+            </div>
+            <div id="jqty" class="typedetail col-lg-12 col-md-12">
 
+            </div>
+            <div id="kjqy" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="qczx" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="fc" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="js" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="yl" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="jk" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+            <div id="qt" class="typedetail col-lg-12 col-md-12">
+
+            </div>
+
+            <div id="aboutme" class="aboutme col-lg-12 col-md-12">
+
+            </div>
+
+            <div id="dosearch" class="search col-lg-12 col-md-12">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@RenderPage("../shared/footer.cshtml")
+
+<script>
+    $(document).ready(function () {
+        
+        $("body").css("opacity", "1");
+
+
+        $("#sider>ul>li:not(.zw)").click(function () {
+            $(this).addClass("active");
+            $(this).siblings("li").removeClass("active");
+        });
+
+        $(".mainlist>li:first-child").click(function () {
+            $("#aboutme").fadeOut(100).siblings("div:first-child").fadeIn(200);
+            $("#aboutme").fadeOut(100).siblings("div:nth-child(2)").fadeIn(200);
+            $(".maintop").fadeIn(200).siblings("div:not(:nth-child(2))").fadeOut(200);
+            $(".mainbottom").fadeIn(200).siblings("div:not(:first-child)").fadeOut(200);
+        });
+
+        $("#newstypelist").click(function () {
+            $(".newstypelist li").removeClass("active");
+            $(".newstypelist").css("opacity", "1");
+            $(".newstypelist").css("left", "0");
+            $(".mainlist").css("transform", "scale(0.93)");
+            $(".tobottom").css("opacity", "1");
+        });
+        $(".newstypelist>li:first-child").click(function () {
+            $(".typedetail").fadeOut(100).siblings("div:first-child").fadeIn(200);
+            $(".typedetail").fadeOut(100).siblings("div:nth-child(2)").fadeIn(200);
+            $(".mainlist>li:first-child").trigger("click");
+            $(".newstypelist").css("left", "150px");
+            $(".mainlist").css("transform", "scale(1)");
+            $(".newstypelist").css("opacity", "0.7");
+            $(".totop").css("opacity", "0");
+            $(".tobottom").css("opacity", "0");
+        });
+        $(".newstypelist>li:not(first-child)").click(function () {
+            Switch($(this).text());
+        });
+
+        $("#about").click(function () {
+            $("#aboutme").fadeIn(100).siblings("div").fadeOut(200);
+        });
+
+        $("#search").click(function () {
+            $("#dosearch").fadeIn(100).siblings("div").fadeOut(200);
+        });
+
+        $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
+        $(".hotcomment .list-group-item").css("line-height", $(".hotcomment .list-group").height() / 5 - 3.2 + "px");
+        $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 10);
+        $(".rtcontent .list-group-item").height($(".rtcontent .list-group").height() / 7);
+        $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
+        $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
+        $(".rtcontent .list-group-item a[istop='是']").addClass("redfont");
+        $(".rtcontent .list-group-item a").click(function () {
+            window.open("@Href("~/")Home/NewsPage?newsid=" + $(this).attr("newsid"));
+        });
+
+        $(".totop").width($("#sider>ul>li").width());
+        $(".tobottom").width($("#sider>ul>li").width());
+        $(".totop").css("top", $(".main").css("margin-top"));
+        $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
+        $("#sider>ul").scroll(function () {
+            var viewH = $(this).height();
+            var contentH = $(this).get(0).scrollHeight;
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop / (contentH - viewH) >= 0.95) {
+                $(".tobottom").css("opacity", "0");
+            }
+            else {
+                $(".tobottom").css("opacity", "1");
+            }
+            if ($(this).scrollTop() != 0) {
+                $(".totop").css("opacity", "1");
+            }
+            else {
+                $(".totop").css("opacity", "0");
+            }
+
+        });
+        $(".totop").click(function () {
+            $("#sider>.newstypelist").animate({ scrollTop: $("#sider>.newstypelist").scrollTop() - 300 });
+        });
+        $(".tobottom").click(function () {
+            $("#sider>.newstypelist").animate({ scrollTop: $("#sider>.newstypelist").scrollTop() + 300 });
+        });
+
+        //热门评论滚动
+        $(".hotcomment .list-group").append($(".hotcomment .list-group").html());
+        var scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+        $(".hotcomment .list-group-item").mouseover(function () {
+            clearInterval(scroll);
+        })
+        $(".hotcomment .list-group").mouseleave(function () {
+            scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+        });
+        $(window).resize(function () {
+            clearInterval(scroll);
+            scroll = setInterval(function () { ScrollComment() }, parseInt(12000 / document.getElementById("comment").clientHeight));
+        })
+
+
+        var t = 0;
+        var m;
+        function show() {
+            $(".p").fadeOut();
+            $(".po").css("background-color", "#676c6d");
+
+            switch (t) {
+                case 0:
+                    $($(".pic").children(".p")[0]).fadeIn().attr("onclick", "window.open('@tourl[0]')");
+                    $("#po1").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[0]").attr("href", "@tourl[0]").attr("target", "_blank");
+                    break;
+                case 1:
+                    $($(".pic").children(".p")[1]).fadeIn().attr("onclick", "window.open('@tourl[1]')");
+                    $("#po2").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[1]").attr("href", "@tourl[1]");
+                    break;
+                case 2:
+                    $($(".pic").children(".p")[2]).fadeIn().attr("onclick", "window.open('@tourl[2]')");
+                    $("#po3").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[2]").attr("href", "@tourl[2]");
+                    break;
+                case 3:
+                    $($(".pic").children(".p")[3]).fadeIn().attr("onclick", "window.open('@tourl[3]')");
+                    $("#po4").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[3]").attr("href", "@tourl[3]");
+                    break;
+                case 4:
+                    $($(".pic").children(".p")[4]).fadeIn().attr("onclick", "window.open('@tourl[4]')");
+                    $("#po5").css("background-color", "#a7b0af");
+                    $("#ti").html("@title[4]").attr("href", "@tourl[4]");
+                    break;
+            }
+            if (t >= 4) { t = 0; }
+            else { t++; }
+            m = setTimeout(show, 2000);
+        }
+        function resetTimout(n) {
+            clearTimeout(n);
+            show();
+        }
+        show();
+        $("#po1").css("background-color", "#a7b0af");
+        $(".point>.po").click(function () {
+            $(this).css("background-color", "#a7b0af");
+            $(this).siblings("div.po").css("background-color", "#676c6d");
+            t = parseInt($(this).attr("num"));
+            resetTimout(m);
+        });
+        $(".point").css("top", $(".pic").height() - $(".point").height() + 1);
+    });
+    $(window).resize(function () {
+        setTimeout(function () {
+            $(".totop").width($("#sider>ul>li").width());
+            $(".tobottom").width($("#sider>ul>li").width());
+            $(".totop").css("top", $(".main").css("margin-top"));
+            $(".point").css("top", $(".pic").height() - $(".point").height() + 1);
+            $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
+            $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
+            $(".hotcomment .list-group-item").css("line-height", $(".hotcomment .list-group").height() / 5 - 3.2 + "px");
+            $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 10);
+            $(".rtcontent .list-group-item").height($(".rtcontent .list-group").height() / 7);
+            $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
+            $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
+        }, 300);
+        
+    });
+
+    //新闻分类选择
+    function Switch(type) {
+        switch (type) {
+            case "社会动态": {
+                $("#shdt").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '社会动态' },
+                    success: function (res) {
+
+                    },
+                });
+                break;
+            }
+            case "金融财经": {
+                $("#jrcj").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '金融财经' },
+                    success: function (res) {
+                        $("#jrcj").html(res.type);
+                    },
+                });
+
+                break;
+            }
+            case "激情体育": {
+                $("#jqty").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '激情体育' },
+                    success: function (res) {
+                        $("#jqty").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "科技前沿": {
+                $("#kjqy").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '科技前沿' },
+                    success: function (res) {
+                        $("#kjqy").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "汽车资讯": {
+                $("#qczx").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '汽车资讯' },
+                    success: function (res) {
+                        $("#qczx").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "房产": {
+                $("#fc").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '房产' },
+                    success: function (res) {
+                        $("#fc").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "军事": {
+                $("#js").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '军事' },
+                    success: function (res) {
+                        $("#js").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "娱乐": {
+                $("#yl").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '娱乐' },
+                    success: function (res) {
+                        $("#yl").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "健康": {
+                $("#jk").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '健康' },
+                    success: function (res) {
+                        $("#jk").html(res.type);
+                    },
+                });
+                break;
+            }
+            case "其它": {
+                $("#qt").fadeIn(100).siblings("div").fadeOut(200);
+                $.ajax({
+                    url: '../Home/TypeDetail',
+                    type: 'post',
+                    data: { type: '其它' },
+                    success: function (res) {
+                        $("#qt").html(res.type);
+                    },
+                });
+                break;
+            }
+        }
+    }
+
+
+    //热门评论滚动
+    function ScrollComment() {
+        var hotcomment = document.getElementById("comment");
+        if (hotcomment.scrollTop >= hotcomment.clientHeight * 1.54) {
+            hotcomment.scrollTop = 0;
+        }
+        else {
+            hotcomment.scrollTop++;
+        }
+    }
+
+    //function findphoto(html) {
+    //    var photo = "";
+    //    var flag = 0;
+    //    html.replace(/<img src=['"]([^'"]+)[^>]*>/gi, function (img) {
+    //        var obj = new Object();
+    //        img.replace(/<img src=['"]([^'"]+)[^>]*>/, function (match, url) {
+    //            obj.url = url;
+    //        });
+    //        img.replace(/width=['"]([^'"]+)/, function (match, width) {
+    //            obj.width = width;
+    //        });
+    //        img.replace(/height=['"]([^'"]+)/, function (match, height) {
+    //            obj.height = height;
+    //        });
+    //        if ((obj.width >= 400 || obj.height >= 400) && flag == 0) {
+    //            photo = obj.url;
+    //            flag++;
+    //        }
+    //    });
+    //}
+</script>

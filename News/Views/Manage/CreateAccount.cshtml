@@ -35,11 +35,12 @@
                 <label class="col-lg-1 col-md-2 col-xs-3 control-label" for="authority">权限</label>
                 <select id="authority" name="authority" class="selectpicker show-tick col-lg-5 col-md-4 col-xs-3" multiple data-live-search="false" data-show-content="true" data-none-selected-text="选择" data-actions-box="true" data-deselect-all-text="全不选" data-select-all-text="全选">
                     <option value="图片轮播">图片轮播</option>
+                    <option value="首页配置">首页配置</option>
                     <option value="新闻发布">新闻发布</option>
                     <option value="新闻管理">新闻管理</option>
                     <option value="评论管理">评论管理</option>
-                    <option value="帐户管理">帐户管理</option>
                     <option value="归档新闻">归档新闻</option>
+                    <option value="帐户管理">帐户管理</option>
                 </select>
                 <label class="col-lg-2 col-md-2 col-xs-3 control-label" for="logable">是否可登陆</label>
                 <div class="col-lg-4 col-md-4 col-xs-3">
@@ -120,7 +121,7 @@
                         success: function (res) {
                             if (res.msg == "success") {
                                 $("#editsuccessbtn").trigger("click");
-                                $("#EditSuccessModal button").click(function () {
+                                $("#EditSuccessModal").click(function () {
                                     $.ajax({
                                         url: '../Manage/Account',
                                         success: function (res) {

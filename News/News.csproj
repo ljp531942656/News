@@ -150,9 +150,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSS\indexconfig.css" />
     <Content Include="image\favicon.ico" />
+    <Content Include="image\list_iconomal.png" />
+    <Content Include="image\loading.gif" />
     <Content Include="image\loginback.jpeg" />
     <Content Include="image\loginback.jpg" />
+    <Content Include="image\more.png" />
     <Content Include="scripts\bootstrap-table\bootstrap-table-zh-CN.js" />
     <Content Include="scripts\bootstrap-table\bootstrap-table.min.css" />
     <Content Include="CSS\login.css" />
@@ -600,7 +604,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>31042</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:31042/</IISUrl>
+          <IISUrl>http://localhost/NewsReleaseSystem</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

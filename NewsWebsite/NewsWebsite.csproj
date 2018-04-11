@@ -121,7 +121,7 @@
     <Content Include="CSS\bootstrap.css" />
     <Content Include="CSS\bootstrap.min.css" />
     <Content Include="CSS\footer.css" />
-    <Content Include="CSS\mobileindex.css" />
+    <Content Include="CSS\index.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\aboutme.jpg" />
@@ -177,14 +177,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Views\shared\_LayoutPage1.cshtml" />
-    <Content Include="Views\Home\MobileIndex.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\NewsList.cshtml" />
     <Content Include="Views\Home\NewsPage.cshtml" />
     <Content Include="Views\shared\footer.cshtml" />
     <None Include="Properties\PublishProfiles\NewsWebSite - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\NewsWebSite - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\NewsWebSite.pubxml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\MobileIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -211,7 +211,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>35821</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:35821/</IISUrl>
+          <IISUrl>http://localhost/NewsWebSite</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
