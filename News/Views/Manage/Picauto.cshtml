@@ -54,15 +54,15 @@
 </div>
 
 <div class="picupload">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs nav-tabs2">
         <li class="active" style="margin-right: 0px;">
             <a>图片上传</a>
         </li>
-        <li>
-            <button id="pictoback" class="btn btn5 btn-default">返回</button>
+        <li style="float:right;">
+            <button id="pictoback" class="btn danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
         </li>
-        <li style="margin-right: 1.6%;float:right">
-            <button id="picsubmit" type="submit" class="btn btn5 btn-default">提交</button>
+        <li style="float:right;">
+            <button id="picsubmit" type="submit" class="btn btn5 btn-default pull-right" style="border: none;margin-right:50%">提交</button>
 
             <button class="hidden" id="piceditsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
         </li>
@@ -121,16 +121,15 @@
 
 <script>
     $(document).ready(function () {
-        var id = "";
         $("#delete").hide();
         $("#previewlabel").hide();
-        $("#table0>tbody>tr>td:first-child>a").click(function () {
+        $("#table0>tbody>tr>td:first-child>a").on("click", function () {
             id = $(this).attr("picid");
         });
         $("#deletepicbtn").click(function () {
             Delete(id);
         });
-        $("#table0>tbody>tr>td:nth-child(2)>a").click(function () {
+        $("#table0>tbody>tr>td:nth-child(2)>a").on("click", function () {
             id = $(this).attr("picid");
             $("#picid").val(id);
             $.ajax({
@@ -282,6 +281,8 @@
         });
     });
 
+    var id = "";
+
     //分页
     function spiltpage() {
         {
@@ -335,6 +336,45 @@
                         }
                     }
                 });
+                $("#table0>tbody>tr>td:first-child>a").on("click", function () {
+                    id = $(this).attr("picid");
+                });
+                $("#table0>tbody>tr>td:nth-child(2)>a").on("click", function () {
+                    id = $(this).attr("picid");
+                    $("#picid").val(id);
+                    $.ajax({
+                        url: "@Href("~/")Manage/editPic",
+                    data: { id: id, type: "get" },
+                    type: "post",
+                    success: function (res) {
+                        if (res.msg == "success") {
+                            $("#preimg").css("background", "");
+                            document.getElementById("picform").reset();
+
+                            $("#Comiframeback").fadeIn();
+                            $("#picid").val(res.piclist[0])
+                            $("#pictitle").val(res.piclist[1]);
+                            $("#picorigin").val(res.piclist[2]);
+                            $("#tourl").val(res.piclist[3]);
+                            $("#status").val(res.piclist[4]);
+                            $("#picsubmit").attr("type", "edit");
+                            $(".picupload").fadeIn();
+                            if (document.getElementById("picorigin").value) {
+                                $("#delete").fadeIn();
+                                $("#previewlabel").fadeIn();
+                                $("#prepicview").height($(".picupload").height() * 0.5);
+                                $("#nowpicview").height($(".picupload").height() * 0.5);
+                                $("#preimg").css("background", "url('" + document.getElementById("picorigin").value + "') no-repeat 50% 50%");
+                                $("#preimg").css("background-size", "contain");
+                            }
+                        }
+                        else {
+                            alert(res.msg);
+                        }
+                    }
+                });
+
+            });
             }
             else {
                 $("#picnum").addClass("hidden");

@@ -56,6 +56,7 @@
                 $(".article").html(res.NewsPage[6]);
             }
         })
+
     });
     
     function GetRequest() {
@@ -69,5 +70,12 @@
             }
         }
         return theRequest;
+    }
+
+    function filterText(sText) {
+        var Kong = / /gi;
+        var BadWords = /tmd|它妈的|他妈的|她妈的|我草|我叼|我吊|我屌|你妹的|你奶奶的/gi;
+        var aText = sText.replace(Kong,"");
+        return BadWords.test(aText);
     }
 </script>

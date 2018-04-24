@@ -3,7 +3,22 @@
     opacity:0;
     transition:0.4s ease-in-out;
 }
-
+.title{
+    position:absolute;
+    top:4%;
+    left:4%;
+    right:0;
+    margin:auto;
+    width:1400px;
+    height:450px;
+    font-size:50px;
+    color:#4479D4;
+    font-weight:bold;
+    letter-spacing:5px;
+    text-shadow:1px 1px 11px #e0ffd7;
+    font-family:'Microsoft YaHei UI',sans-serif;
+    /*background:url('../Images/tit.png') no-repeat left center;*/
+}
 .main{
     position:absolute;
     top:0;
@@ -11,11 +26,20 @@
     right:0;
     bottom:0;
     margin:auto;
-    width:900px;
+    width:1400px;
+    height:583px;
     display:flex;
     transition:0.3s ease-in-out;
 }
-@media(min-width:1200px){
+.back{
+    width:100%;
+    background:url('../Images/background.jpg');
+    background-size:100% 100%;
+    filter:blur(4px);
+    position: relative;
+    z-index: -1;
+}
+/*@media(min-width:1200px){
     .main {
         width:1000px;
         height:416px;
@@ -32,7 +56,7 @@
         width:1400px;
         height:583px;
     }
-}
+}*/
 
 
 /*-------------------------------------------------------sider----------------------------------------------------------------*/
@@ -138,8 +162,9 @@
     float:left\9;
 }
     .content .list-group-item > a {
-        background: url('../Images/list_iconomal.png') left center no-repeat;
+        background: url('../images/list_iconomal.png') left center no-repeat;
         padding:0 0 0 10px;
+        width:70%;
         white-space:nowrap;
         overflow:hidden;
         display:inline-block;
@@ -151,7 +176,7 @@
     }
     .content #comment>li>a{
         background: url(../Images/message.png) left center no-repeat;
-        background-size: 6% 56%;
+        background-size: 5.2% 56%;
         padding:0 0 0 30px;
     }
 .maintop{
@@ -161,10 +186,12 @@
 .mainbottom{
     height:40%;
     padding:15px;
+    display:flex;
 }
 .lefttop,.righttop{
     height:100%;
     padding:0;
+    float:left;
 }
 .pic
 {
@@ -248,8 +275,8 @@
         color: #ffd985;
         width: 100%;
         text-align: center;
-        font-size:14px;
-        line-height:24px;
+        font-size:16px;
+        line-height:32px;
     }
     .shadowblock > a > .more {
         background: url('../Images/more.png');
@@ -257,8 +284,8 @@
         position: absolute;
         top: 1.5%;
         right: 1%;
-        width: 5%;
-        height: 6%;
+        width: 30px;
+        height: 22px;
         cursor:pointer;
     }
     
@@ -300,7 +327,7 @@
     transition:0.5s ease-in-out;
 }
 .hotcomment{
-    width:33.3%;
+    width:40%;
     height:100%;
     display:flex;
     justify-content:space-between;
@@ -334,24 +361,91 @@
     height:100%;
     display:none;
 }
-
+.W{
+    border:1px solid #4479D4;
+    padding:0;
+    margin:10px 0;
+    box-shadow: 0 2px 12px 0 #b2b2b2;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.W>.list-group{
+    height:86%;
+}
+.W .list-group-item{
+    min-height: 29px;
+    height:8%;
+    padding:2% 15px;
+}
+.W .list-group-item span{
+    width:30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+}
 .PW{
     height:100%;
-    padding:10px;
+    padding:20px 10px;
 }
 .PWinside{
-    height:50%;
+    height:49%;
+    overflow:hidden;
+    padding:0;
+    width:47%;
+    margin:0 1% 10px;
+    display:inline-block;
+    box-shadow:0 2px 12px 0 #b2b2b2;
+}
+.PWinsidefull{
+    width:94%;
 }
     .PWinside>img{
-        height:87%;
+        height:100%;
+        width:100%;
         display:block;
         margin:auto;
+        cursor:pointer;
     }
     .PWinside>a{
         width:100%;
+        color:#fff;
+        background:#666;
+        background:rgba(102, 102, 102, 0.70);
+        background:linear-gradient(-90deg,rgba(51, 51, 51, 0.70),rgba(102, 102, 102, 0.65));
         display:block;
-        text-align:center;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        text-align:left;
+        text-indent:5px;
         font-size:20px;
+        position:relative;
+        top:-28px;
+        z-index:100;
+        transition:0.3s ease-in-out;
+    }
+    .PWinside > p {
+        position:relative;
+        opacity:0;
+        top:-28px;
+        z-index:100;
+        margin:0;
+        color:#fff;
+        padding:0 5px;
+        transition:0.3s ease-in-out;
+    }
+    .imgback{
+        background:#666;
+        background:rgba(102, 102, 102, 0.70);
+        background:linear-gradient(rgba(102, 102, 102, 0.1),rgba(51, 51, 51, 0.9));
+        position: relative;
+        height: 227px;
+        top:-78px;
+        opacity:0;
+        z-index: 50;
+        transition:0.3s ease-in-out;
+        cursor:pointer;
     }
 
 .aboutme {

@@ -6,15 +6,15 @@
 <script src="~/scripts/select/bootstrap-select.min.js"></script>
 
 <div>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs nav-tabs2">
         <li class="active">
             <a>新建帐号</a>
         </li>
-        <li>
-            <button id="accounttoback" class="btn btn5 btn-default">返回</button>
+        <li style="float:right;">
+            <button id="accounttoback" class="btn btn-default danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
         </li>
-        <li>
-            <button id="submit" type="submit" class="btn btn5 btn-default pull-right">提交</button>
+        <li style="float:right;">
+            <button id="submit" type="submit" class="btn btn5 btn-default pull-right" style="border: none;">提交</button>
 
             <button class="hidden" id="editsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
         </li>
@@ -72,7 +72,6 @@
 
 <script>
     $(document).ready(function () {
-        $("ul.nav.nav-tabs>li:nth-child(2)").css("margin-right", "73.9%");
 
         //获取ISVIEW参数
         var Request = new Object();

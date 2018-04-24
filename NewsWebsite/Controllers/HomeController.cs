@@ -17,7 +17,8 @@ namespace NewsWebsite.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "select top 5 * from PIC where STATUS = '是' order by CREATETIME desc";
+
+            string sql = "  select top 5 * from PIC where STATUS = '是' and NEWSTYPE is null and TYPENUM is null order by CREATETIME desc";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();
@@ -32,6 +33,17 @@ namespace NewsWebsite.Controllers
             adapter.Fill(ds, "TOP7News");
             dt = ds.Tables["TOP7News"];
             ViewData["TOP7News"] = dt;
+
+            for (int i = 1; i <= 10; i++)
+            {
+                sqlcommand = new SqlCommand(("select * from dbo.PIC where NEWSTYPE = '" + trans(i) + "' and TYPENUM <> 'null' order by TYPENUM"), sqlcon);
+                adapter = new SqlDataAdapter(sqlcommand);
+                ds = new DataSet();
+                adapter.Fill(ds, "piclist");
+                dt = ds.Tables["piclist"];
+                ViewData[trans(i)] = dt;
+                sqlcommand = null;
+            }
 
             sqlcon.Close();
             return View();
@@ -119,6 +131,25 @@ namespace NewsWebsite.Controllers
 
                 return Json(new { msg=ex });
             }
+        }
+
+        public string trans(int i)
+        {
+            string str = "";
+            switch (i)
+            {
+                case 1: str = "SHDT"; break;
+                case 2: str = "JRCJ"; break;
+                case 3: str = "JQTY"; break;
+                case 4: str = "KJQY"; break;
+                case 5: str = "QCZX"; break;
+                case 6: str = "FC"; break;
+                case 7: str = "JS"; break;
+                case 8: str = "YL"; break;
+                case 9: str = "JK"; break;
+                case 0: str = "QT"; break;
+            }
+            return str;
         }
     }
 }

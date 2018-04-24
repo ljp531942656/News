@@ -7,6 +7,8 @@
 
 <div class="container">
 
+    <div class="title">新闻网站</div>
+
     <div class="main">
         <div id="sider" class="sider">
             <div class="totop glyphicon glyphicon-chevron-up"></div>
@@ -81,59 +83,88 @@
                     <a>热门评论</a>
                     <ul id="comment" class="list-group">
                         <li class="list-group-item">
-                            <a>1、测试1</a>
+                            <a>好，大快人心呐</a>
                         </li>
                         <li class="list-group-item">
-                            <a>2、测试2</a>
+                            <a>现在这个社会什么人都有呐 唉</a>
                         </li>
                         <li class="list-group-item">
-                            <a>3、测试3</a>
+                            <a>毫无疑问，这个人嗑药了，害人害己啊。。</a>
                         </li>
                         <li class="list-group-item">
-                            <a>4、测试4</a>
+                            <a>我要上热评！！！！！顶我上去！！！！！</a>
                         </li>
                         <li class="list-group-item">
-                            <a>5、测试5</a>
+                            <a>十年前第一次和你说晚安，我激动的失眠了一整夜，十年后的今晚和你说晚安，不再失眠。但你的头压得我胳膊好酸。</a>
                         </li>
                         <li class="list-group-item">
-                            <a>6、测试6</a>
+                            <a>当你发现时间是贼时，它以偷光你的选择。</a>
                         </li>
                         <li class="list-group-item">
-                            <a>7、测试7</a>
+                            <a>那个背着行囊去大理寻找爱情的女子，最后还是选择了坐在宝马里哭</a>
                         </li>
                         <li class="list-group-item">
-                            <a>8、测试8</a>
+                            <a>不在一起就不在一起，反正一辈子也没多长。</a>
                         </li>
                     </ul>
 
                 </div>
+                <iframe style="margin:1% 0 0 4%" src="http://tianqi.5ikfc.com:90/plugin-code/?style=9&dy=5&city=foshan" allowTransparency="true" frameborder="0" scrolling="no" width="660" height="180" id="weather_frame"></iframe>
             </div>
 
 
             <div id="shdt" class="typedetail col-lg-12 col-md-12">
                 <div class="PW col-lg-8 col-md-8 col-xs-8">
-                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-                        <img src="@Href("~/")Images/message.png" />
-                        <a href="">测试标题</a>
-                        <p>测试段落</p>
-                    </div>
-                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-                        <img src="@Href("~/")Images/message.png" />
-                        <a href="">测试</a>
-                    </div>
-                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-                        <img src="@Href("~/")Images/message.png" />
-                        <a href="">测试</a>
-                    </div>
-                    <div class="PWinside col-lg-6 col-md-6 col-xs-6">
-                        <img src="@Href("~/")Images/message.png" />
-                        <a href="">测试</a>
-                    </div>
+                    @foreach (DataRow dr in (ViewData["SHDT"] as DataTable).Rows)
+                    {
+                        <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                            @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                            {
+                                <img onclick="window.open('@dr["TOURL"]')" src="@(dr["PICORIGIN"])" />
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
+                                if (dr["RESUME"].ToString() != "")
+                                {
+                                    <p>@dr["RESUME"]</p>
+                                    <div onclick="window.open('@dr["TOURL"]')" class="imgback"></div>
+                                }
+                            }
+                        </div>
+                    }
                 </div>
                 <div class="W col-lg-4 col-md-4 col-xs-4">
                     <div class="shadowblock">
-                        <a>社会动态</a>
+                        <a>社会动态<span class="glyphicon more"></span></a>
                     </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a newsid="1156" istop="是" class="redfont">测试批量删除</a>
+                            <span>[2018-03-26]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="1157" istop="是" class="redfont">测试批量删除</a>
+                            <span>[2018-03-26]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="47" istop="是" class="redfont">修改测试标题</a>
+                            <span>[2018-01-18]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="14" istop="是" class="redfont">3测试</a>
+                            <span>[2018-01-18]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="1161" istop="否">1</a>
+                            <span>[2018-03-29]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="147" istop="否">map</a>
+                            <span>[2018-02-05]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="142" istop="否">1</a>
+                            <span>[2018-01-30]</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div id="jrcj" class="typedetail col-lg-12 col-md-12">
@@ -161,7 +192,58 @@
 
             </div>
             <div id="qt" class="typedetail col-lg-12 col-md-12">
-
+                <div class="PW col-lg-8 col-md-8 col-xs-8">
+                    @foreach (DataRow dr in (ViewData["SHDT"] as DataTable).Rows)
+                    {
+                        <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                            @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                            {
+                                <img onclick="window.open('@dr["TOURL"]')" src="@(dr["PICORIGIN"])" />
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
+                                if (dr["RESUME"].ToString() != "")
+                                {
+                                    <p>@dr["RESUME"]</p>
+                                    <div onclick="window.open('@dr["TOURL"]')" class="imgback"></div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="W col-lg-4 col-md-4 col-xs-4">
+                    <div class="shadowblock">
+                        <a>社会动态<span class="glyphicon more"></span></a>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a newsid="1156" istop="是" class="redfont">测试批量删除</a>
+                            <span>[2018-04-18]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="1157" istop="是" class="redfont">测试批量删除</a>
+                            <span>[2018-04-16]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="47" istop="是" class="redfont">修改测试标题</a>
+                            <span>[2018-04-15]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="14" istop="是" class="redfont">3测试</a>
+                            <span>[2018-04-15]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="1161" istop="否">1</a>
+                            <span>[2018-04-14]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="147" istop="否">map</a>
+                            <span>[2018-03-29]</span>
+                        </li>
+                        <li class="list-group-item">
+                            <a newsid="142" istop="否">1</a>
+                            <span>[2018-03-28]</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <div id="aboutme" class="aboutme col-lg-12 col-md-12">
@@ -174,6 +256,7 @@
         </div>
     </div>
 </div>
+<div class="back"></div>
 
 @RenderPage("../shared/footer.cshtml")
 
@@ -181,7 +264,7 @@
     $(document).ready(function () {
         
         $("body").css("opacity", "1");
-
+        $(".back").height(window.innerHeight);
 
         $("#sider>ul>li:not(.zw)").click(function () {
             $(this).addClass("active");
@@ -217,16 +300,16 @@
         });
 
         $("#about").click(function () {
-            $("#aboutme").fadeIn(100).siblings("div").fadeOut(200);
+            $("#aboutme").fadeIn(300).siblings("div").fadeOut(150);
         });
 
         $("#search").click(function () {
-            $("#dosearch").fadeIn(100).siblings("div").fadeOut(200);
+            $("#dosearch").fadeIn(300).siblings("div").fadeOut(150);
         });
 
         $(".hotcomment .list-group-item").height($(".hotcomment .list-group").height() / 5);
         $(".hotcomment .list-group-item").css("line-height", $(".hotcomment .list-group").height() / 5 - 3.2 + "px");
-        $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 10);
+        $(".hotcomment .list-group-item a").width($(".hotcomment .list-group-item").width() - 20);
         $(".rtcontent .list-group-item").height($(".rtcontent .list-group").height() / 7);
         $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
         $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
@@ -344,135 +427,68 @@
             $(".rtcontent .list-group-item").css("line-height", $(".rtcontent .list-group").height() / 7 - 2 + "px");
             $(".rtcontent .list-group-item a").width($(".rtcontent .list-group-item").width() - $(".rtcontent .list-group-item span").width() - 20);
         }, 300);
-        
+
+        $(".footer").height((window.innerHeight - $(".footer").height()) * 0.15);
     });
 
     //新闻分类选择
     function Switch(type) {
         switch (type) {
             case "社会动态": {
-                $("#shdt").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '社会动态' },
-                    success: function (res) {
-
-                    },
-                });
+                $("#shdt").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "金融财经": {
-                $("#jrcj").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '金融财经' },
-                    success: function (res) {
-                        $("#jrcj").html(res.type);
-                    },
-                });
-
+                $("#jrcj").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "激情体育": {
-                $("#jqty").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '激情体育' },
-                    success: function (res) {
-                        $("#jqty").html(res.type);
-                    },
-                });
+                $("#jqty").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "科技前沿": {
-                $("#kjqy").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '科技前沿' },
-                    success: function (res) {
-                        $("#kjqy").html(res.type);
-                    },
-                });
+                $("#kjqy").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "汽车资讯": {
-                $("#qczx").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '汽车资讯' },
-                    success: function (res) {
-                        $("#qczx").html(res.type);
-                    },
-                });
+                $("#qczx").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "房产": {
-                $("#fc").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '房产' },
-                    success: function (res) {
-                        $("#fc").html(res.type);
-                    },
-                });
+                $("#fc").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "军事": {
-                $("#js").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '军事' },
-                    success: function (res) {
-                        $("#js").html(res.type);
-                    },
-                });
+                $("#js").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "娱乐": {
-                $("#yl").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '娱乐' },
-                    success: function (res) {
-                        $("#yl").html(res.type);
-                    },
-                });
+                $("#yl").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "健康": {
-                $("#jk").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '健康' },
-                    success: function (res) {
-                        $("#jk").html(res.type);
-                    },
-                });
+                $("#jk").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
             case "其它": {
-                $("#qt").fadeIn(100).siblings("div").fadeOut(200);
-                $.ajax({
-                    url: '../Home/TypeDetail',
-                    type: 'post',
-                    data: { type: '其它' },
-                    success: function (res) {
-                        $("#qt").html(res.type);
-                    },
-                });
+                $("#qt").fadeIn(300).siblings("div").fadeOut(150);
                 break;
             }
         }
     }
+
+    $(".PWinside").mouseenter(function () {
+        $(this).children(".imgback").height($(this).height());
+        $(this).children(".imgback").css("top", -28 - 1 * $(this).children("p").height() - $(this).height()).css("opacity", "1");
+        $(this).children("a").css("top", -28 - $(this).children("p").height());
+        $(this).children("p").css("top", -28 - $(this).children("p").height()).css("opacity", "1");
+    });
+    $(".PWinside").mouseleave(function () {
+        $(this).children(".imgback").height(0);
+        $(this).children(".imgback").css("top", -28 - 1 * $(this).children("p").height()).css("opacity", "0");
+        $(this).children("a").css("top", -28);
+        $(this).children("p").css("top", -28).css("opacity", "0");
+    });
 
 
     //热门评论滚动

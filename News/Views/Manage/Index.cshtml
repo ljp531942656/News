@@ -79,6 +79,7 @@
                             }
                             $("#siderbar a").on("click", function () {
                                 if (!($(this).hasClass("active"))) {
+                                    $("#main").css("padding", "0 0 20px 0");
                                     Switch(this.innerText);
                                 }
                             });
@@ -114,6 +115,7 @@
                     break;
                 }
                 case "首页配置": {
+                    $("#main").css("padding", "0");
                     $("img.loading").fadeIn(100);
                     $("#indexconfig").siblings("div").addClass("loadingback");
                     $.ajax({

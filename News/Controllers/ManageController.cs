@@ -146,6 +146,14 @@ namespace News.Controllers
                 var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
                 SqlConnection sqlcon = new SqlConnection(constring);
                 sqlcon.Open();
+                string checksql = string.Format(" select ISFILED from NewsPage where id in ({0})", newsid);
+                DataSet ds = new DataSet();
+                SqlCommand sqlcommand2 = new SqlCommand(checksql, sqlcon);
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand2);
+                adapter.Fill(ds, "CommontList");
+                DataTable dt = ds.Tables["CommontList"];
+
+
                 string sql = string.Format("delete from dbo.NewsPage where id in ({0})", newsid);
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 sqlcommand.ExecuteNonQuery();
@@ -457,7 +465,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = "  select * from dbo.PIC order by STATUS DESC,CREATETIME DESC";
+            string sql = "  select * from dbo.PIC where NEWSTYPE is null and TYPENUM is null order by STATUS DESC,CREATETIME DESC";
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
             DataSet ds = new DataSet();
@@ -783,7 +791,7 @@ namespace News.Controllers
             var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
             SqlConnection sqlcon = new SqlConnection(constring);
             sqlcon.Open();
-            string sql = string.Format(" delete from NewsPage where DATEDIFF(day,NewsPage.DATE,convert(char(50),GETDATE(),21)) >= 365  ");
+            string sql = string.Format(" delete from NewsPage where DATEDIFF(day,NewsPage.DATE,convert(char(50),GETDATE(),21)) >= 365 and ISFILED <> '是' ");
             SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
             sqlcommand.ExecuteNonQuery();
         }
@@ -828,13 +836,13 @@ namespace News.Controllers
                 int hour = now.Hour;
                 int minute = now.Minute;
                 int second = now.Second;
-                if (hour >= 12)
+                if (hour >= 23)
                 {
                     dueTime = 0;//立即启动
                 }
                 else
                 {
-                    dueTime = (12 - hour) * (60-minute) * (60-second) * 1000;//到某个时间点的23时启动
+                    dueTime = (23 - hour) * (60-minute) * (60-second) * 1000;//到某个时间点的23时启动
                 }
                 WebTimerObj = new System.Threading.Timer(new TimerCallback(WebTimer_Callback), null, dueTime, Period);
             }

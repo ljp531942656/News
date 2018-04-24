@@ -25,7 +25,7 @@ namespace News.Controllers
                 var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
                 SqlConnection sqlcon = new SqlConnection(constring);
                 sqlcon.Open();
-                var sql = string.Format("  select case when a.username='{0}' and a.password='{1}' and a.LOGABLE='是' then a.id when a.username!='{0}' or a.password!='{1}' and a.LOGABLE='是' then '0' when a.username='{0}' and a.password='{1}' and a.LOGABLE='否' then '-1' end as res from dbo.ACCOUNT a", form["username"],form["password"]);
+                var sql = string.Format("select case when a.username='{0}' and a.password='{1}' and a.LOGABLE='是' then a.id when a.username!='{0}' or a.password!='{1}' and a.LOGABLE='是' then '0' when a.username='{0}' and a.password='{1}' and a.LOGABLE='否' then '-1' end as res from dbo.ACCOUNT a", form["username"],form["password"]);
                 SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
                 SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
                 DataSet ds = new DataSet();

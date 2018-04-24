@@ -136,7 +136,7 @@
         $("#tbody1>tr>td:nth-child(2)>a").on("click", function () {
             newsid = $(this).attr("newsid");
             $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Create?ISVIEW=true&NEWSID=" + newsid + "'></iframe>");
-            $("#Comiframe").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#Comiframe").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
             $("#Commontiframe").addClass("loadingback");
             $("#Comiframe").show();
             $("#Comiframeback").show();
@@ -262,6 +262,36 @@
                             var row = tb.insertRow(i);
                             row.innerHTML = table[num - 1][i];
                         }
+
+                        $("#table1>thead>tr>th:nth-last-child(1),#table1>thead>tr>th:nth-last-child(2),#table1>thead>tr>th:nth-last-child(3)").on("click", function () {
+                            iconChange(this.children);
+                            SortTable(this, issearch, array);
+                        });
+                        $("#tbody1>tr>td:first-child>a").on("click", function () {
+                            newsid = $(this).attr("newsid");
+                        });
+                        $("#deletenewsbtn").click(function () {
+                            Delete(newsid);
+                            $("div.modal-backdrop.fade.in").fadeOut(150);
+                        });
+
+                        $("#tbody1>tr>td:nth-child(2)>a").on("click", function () {
+                            newsid = $(this).attr("newsid");
+                            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Create?ISVIEW=true&NEWSID=" + newsid + "'></iframe>");
+                            $("#Comiframe").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
+                            $("#Commontiframe").addClass("loadingback");
+                            $("#Comiframe").show();
+                            $("#Comiframeback").show();
+                            $("#Commontiframe").load(function () {
+                                $(this.contentWindow.document.getElementById("Newsiframe")).ready(function () {
+                                    var mainheight = $(this).contents().find("body").height() + 17;
+                                    $(this).height(mainheight);
+
+                                    $("#Commontiframe").removeClass("loadingback");
+                                    $("img.loading").fadeOut();
+                                });
+                            });
+                        });
                         
                         if (ismulti == 1) {
                             $(".mutichoose").trigger("click");
