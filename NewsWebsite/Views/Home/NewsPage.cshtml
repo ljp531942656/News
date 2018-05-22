@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Data;
 @{
     ViewBag.Title = "NewsPage";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
@@ -24,6 +24,51 @@
 <div class="article">
 
 </div>
+<div class="commentarea">
+    <h3>评论</h3>
+    <textarea></textarea>
+    <button class="btn pull-right btn-purp">提交</button>
+</div>
+
+<div class="comment">
+    <h3 style="color:#de4848">热门评论</h3>
+    <div class="hotcomment">
+        @foreach (DataRow dr in (ViewData["TOP3Comment"] as DataTable).Rows)
+        {
+            <p>@dr["COMMENT"]</p>
+            <div class="bott">
+                <div class="zan">
+                    <div class="zanbtn" commentid="@dr["ID"]"></div>
+                    <span class="zannum">@dr["ZANNUM"]</span>
+                    <span class="plus1">+1</span>
+                    <span class="plus1" style="left:-37px">-1</span>
+                </div>
+                <div class="time">@dr["CREATETIME"]</div>
+            </div>
+        }
+    </div>
+
+    @*<div style="width:1000px;height:1px;box-shadow:0px 0px #666"></div>*@
+
+    <h3 style="color:#4479D4">最新评论</h3>
+    <div class="hotcomment">
+        @foreach (DataRow dr in (ViewData["Comment"] as DataTable).Rows)
+        {
+            <p>@dr["COMMENT"]</p>
+            <div class="bott">
+                <div class="zan">
+                    <div class="zanbtn" commentid="@dr["ID"]"></div>
+                    <span class="zannum">@dr["ZANNUM"]</span>
+                    <span class="plus1">+1</span>
+                    <span class="plus1" style="left:-37px">-1</span>
+                </div>
+                <div class="time">@dr["CREATETIME"]</div>
+            </div>
+        }
+    </div>
+
+</div>
+<div class="back"></div>
 
 
 @RenderPage("../shared/footer.cshtml")
@@ -55,10 +100,21 @@
                 $(".ltitle").append("<span>发表时间：</span><a>" + res.NewsPage[5] + "</a>")
                 $(".article").html(res.NewsPage[6]);
             }
-        })
+        });
 
+        $(".zanbtn").click(function () {
+            var commentid = $(this).attr("commentid");
+            var thisbtn = $(this);
+            iszaned(commentid, thisbtn,"set");
+        });
+
+        $(".zanbtn").each(function () {
+            var commentid = $(this).attr("commentid");
+            var thisbtn = $(this);
+            iszaned(commentid, thisbtn,"get");
+        });
     });
-    
+
     function GetRequest() {
         var url = location.search; //获取url中"?"符后的字串
         var theRequest = new Object();
@@ -75,7 +131,56 @@
     function filterText(sText) {
         var Kong = / /gi;
         var BadWords = /tmd|它妈的|他妈的|她妈的|我草|我叼|我吊|我屌|你妹的|你奶奶的/gi;
-        var aText = sText.replace(Kong,"");
+        var aText = sText.replace(Kong, "");
         return BadWords.test(aText);
+    }
+
+    //点赞
+    function iszaned(commentid, thisbtn, type) {
+        $.ajax({
+            url: 'http://whois.pconline.com.cn/ipJson.jsp',
+            type: 'get',
+            dataType: 'jsonp',
+            processData: false,
+            success: function (res) {
+                $.ajax({
+                    url: '@Href("~/")Home/Zan',
+                    type: 'post',
+                    data: { commentid: commentid, ipaddress: res.ip, type: type },
+                    success: function (res) {
+                        if (type == "set") {
+                            if (res.result == '1') {
+                                thisbtn.css("background", "url(@Href("~/")Images/zaned.png) left center no-repeat");
+                                thisbtn.css("background-size", "contain");
+                                thisbtn.next(".zannum").next(".plus1").css("opacity", "1");
+                                thisbtn.next(".zannum").next(".plus1").css("top", "-20px");
+                                setTimeout(function () {
+                                    thisbtn.next(".zannum").next(".plus1").css("opacity", "0");
+                                    thisbtn.next(".zannum").next(".plus1").css("top", "0px");
+                                }, 800);
+                                thisbtn.next(".zannum").html(parseInt(thisbtn.next(".zannum").html()) + 1);
+                            }
+                            else {
+                                thisbtn.css("background", "url(@Href("~/")Images/zan.png) left center no-repeat");
+                                thisbtn.css("background-size", "contain");
+                                thisbtn.next(".zannum").next(".plus1").next(".plus1").css("opacity", "1");
+                                thisbtn.next(".zannum").next(".plus1").next(".plus1").css("top", "20px");
+                                setTimeout(function () {
+                                    thisbtn.next(".zannum").next(".plus1").next(".plus1").css("opacity", "0");
+                                    thisbtn.next(".zannum").next(".plus1").next(".plus1").css("top", "0px");
+                                }, 800);
+                                thisbtn.next(".zannum").html(parseInt(thisbtn.next(".zannum").html()) - 1);
+                            }
+                        }
+                        else {
+                            if (res.result == '1') {
+                                thisbtn.css("background", "url(@Href("~/")Images/zaned.png) left center no-repeat");
+                                thisbtn.css("background-size", "contain");
+                            }
+                        }
+                    }
+                })
+            }
+        });
     }
 </script>

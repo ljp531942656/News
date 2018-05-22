@@ -78,8 +78,82 @@ namespace NewsWebsite.Controllers
         }
         public ActionResult NewsPage()
         {
+            string newsid = Request.QueryString["newsid"];
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = string.Format("  select top 3 * from COMMENT where newsid = '{0}' and ZANNUM > 10 order by ZANNUM desc ", newsid);
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "TOP3Comment");
+            ViewData["TOP3Comment"] = ds.Tables["TOP3Comment"];
+            string top3id = "";
+            foreach (DataRow dr in (ViewData["TOP3Comment"] as DataTable).Rows)
+            {
+                if (top3id == "")
+                {
+                    top3id = dr["id"].ToString();
+                }
+                else
+                {
+                    top3id = top3id + "," + dr["id"].ToString();
+                }
+            }
+            sql = string.Format(" select * from COMMENT where id not in({0}) order by createtime desc", top3id);
+            sqlcommand = new SqlCommand(sql, sqlcon);
+            adapter = new SqlDataAdapter(sqlcommand);
+            ds = new DataSet();
+            adapter.Fill(ds, "Comment");
+            ViewData["Comment"] = ds.Tables["Comment"];
             return View();
         }
+        public ActionResult Zan()
+        {
+            try
+            {
+                string commentid = Request["commentid"];
+                string ipaddress = Request["ipaddress"];
+                string type = Request["type"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                if (type == "set")
+                {
+                    string sql = "IPADDRESS";
+                    SqlConnection sqlcon = new SqlConnection(constring);
+                    sqlcon.Open();
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    sqlcommand.CommandType = CommandType.StoredProcedure;
+                    sqlcommand.Parameters.Add("RETURN_VALUE", SqlDbType.Int, 10).Direction = ParameterDirection.ReturnValue;
+                    sqlcommand.Parameters.Add("@id", SqlDbType.NVarChar, 10).Value = commentid;
+                    sqlcommand.Parameters.Add("@zannum", SqlDbType.NVarChar, 10).Value = "";
+                    sqlcommand.Parameters.Add("@hasip", SqlDbType.NVarChar, 10).Value = "";
+                    sqlcommand.Parameters.Add("@OldIpaddress", SqlDbType.NVarChar, 10000).Value = "";
+                    sqlcommand.Parameters.Add("@NewIpaddress", SqlDbType.NVarChar, 10000).Value = ipaddress;
+                    sqlcommand.Parameters.Add("@Result", SqlDbType.NVarChar, 10000).Value = "";
+                    sqlcommand.ExecuteNonQuery();
+                    int result = int.Parse(sqlcommand.Parameters["RETURN_VALUE"].Value.ToString());
+                    return Json(new { msg = "success", result = result });
+                }
+                else
+                {
+                    string sql = string.Format("select case when (select 1 from [News].[dbo].[COMMENT] where IPADDRESS LIKE '%' + '{0}' + '%' and id = {1}) = 1 then 1 else 0 end", ipaddress,commentid);
+                    SqlConnection sqlcon = new SqlConnection(constring);
+                    sqlcon.Open();
+                    SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                    SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, "NewsPage");
+                    string resutlt = ds.Tables["NewsPage"].Rows[0][0].ToString();
+                    return Json(new { msg = "success", result = resutlt });
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                return Json(new { msg = ex });
+            }
+        }
+
         public ActionResult GetArticle()
         {
             try

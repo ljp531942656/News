@@ -38,7 +38,7 @@
 
         $("#logout").click(function () {
             sessionStorage.customerID="";
-            window.location.href = "@Href("~/")";
+            window.location.replace("@Href("~/")");
         });
     });
     function datetime(date) {

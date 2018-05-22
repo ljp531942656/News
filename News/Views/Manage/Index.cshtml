@@ -44,11 +44,11 @@
             var customerid = Request["customerid"];
 
             //判断session customerid
-            if (sessionStorage.customerID != customerid)
+            @*if (sessionStorage.customerID != customerid)
             {
                 alert("当前登陆状态异常，请重新登陆");
                 window.location.href = "@Href("~/")";
-            }
+            }*@
 
 
             //获取username参数

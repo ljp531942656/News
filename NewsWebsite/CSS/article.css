@@ -8,6 +8,35 @@ a,a:link,a:visited
 a:hover{
     text-decoration:none;
 }
+.back{
+    width:100%;
+    height:100%;
+    background:url('../Images/background.jpg');
+    background-size:100% 100%;
+    filter:blur(4px);
+    position: fixed;
+    top:0;
+    z-index: -1;
+}
+.back:before{
+    content:'';
+    position:absolute;
+    background:#fff;
+    width:1100px;
+    height:100%;
+    filter:blur(1px);
+    left:0;
+    right:0;
+    margin:auto;
+}
+.btn-purp{
+    background-color:#4479D4;
+    color:#fff;
+}
+.btn-purp:hover{
+    background-color:#3773d9;
+    color:#fff;
+}
 .nav,.title,.article
 {
 	margin: 2px auto;
@@ -66,4 +95,66 @@ a:hover{
 	line-height: 34px;
 	font-size: 16px;
 	border-bottom: 1px #eaeaea solid;
+}
+.commentarea{
+    width:1000px;
+    height: auto;
+	margin: 40px auto 45px;
+}
+.commentarea textarea{
+    width:1000px;
+    height:90px;
+    outline:none;
+    resize:none;
+}
+.comment{
+    width:1000px;
+    height: auto;
+	margin: 40px auto 45px;
+}
+.comment p{
+    min-height: 50px;
+    margin: 8px;
+}
+.comment h3{
+    padding: 0 0 10px 0;
+    border-bottom: 2px solid;
+}
+.hotcomment{
+    border-bottom:1px solid #eee;
+    margin:0 0 20px;
+}
+.bott{
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 5px 0;
+}
+.bott:not(:last-child){
+    border-bottom: 1px solid #ddd;
+}
+.zan{
+    margin:0 25px 0 0;
+    position: relative;
+    left: 30px;
+}
+.zanbtn {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: url(../Images/zan.png) left center no-repeat;
+    background-size: contain;
+    margin: 2px 0px 0px -24px;
+    cursor: pointer;
+    position: absolute;
+    transition:0.3s ease-in-out;
+}
+.zanbtn:hover{
+}
+.plus1{
+    position: relative;
+    color: #ff4f4f;
+    left: -20px;
+    top:0;
+    opacity:0;
+    transition:0.4s ease-in-out;
 }

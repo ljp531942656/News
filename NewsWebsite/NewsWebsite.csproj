@@ -129,6 +129,8 @@
     <Content Include="Images\list_iconomal.png" />
     <Content Include="Images\message.png" />
     <Content Include="Images\more.png" />
+    <Content Include="Images\zan.png" />
+    <Content Include="Images\zaned.png" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="scripts\bootstrap\css\bootstrap-theme.css.map" />
