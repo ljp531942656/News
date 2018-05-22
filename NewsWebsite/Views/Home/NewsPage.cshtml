@@ -31,40 +31,52 @@
 </div>
 
 <div class="comment">
-    <h3 style="color:#de4848">热门评论</h3>
-    <div class="hotcomment">
-        @foreach (DataRow dr in (ViewData["TOP3Comment"] as DataTable).Rows)
-        {
-            <p>@dr["COMMENT"]</p>
-            <div class="bott">
-                <div class="zan">
-                    <div class="zanbtn" commentid="@dr["ID"]"></div>
-                    <span class="zannum">@dr["ZANNUM"]</span>
-                    <span class="plus1">+1</span>
-                    <span class="plus1" style="left:-37px">-1</span>
+    @if ((ViewData["TOP3Comment"] as DataTable).Rows.Count != 0)
+    {
+        <h3 style="color:#de4848">热门评论</h3>
+        <div class="hotcomment">
+            @foreach (DataRow dr in (ViewData["TOP3Comment"] as DataTable).Rows)
+            {
+                <p>@dr["COMMENT"]</p>
+                <div class="bott">
+                    <div class="zan">
+                        <div class="zanbtn" commentid="@dr["ID"]"></div>
+                        <span class="zannum">@dr["ZANNUM"]</span>
+                        <span class="plus1">+1</span>
+                        <span class="plus1" style="left:-37px">-1</span>
+                    </div>
+                    <div class="time">@dr["CREATETIME"]</div>
                 </div>
-                <div class="time">@dr["CREATETIME"]</div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+
 
     @*<div style="width:1000px;height:1px;box-shadow:0px 0px #666"></div>*@
 
     <h3 style="color:#4479D4">最新评论</h3>
     <div class="hotcomment">
-        @foreach (DataRow dr in (ViewData["Comment"] as DataTable).Rows)
+        @if ((ViewData["Comment"] as DataTable).Rows.Count != 0)
         {
-            <p>@dr["COMMENT"]</p>
-            <div class="bott">
-                <div class="zan">
-                    <div class="zanbtn" commentid="@dr["ID"]"></div>
-                    <span class="zannum">@dr["ZANNUM"]</span>
-                    <span class="plus1">+1</span>
-                    <span class="plus1" style="left:-37px">-1</span>
+            foreach (DataRow dr in (ViewData["Comment"] as DataTable).Rows)
+            {
+                <p>@dr["COMMENT"]</p>
+                <div class="bott">
+                    <div class="zan">
+                        <div class="zanbtn" commentid="@dr["ID"]"></div>
+                        <span class="zannum">@dr["ZANNUM"]</span>
+                        <span class="plus1">+1</span>
+                        <span class="plus1" style="left:-37px">-1</span>
+                    </div>
+                    <div class="time">@dr["CREATETIME"]</div>
                 </div>
-                <div class="time">@dr["CREATETIME"]</div>
-            </div>
+            }
         }
+        else
+        {
+            <div class="nocomment">暂无评论喔，快来写下你的独特见解吧</div>
+        }
+
     </div>
 
 </div>
@@ -77,7 +89,7 @@
 <script>
     $(document).ready(function () {
         $(".footer").css("position", "relative");
-
+        $(".article").css("min-height", $(window).height() - $(".nav").height() - $(".title").height() - $(".commentarea").height() - $(".comment").height() - $(".footer").height() - 270);
         var Request = new Object();
         Request = GetRequest();
         var newsid = Request["newsid"];
@@ -105,13 +117,13 @@
         $(".zanbtn").click(function () {
             var commentid = $(this).attr("commentid");
             var thisbtn = $(this);
-            iszaned(commentid, thisbtn,"set");
+            iszaned(commentid, thisbtn, "set");
         });
 
         $(".zanbtn").each(function () {
             var commentid = $(this).attr("commentid");
             var thisbtn = $(this);
-            iszaned(commentid, thisbtn,"get");
+            iszaned(commentid, thisbtn, "get");
         });
     });
 

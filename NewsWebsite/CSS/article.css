@@ -158,3 +158,8 @@ a:hover{
     opacity:0;
     transition:0.4s ease-in-out;
 }
+.nocomment{
+    color:#666;
+    text-align: center;
+    margin: 50px 0;
+}

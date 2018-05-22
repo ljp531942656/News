@@ -100,7 +100,14 @@ namespace NewsWebsite.Controllers
                     top3id = top3id + "," + dr["id"].ToString();
                 }
             }
-            sql = string.Format(" select * from COMMENT where id not in({0}) order by createtime desc", top3id);
+            if(top3id != "")
+            {
+                sql = string.Format(" select * from COMMENT where id not in({0}) and newsid = '{1}' order by createtime desc", top3id, newsid);
+            }
+            else
+            {
+                sql = string.Format(" select * from COMMENT where id not in('') and newsid = '{0}' order by createtime desc", newsid);
+            }
             sqlcommand = new SqlCommand(sql, sqlcon);
             adapter = new SqlDataAdapter(sqlcommand);
             ds = new DataSet();
