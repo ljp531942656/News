@@ -1,8 +1,204 @@
 ﻿
+@using System.Data;
 @{
-    ViewBag.Title = "NewsList";
+    ViewBag.Title = "新闻网站";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
 }
 
-<h2>NewsList</h2>
+<link href="@Href("~/")CSS/newslist.css" rel="stylesheet" />
+<div id="container">
+    <div class="title">新闻网站</div>
+    <div class="nav">
+        <span>
+            您现在的位置：
+        </span>
+        <a href="@Href("~/")">首页</a>
+        <span>&nbsp;>&nbsp;</span>
+        <a href="javascript:void(0)" style="color:#4479D4">
+            @{
+                if (Request.QueryString["NewsType"] != null)
+                {
+                    string newstype = Request.QueryString["NewsType"];
+                    switch (newstype)
+                    {
+                        case "ALL": newstype = "新闻列表"; break;
+                        case "SHDT": newstype = "社会动态"; break;
+                        case "JRCJ": newstype = "金融财经"; break;
+                        case "JQTY": newstype = "激情体育"; break;
+                        case "KJQY": newstype = "科技前沿"; break;
+                        case "QCZX": newstype = "汽车资讯"; break;
+                        case "FC": newstype = "房产"; break;
+                        case "JS": newstype = "军事"; break;
+                        case "YL": newstype = "娱乐"; break;
+                        case "JK": newstype = "健康"; break;
+                        case "QT": newstype = "其它"; break;
+                    }
+                    @newstype;
+                }
+            }
+        </a>
+    </div>
+    <div class="box">
+        <div class="LeftNav">
+            <h4>新闻类别</h4>
+            <div id="newstype">
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=ALL" newstype="ALL">所有类别</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=SHDT" newstype="SHDT">社会动态</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=JRCJ" newstype="JRCJ">金融财经</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=JQTY" newstype="JQTY">激情体育</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=KJQY" newstype="KJQY">科技前沿</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=QCZX" newstype="QCZX">汽车资讯</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=FC" newstype="FC">房产</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=JS" newstype="JS">军事</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=YL" newstype="YL">娱乐</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=JK" newstype="JK">健康</a>
+                </div>
+                <div class="sub_1">
+                    <a href="@Href("~/")Home/NewsList?NewsType=QT" newstype="QT">其它</a>
+                </div>
+            </div>
+        </div>
+        <div class="Right">
+            <div class="wzlb">
+                <h4 style="width: 70px;">编号</h4>
+                <h4 style="width: 721px;">文章列表</h4>
+                <h4 style="width: 110px;margin: 0;">日期</h4>
+                @{
+                    int i = 1;
+                    int ismuti = 0;
+                    if ((ViewData["news"] as DataTable).Rows.Count > 15)
+                    {
+                        for (int j = 0; j < 15; j++)
+                        {
+                            DataRow dr = (ViewData["news"] as DataTable).Rows[j];
+                            <div style="width: 70px;">
+                                <span class="idx">@i</span>
+                            </div>
+                                <div style="width: 721px;">
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" target="_blank">@dr["TITLE"]</a>
+                                </div>
+                                <div style="width: 110px;margin: 3px 0 0 0;">
+                                    @dr["DATE2"]
+                                </div>
+                            i++;
+                        }
+                        ismuti = 1;
+                    }
+                    else
+                    {
+                        foreach (DataRow dr in (ViewData["news"] as DataTable).Rows)
+                        {
+                            <div style="width: 70px;">
+                                <span class="idx">@i</span>
+                            </div>
+                                <div style="width: 721px;">
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" target="_blank">@dr["TITLE"]</a>
+                                </div>
+                                <div style="width: 110px;margin: 3px 0 0 0;">
+                                    @dr["DATE2"]
+                                </div>
+                            i++;
+                        }
+                    }
+                }
+            </div>
+            <div style="clear:both"></div>
+            <div class="sz @{
+                    if(ismuti == 0)
+                    {
+                        string s = "hidden";
+                        @s;
+                    }
+                }">
+                <div id="num1" class="col-lg-5">
+                    当前第
+                    <span id="nowpage">1</span> 页&nbsp;&nbsp;&nbsp;共
+                    <span id="pagenum">
+                        @{
+                        int rowcount = Convert.ToInt32(ViewData["rowcount"]);
+                        int pagecount = 0;
+                        if (rowcount % 15 == 0)
+                        {
+                            pagecount = rowcount / 15;
+                        }
+                        else
+                        {
+                            pagecount = (rowcount / 15) + 1;
+                        }
+                        @pagecount;
+                    }
+                </span> 页&nbsp;&nbsp;&nbsp;共
+                <span id="contentnum">@ViewData["rowcount"]</span> 条内容
+            </div>
+            <div class="pull-right pagechange">
+                <ul class="pagination" id="ampagination"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="back"></div>
+
+@*@RenderPage("../shared/footer.cshtml")*@
+
+<script>
+    $(document).ready(function () {
+        $(".back").height(window.innerHeight);
+        $(".footer").css("position", "relative");
+        $(".box").css("min-height", $(window).height() - $(".nav").height() - $(".footer").height() - $(".title").height() - 25);
+        $("#newstype a").each(function(){
+            var currenttype = "@Request.QueryString["NewsType"]";
+            if($(this).attr("newstype") == currenttype){
+                $(this).css("color","#4479D4");
+                $(this).parent("div").append("<span style='float:right;color:#4479D4'>></span>")
+            }
+        });
+
+        //分页
+        $('#ampagination').jqPaginator({
+            totalPages: @pagecount,
+            visiblePages: 5,
+            currentPage: 1,
+
+            first: '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+            prev: '<li class="prev"><a href="javascript:void(0);">上一页</a></li>',
+            next: '<li class="next"><a href="javascript:void(0);">下一页</a></li>',
+            last: '<li class="last"><a href="javascript:void(0);">尾页</a></li>',
+            page: '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+            onPageChange: function (num) {
+                $("#nowpage1").html(num);
+                $.ajax({
+                    url:'@Href("~/")Home/splitpage',
+                    type:'post',
+                    data:{newstype:'@Request.QueryString["NewsType"]',pagenum:num},
+                    success:function(res){
+                        $(".wzlb").html('<h4 style="width: 70px;">编号</h4><h4 style="width: 721px;">文章列表</h4><h4 style="width: 110px;margin: 0;">日期</h4>');
+                        for (var i = 0; i < res.rs.length; i++) {
+                            $(".wzlb").append('<div style="width: 70px;"><span class="idx">' + ((num - 1) * 15 + 1 + i) + '</span></div><div style="width: 721px;"><a href="@Href("~/")Home/NewsPage?newsid=' + res.rs[i][0] + '" target="_blank">' + res.rs[i][1] + '</a></div><div style="width: 110px;margin: 3px 0 0 0;">' + res.rs[i][11] + '</div>')
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
 

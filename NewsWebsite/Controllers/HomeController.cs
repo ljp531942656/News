@@ -34,6 +34,14 @@ namespace NewsWebsite.Controllers
             dt = ds.Tables["TOP7News"];
             ViewData["TOP7News"] = dt;
 
+            string sql3 = "select top 7 * from [COMMENT] order by zannum desc";
+            sqlcommand = new SqlCommand(sql3, sqlcon);
+            adapter = new SqlDataAdapter(sqlcommand);
+            ds = new DataSet();
+            adapter.Fill(ds, "hotcomment");
+            dt = ds.Tables["hotcomment"];
+            ViewData["hotcomment"] = dt;
+
             for (int i = 1; i <= 10; i++)
             {
                 sqlcommand = new SqlCommand(("select * from dbo.PIC where NEWSTYPE = '" + trans(i) + "' and TYPENUM <> 'null' order by TYPENUM"), sqlcon);
@@ -42,6 +50,14 @@ namespace NewsWebsite.Controllers
                 adapter.Fill(ds, "piclist");
                 dt = ds.Tables["piclist"];
                 ViewData[trans(i)] = dt;
+
+                sqlcommand = new SqlCommand(("select top 11 *,convert(varchar(16),[DATE],23) [DATE2] from dbo.NewsPage where NEWSTYPE = '" + transtoc(trans(i)) + "' and ISRELEASE = '是' order by ISTOP DESC,DATE DESC"), sqlcon);
+                adapter = new SqlDataAdapter(sqlcommand);
+                ds = new DataSet();
+                adapter.Fill(ds, "wlist");
+                dt = ds.Tables["wlist"];
+                ViewData[trans(i) + "_W"] = dt;
+
                 sqlcommand = null;
             }
 
@@ -74,7 +90,88 @@ namespace NewsWebsite.Controllers
         }
         public ActionResult NewsList()
         {
-            return View();
+            try
+            {
+                string newstype = transtoc(Request.QueryString["NewsType"]);
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                string sql = "";
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                if (newstype != "")
+                {
+                    sql = string.Format(" select *,convert(varchar(10),DATE,23) DATE2 from NewsPage where newstype = '{0}' order by DATE desc ", newstype);
+                }
+                else
+                {
+                    sql = string.Format(" select *,convert(varchar(10),DATE,23) DATE2 from NewsPage order by DATE desc ");
+                }
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "news");
+                //DataTable dt = new DataTable();
+                //if (ds.Tables["news"].Rows.Count > 15)
+                //{
+                //    for (int i = 0; i < ds.Tables["news"].Columns.Count; i++)
+                //    {
+                //        dt.Columns.Add(ds.Tables["news"].Columns[i]);
+                //    }
+                //    for (int i = 0; i < 15; i++)
+                //    {
+                //        dt.Rows.Add(ds.Tables[0].Rows[i]);
+                //    }
+                //}
+                ViewData["news"] = ds.Tables[0];
+                ViewData["rowcount"] = ds.Tables[0].Rows.Count;
+                sqlcon.Close();
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public ActionResult Splitpage()
+        {
+            try
+            {
+                string type = transtoc(Request["newstype"]);
+                int pagenum = Convert.ToInt32(Request["pagenum"]);
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                string sql = "";
+                if (type != "")
+                {
+                    sql = string.Format("select *,convert(varchar(10),DATE,23) DATE2 from NewsPage where newstype = '{0}' order by DATE desc", type);
+                }
+                else
+                {
+                    sql = string.Format(" select *,convert(varchar(10),DATE,23) DATE2 from NewsPage order by DATE desc ");
+                }
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "news");
+                List<List<string>> dt = new List<List<string>>();
+                for (int i = 15*(pagenum-1); i < (ds.Tables[0].Rows.Count>(pagenum*15) ? pagenum * 15: ds.Tables[0].Rows.Count); i++)
+                {
+                    List<string> dt2 = new List<string>();
+                    for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+                    {
+                        dt2.Add(ds.Tables[0].Rows[i][j].ToString());
+                    }
+                    dt.Add(dt2);
+                }
+                sqlcon.Close();
+                return Json(new { msg = "success" ,rs = dt});
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
         }
         public ActionResult NewsPage()
         {
@@ -113,6 +210,7 @@ namespace NewsWebsite.Controllers
             ds = new DataSet();
             adapter.Fill(ds, "Comment");
             ViewData["Comment"] = ds.Tables["Comment"];
+            sqlcon.Close();
             return View();
         }
         public ActionResult Zan()
@@ -139,6 +237,7 @@ namespace NewsWebsite.Controllers
                     sqlcommand.Parameters.Add("@Result", SqlDbType.NVarChar, 10000).Value = "";
                     sqlcommand.ExecuteNonQuery();
                     int result = int.Parse(sqlcommand.Parameters["RETURN_VALUE"].Value.ToString());
+                    sqlcon.Close();
                     return Json(new { msg = "success", result = result });
                 }
                 else
@@ -151,6 +250,7 @@ namespace NewsWebsite.Controllers
                     DataSet ds = new DataSet();
                     adapter.Fill(ds, "NewsPage");
                     string resutlt = ds.Tables["NewsPage"].Rows[0][0].ToString();
+                    sqlcon.Close();
                     return Json(new { msg = "success", result = resutlt });
                 }
             }
@@ -160,6 +260,64 @@ namespace NewsWebsite.Controllers
                 return Json(new { msg = ex });
             }
         }
+
+        public ActionResult Commentsubmit()
+        {
+            try
+            {
+                string newsid = Request["newsid"];
+                string comment = Request["comment"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = string.Format(" insert into COMMENT(NEWSID,COMMENT,ZANNUM,CREATETIME) VALUES('{0}','{1}','0','{2}') ", newsid,comment,DateTime.Now);
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+
+                sql = string.Format(" select id,createtime from COMMENT where NEWSID = '{0}' and COMMENT = '{1}' ", newsid, comment);
+                sqlcommand = new SqlCommand(sql, sqlcon);
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+                DataSet ds = new DataSet();
+                adapter.Fill(ds, "Comment");
+                string id = ds.Tables[0].Rows[0][0].ToString();
+                string time = ds.Tables[0].Rows[0][1].ToString();
+                sqlcon.Close();
+                return Json(new { msg = "success" ,id = id, time = time});
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { msg = ex });
+            }
+        }
+        //public ActionResult Getlatestcomment()
+        //{
+        //    try
+        //    {
+        //        string newsid = Request["newsid"];
+        //        string comment = Request["comment"];
+        //        var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+        //        SqlConnection sqlcon = new SqlConnection(constring);
+        //        sqlcon.Open();
+        //        string sql = string.Format(" select * from COMMENT where NEWSID = '{0}' and COMMENT = '{1}' ", newsid, comment);
+        //        SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+        //        SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+        //        DataSet ds = new DataSet();
+        //        adapter.Fill(ds, "Comment");
+        //        List<string> latestcomment = new List<string>();
+        //        for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+        //        {
+
+        //        }
+        //        sqlcon.Close();
+        //        return Json(new { msg = "success" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return Json(new { msg = ex });
+        //    }
+        //}
 
         public ActionResult GetArticle()
         {
@@ -228,7 +386,25 @@ namespace NewsWebsite.Controllers
                 case 7: str = "JS"; break;
                 case 8: str = "YL"; break;
                 case 9: str = "JK"; break;
-                case 0: str = "QT"; break;
+                case 10: str = "QT"; break;
+            }
+            return str;
+        }
+        public string transtoc(string i)
+        {
+            string str = "";
+            switch (i)
+            {
+                case "SHDT": str = "社会动态"; break;
+                case "JRCJ": str = "金融财经"; break;
+                case "JQTY": str = "激情体育"; break;
+                case "KJQY": str = "科技前沿"; break;
+                case "QCZX": str = "汽车资讯"; break;
+                case "FC": str = "房产"; break;
+                case "JS": str = "军事"; break;
+                case "YL": str = "娱乐"; break;
+                case "JK": str = "健康"; break;
+                case "QT": str = "其它"; break;
             }
             return str;
         }

@@ -1,11 +1,12 @@
 ﻿@using System.Data;
 @{
-    ViewBag.Title = "NewsPage";
+    ViewBag.Title = "新闻网站";
     Layout = "~/Views/shared/_LayoutPage1.cshtml";
 }
 
 <link href="~/CSS/article.css" rel="stylesheet" />
 
+<div class="maintitle">新闻网站</div>
 <div class="nav">
     <span>您现在的位置：</span>
     <a href="/NewsWebsite/home/Index">首页</a>
@@ -26,8 +27,9 @@
 </div>
 <div class="commentarea">
     <h3>评论</h3>
-    <textarea></textarea>
-    <button class="btn pull-right btn-purp">提交</button>
+    <textarea id="commenttext"></textarea>
+    <span style="color:#4479D4;display:none;float: left;position: relative;left: 870px;top: 7px;">提交成功</span>
+    <button id="commentsubmit" class="btn pull-right btn-purp">提交</button>
 </div>
 
 <div class="comment">
@@ -52,23 +54,23 @@
     }
 
 
-    @*<div style="width:1000px;height:1px;box-shadow:0px 0px #666"></div>*@
-
     <h3 style="color:#4479D4">最新评论</h3>
-    <div class="hotcomment">
+    <div id="latestcomment" class="hotcomment">
         @if ((ViewData["Comment"] as DataTable).Rows.Count != 0)
         {
             foreach (DataRow dr in (ViewData["Comment"] as DataTable).Rows)
             {
-                <p>@dr["COMMENT"]</p>
-                <div class="bott">
-                    <div class="zan">
-                        <div class="zanbtn" commentid="@dr["ID"]"></div>
-                        <span class="zannum">@dr["ZANNUM"]</span>
-                        <span class="plus1">+1</span>
-                        <span class="plus1" style="left:-37px">-1</span>
+                <div class="singlecomment">
+                    <p>@dr["COMMENT"]</p>
+                    <div class="bott">
+                        <div class="zan">
+                            <div class="zanbtn" commentid="@dr["ID"]"></div>
+                            <span class="zannum">@dr["ZANNUM"]</span>
+                            <span class="plus1">+1</span>
+                            <span class="plus1" style="left:-37px">-1</span>
+                        </div>
+                        <div class="time">@dr["CREATETIME"]</div>
                     </div>
-                    <div class="time">@dr["CREATETIME"]</div>
                 </div>
             }
         }
@@ -83,7 +85,7 @@
 <div class="back"></div>
 
 
-@RenderPage("../shared/footer.cshtml")
+@*@RenderPage("../shared/footer.cshtml")*@
 
 
 <script>
@@ -99,7 +101,7 @@
             type: 'post',
             data: { newsid: newsid },
             success: function (res) {
-                $(".nav").append("<span> > </span><a href=''>" + res.NewsPage[4] + "</a>");
+                $(".nav").append("<span> > </span><a href='NewsList?NewsType=" + transtoe(res.NewsPage[4]) + "'>" + res.NewsPage[4] + "</a>");
                 $(".nav").append("<span> > </span><a>" + res.NewsPage[1] + "</a>");
                 $(".mtitle>a").html(res.NewsPage[1]);
                 $(".ltitle>a:nth-child(2)").html(res.NewsPage[4]);
@@ -124,6 +126,37 @@
             var commentid = $(this).attr("commentid");
             var thisbtn = $(this);
             iszaned(commentid, thisbtn, "get");
+        });
+
+        $("#commentsubmit").click(function () {
+            var thisbtn = $(this);
+            if ($("#commenttext")[0].value != "") {
+                $.ajax({
+                    url: '@Href("~/")Home/Commentsubmit',
+                    type: 'post',
+                    data: { newsid: newsid, comment: $("#commenttext")[0].value },
+                    success: function (res) {
+                        thisbtn.prev("span").fadeIn();
+                        if ($("#latestcomment").children("div").hasClass("nocoment")) {
+                            $("#latestcomment").html('<div class="singlecomment"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
+                        }
+                        else {
+                            $("#latestcomment").prepend('<div class="singlecomment" style="display:none"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
+                            $(".singlecomment:first-child").slideToggle();
+                        }
+                        $("#commenttext")[0].value = '';
+                        setTimeout(function () {
+                            thisbtn.prev("span").fadeOut();
+                        },1000);
+                    },
+                    error: function (res) {
+                        alert("提交失败");
+                    }
+                });
+            }
+            else {
+                alert("请填写内容后再提交");
+            }
         });
     });
 
@@ -194,5 +227,20 @@
                 })
             }
         });
+    }
+    function transtoe(str) {
+        switch (str) {
+            case "社会动态": str = "SHDT"; break;
+            case "金融财经": str = "JRCJ"; break;
+            case "激情体育": str = "JQTY"; break;
+            case "科技前沿": str = "KJQY"; break;
+            case "汽车资讯": str = "QCZX"; break;
+            case "房产": str = "FC"; break;
+            case "军事": str = "JS"; break;
+            case "娱乐": str = "YL"; break;
+            case "健康": str = "JK"; break;
+            case "其它": str = "QT"; break;
+        }
+        return str;
     }
 </script>

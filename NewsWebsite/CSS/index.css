@@ -4,32 +4,43 @@
     transition:0.4s ease-in-out;
 }
 .title{
-    position:absolute;
-    top:4%;
-    left:4%;
-    right:0;
-    margin:auto;
-    width:1400px;
-    height:450px;
-    font-size:50px;
-    color:#4479D4;
-    font-weight:bold;
-    letter-spacing:5px;
-    text-shadow:1px 1px 11px #e0ffd7;
-    font-family:'Microsoft YaHei UI',sans-serif;
+    position: absolute;
+    top: 8%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 1300px;
+    font-size: 50px;
+    color: #4479D4;
+    font-weight: bold;
+    letter-spacing: 5px;
+    text-shadow: 1px 1px 11px #e0ffd7;
+    font-family: 'Microsoft YaHei UI',sans-serif;
     /*background:url('../Images/tit.png') no-repeat left center;*/
 }
+.fastsearch{
+    width:300px;
+    height:30px;
+    position: relative;
+    top: 0px;
+    left: -50px;
+    border-radius:5px;
+    margin:0;
+    outline: none;
+    text-indent: 30px;
+}
 .main{
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    margin:auto;
-    width:1400px;
-    height:583px;
-    display:flex;
-    transition:0.3s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 1400px;
+    height: 583px;
+    display: flex;
+    flex-wrap: wrap;
+    transition: 0.3s ease-in-out;
 }
 .back{
     width:100%;
@@ -164,7 +175,7 @@
     .content .list-group-item > a {
         background: url('../images/list_iconomal.png') left center no-repeat;
         padding:0 0 0 10px;
-        width:70%;
+        max-width: 73%;
         white-space:nowrap;
         overflow:hidden;
         display:inline-block;
@@ -378,7 +389,6 @@
     padding:2% 15px;
 }
 .W .list-group-item span{
-    width:30%;
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;

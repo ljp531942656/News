@@ -43,34 +43,21 @@
                     <a>社会动态<span class="glyphicon more"></span></a>
                 </div>
                 <ul class="list-group">
-                    <li class="list-group-item">
-                        <a newsid="1156" istop="是" class="redfont">测试批量删除</a>
-                        <span>[2018-03-26]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="1157" istop="是" class="redfont">测试批量删除</a>
-                        <span>[2018-03-26]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="47" istop="是" class="redfont">修改测试标题</a>
-                        <span>[2018-01-18]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="14" istop="是" class="redfont">3测试</a>
-                        <span>[2018-01-18]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="1161" istop="否">1</a>
-                        <span>[2018-03-29]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="147" istop="否">map</a>
-                        <span>[2018-02-05]</span>
-                    </li>
-                    <li class="list-group-item">
-                        <a newsid="142" istop="否">1</a>
-                        <span>[2018-01-30]</span>
-                    </li>
+                    @foreach (DataRow dr in (ViewData["SHDT_W"] as DataTable).Rows)
+                    { 
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -97,6 +84,24 @@
                 <div class="shadowblock">
                     <a>金融财经<span class="glyphicon more"></span></a>
                 </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["JRCJ_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+
             </div>
         </div>
 
@@ -105,6 +110,23 @@
                 <div class="shadowblock">
                     <a>激情体育<span class="glyphicon more"></span></a>
                 </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["JQTY_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
             </div>
             <div class="PW col-lg-4 col-md-4 col-xs-4">
                 @foreach (DataRow dr in (ViewData["JQTY"] as DataTable).Rows)
@@ -127,8 +149,25 @@
         <div id="kjqy" class="typedetail col-lg-12 col-md-12">
             <div class="W col-lg-8 col-md-8 col-xs-8">
                 <div class="shadowblock">
-                    <a>激情体育<span class="glyphicon more"></span></a>
+                    <a>科技前沿<span class="glyphicon more"></span></a>
                 </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["KJQY_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
             </div>
             <div class="PW col-lg-4 col-md-4 col-xs-4">
                 @foreach (DataRow dr in (ViewData["KJQY"] as DataTable).Rows)
@@ -149,21 +188,256 @@
             </div>
         </div>
         <div id="qczx" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["QCZX"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>汽车资讯<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["QCZX_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+
 
         </div>
         <div id="fc" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["FC"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>房产<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["FC_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
 
         </div>
         <div id="js" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["JS"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>军事<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["JS_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
 
         </div>
         <div id="yl" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["YL"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>娱乐<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["YL_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
 
         </div>
         <div id="jk" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["JK"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>健康<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["JK_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
 
         </div>
         <div id="qt" class="typedetail col-lg-12 col-md-12">
+            <div class="PW col-lg-8 col-md-8 col-xs-8">
+                @foreach (DataRow dr in (ViewData["QT"] as DataTable).Rows)
+                {
+                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
+                        {
+                            <img src="@(dr["PICORIGIN"])" />
+                            <a href="javascript:void(0)">@dr["TITLE"]</a>
+                            if (dr["RESUME"].ToString() != "")
+                            {
+                                <p>@dr["RESUME"]</p>
+                                <div class="imgback"></div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+            <div class="W col-lg-4 col-md-4 col-xs-4">
+                <div class="shadowblock">
+                    <a>其它<span class="glyphicon more"></span></a>
+                </div>
+                <ul class="list-group">
+                    @foreach (DataRow dr in (ViewData["QT_W"] as DataTable).Rows)
+                    {
+                        <li class="list-group-item">
+                            @if (dr["ISTOP"].ToString() == "是")
+                            {
+                                <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                            else
+                            {
+                                <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                <span>[@dr["DATE2"]]</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
 
         </div>
 
@@ -172,15 +446,15 @@
 
 
 <div class="picupload" style="display:none">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs nav-tabs2">
         <li class="active" style="margin-right: 0px;">
             <a>图片上传</a>
         </li>
-        <li>
-            <button id="pictoback2" class="btn btn5 btn-default">返回</button>
+        <li style="float:right;">
+            <button id="pictoback2" class="btn danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
         </li>
-        <li style="margin-right: 1.6%;float:right">
-            <button id="picsubmit2" type="submit" class="btn btn5 btn-default">提交</button>
+        <li style="float:right;">
+            <button id="picsubmit2" type="submit" class="btn btn5 btn-default pull-right" style="border: none;">提交</button>
 
             <button class="hidden" id="piceditsuccessbtn2" data-toggle="modal" data-target="#EditSuccessModal"></button>
         </li>

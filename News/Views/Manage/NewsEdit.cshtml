@@ -67,7 +67,7 @@
                         <a newsid="@dr["ID"]">编辑</a>
                     </td>
                     <td>@dr["NEWSTYPE"]</td>
-                    <td><a href="http://newswebsite.chinacloudsites.cn/Home/NewsPage?newsid=@dr["ID"]" target="_blank">@dr["TITLE"]</a></td>
+                    <td><a href="http://newswebsite.chinacloudsites.cn/Home/NewsPage?newsid=@(dr["ID"])" target="_blank">@dr["TITLE"]</a></td>
                     <td>@dr["AUTHOR"]</td>
                     <td name="td0">@dr["DATE"]</td>
                     <td name="td1">@dr["ISRELEASE"]</td>
@@ -103,6 +103,8 @@
 
 
 <script type="text/javascript">
+    var issearch = "false";
+    var array = [[]];
     $(document).ready(function () {
         $("#newstypeselect1").selectpicker();
         $("#newstypeselect1").selectpicker('setStyle', 'btn3', 'add');
@@ -119,8 +121,6 @@
         });
         spiltpage();
         var newsid = 0;
-        var issearch = "false";
-        var array = [[]];
         $("#table1>thead>tr>th:nth-last-child(1),#table1>thead>tr>th:nth-last-child(2),#table1>thead>tr>th:nth-last-child(3)").on("click", function () {
             iconChange(this.children);
             SortTable(this, issearch, array);
@@ -152,7 +152,7 @@
         });
 
         $("#search1").click(function () {
-            $("#newsedit").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#main").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
             $("#newsedit").addClass("loadingback");
 
             var tb = document.getElementById("tbody1");
@@ -192,13 +192,13 @@
                 issearch = "false";
             }
         });
-        
+
         $(".mutichoose").click(function () {
             mutichoose($(this).parent("div"));
 
         });
 
-        
+
     });
 
 
@@ -227,7 +227,7 @@
                         }
                     }
                 }
-                
+
 
                 for (i = 16; i < rownum; i++) {
                     tb.deleteRow(16);
@@ -263,10 +263,11 @@
                             row.innerHTML = table[num - 1][i];
                         }
 
-                        $("#table1>thead>tr>th:nth-last-child(1),#table1>thead>tr>th:nth-last-child(2),#table1>thead>tr>th:nth-last-child(3)").on("click", function () {
-                            iconChange(this.children);
-                            SortTable(this, issearch, array);
-                        });
+                        //$("#table1>thead>tr>th:nth-last-child(1),#table1>thead>tr>th:nth-last-child(2),#table1>thead>tr>th:nth-last-child(3)").on("click", function () {
+                        //    debugger
+                        //    iconChange(this.children);
+                        //    SortTable(this, issearch, array);
+                        //});
                         $("#tbody1>tr>td:first-child>a").on("click", function () {
                             newsid = $(this).attr("newsid");
                         });
@@ -292,7 +293,7 @@
                                 });
                             });
                         });
-                        
+
                         if (ismulti == 1) {
                             $(".mutichoose").trigger("click");
                             if (newsids.length != 0) {
@@ -312,7 +313,7 @@
                 $("#num1").addClass("hidden");
                 $("#ampagination1").addClass("hidden");
             }
-            
+
             $("img.loading").fadeOut();
             $("#newsedit").removeClass("loadingback");
         }
@@ -608,7 +609,7 @@
                 td.remove();
             }
         }
-       
+
     }
 </script>
 

@@ -1,67 +1,132 @@
-﻿<link href="~/scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="~/CSS/manage.css" rel="stylesheet" />
-<script src="~/scripts/jquery-2.0.3.min.js"></script>
-<script src="~/scripts/bootstrap.min.js"></script>
-
+﻿@using System.Data;
+@{
+    ViewBag.Title = "新闻网站";
+    Layout = "~/Views/shared/_LayoutPage1.cshtml";
+}
+<link rel="stylesheet" href="~/CSS/manage.css" />
 <div>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs nav-tabs2" style="position:fixed;width:100%;top:0;">
         <li class="active">
             <a>评论管理</a>
         </li>
-        <li>
-            <button id="accounttoback" class="btn btn5 btn-default">返回</button>
+        <li style="float:right;">
+            <button id="commentmanatoback" class="btn btn-default danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
         </li>
         <li>
-            
-
-            <button class="hidden" id="editsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
+            <button class="hidden" id="deletecommentsuccessbtn" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
         </li>
     </ul>
-    <div id="" class="col-lg-11">
-        
+    <ul class="nav nav-tabs nav-tabs2" style="opacity:0;position: relative;z-index: -1;">
+        <li class="active">
+            <a>评论管理</a>
+        </li>
+        <li style="float:right;">
+            <button id="" class="btn btn-default danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
+        </li>
+        <li>
+            <button class="hidden" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+        </li>
+    </ul>
+    <h3 style="margin: 20px 14px;height: 34px;line-height: 34px;">
+        新闻标题：@((ViewData["CommentList"] as DataTable).Rows[0][4])
+        @if ((ViewData["CommentList"] as DataTable).Rows[0][0].ToString() != "")
+        {
+            <button id="deletecomment" class="btn danger pull-right" data-toggle="modal" data-target="#DeleteModal">删除</button>
+        }
+    </h3>
+    <div id="commentlist" class="col-lg-12">
+        @if ((ViewData["CommentList"] as DataTable).Rows[0][0].ToString() != "")
+            {
+                foreach (DataRow dr in (ViewData["CommentList"] as DataTable).Rows)
+                {
+                <div class="singlecomment">
+                    <p>
+                        <input id="@dr["ID"]" type="checkbox" style="margin:0 10px 0 0" />@dr["COMMENT"]
+                    </p>
+                    <div class="bott">
+                        <div class="time">@dr["CREATETIME"]</div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="nocomment">暂无评论喔</div>
+        }
     </div>
 </div>
-
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除</h4>
+            </div>
+            <div class="modal-body">是否确定删除这些评论？</div>
+            <div class="modal-footer">
+                <button type="button" id="suredelete" data-dismiss="modal" class="btn btn-green" autofocus>确定</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default" autofocus>取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 <script>
     $(document).ready(function () {
 
-
-        //获取ISVIEW参数
-        var Request = new Object();
-        Request = GetRequest();
-        var ISVIEW = Request["ISVIEW"];
-        var ACCOUNTID = Request["ACCOUNTID"];
-
-        if (ISVIEW == "true") {
-            $("ul.nav.nav-tabs>li>a").text("帐户编辑");
-            $.ajax({
-                url: '@Href("~/")Manage/AccountEdit',
-                type: 'post',
-                data: { ACCOUNTID: ACCOUNTID, status: "get" },
-                success: function (res) {
-                    $("#accountid").val(res.news[0]);
-                    $("#username").val(res.news[1]);
-                    $("#password").val(res.news[2]);
-                    var array = [];
-                    array = res.news[3].split(",");
-                    $("#authority").selectpicker("val", array);
-                    $("#logable").val(res.news[4]);
-                }
-            });
-        }
-    });
-
-    function GetRequest() {
-        var url = location.search; //获取url中"?"符后的字串
-        var theRequest = new Object();
-        if (url.indexOf("?") != -1) {
-            var str = url.substr(1);
-            strs = str.split("&");
-            for (var i = 0; i < strs.length; i++) {
-                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        var ids = [];
+        $("#commentmanatoback").click(function () {
+            window.parent.$("#Comiframe").fadeOut();
+            window.parent.$("#Comiframeback").fadeOut();
+            window.parent.$("#Comiframe").html("");
+        });
+        $(".singlecomment").click(function () {
+            if ($(this).children("p").children("input").attr("checked") != "checked") {
+                $(this).children("p").children("input").attr("checked", "checked");
             }
-        }
-        return theRequest;
+            else {
+                $(this).children("p").children("input").removeAttr("checked");
+            }
+            ids = select();
+        });
+        $(".singlecomment>p>input").on("change", function () {
+            ids = select();
+        });
+        $("#deletecomment").click(function () {
+            $("#deletecomment2").trigger("click");
+            $("#suredelete").click(function () {
+                var idsstr = "";
+                for (var i = 0; i < ids.length; i++) {
+                    if (idsstr == "") {
+                        idsstr = ids[i];
+                    }
+                    else {
+                        idsstr = idsstr + "," + ids[i];
+                    }
+                }
+                $.ajax({
+                    url: '@Href("~/")Manage/Commentdelete',
+                    type: 'post',
+                    data: { commentid: idsstr },
+                    success: function (res) {
+                        $("#deletecommentsuccessbtn").trigger("click");
+                        $("#deletesuccessbtn").click(function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+        });
+
+
+    });
+    function select() {
+        var ids = [];
+        $(".singlecomment>p>input").each(function () {
+            if ($(this).attr("checked") == "checked") {
+                ids.push($(this).attr("id"));
+            }
+        });
+        return ids;
     }
 </script>

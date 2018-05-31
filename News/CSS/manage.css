@@ -150,8 +150,8 @@ a:hover{
     background:#ede9f0;
 }
 .danger:hover{
-    background:#e54343;
-    color:#fff;
+    background:#e54343!important;
+    color:#fff!important;
 }
 .nav-tabs .btn-default{
     background-color:#ede9f0;
@@ -308,4 +308,34 @@ div.btn-group.bootstrap-select.show-tick.col-lg-5.col-md-4.col-xs-3{
     margin:auto;
     height:inherit;
     width:80%;
+}
+.comment{
+    width:1000px;
+    height: auto;
+	margin: 40px auto 45px;
+}
+.comment p{
+    min-height: 50px;
+    margin: 8px;
+}
+.comment h3{
+    padding: 0 0 10px 0;
+    border-bottom: 2px solid;
+}
+.bott{
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0 5px 0;
+}
+.bott:not(:last-child){
+    border-bottom: 1px solid #ddd;
+}
+#commentlist p{
+    margin:0;
+}
+#commentlist .singlecomment:not(:last-child) .bott{
+    border-bottom: 1px solid #ddd;
+}
+.singlecomment{
+    cursor:pointer;
 }

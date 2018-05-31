@@ -187,13 +187,34 @@ namespace News.Controllers
         }
         public ActionResult Commentmana()
         {
+            string newsid = Request["newsid"];
+            var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+            SqlConnection sqlcon = new SqlConnection(constring);
+            sqlcon.Open();
+            string sql = string.Format("   select a.ID,a.NEWSID,a.COMMENT,a.CREATETIME,b.TITLE from Comment a right join NewsPage b on a.NEWSID = b.ID  where b.id = '{0}'", newsid);
+            SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+            SqlDataAdapter adapter = new SqlDataAdapter(sqlcommand);
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "CommentList");
+            DataTable dt = ds.Tables["CommentList"];
+            ViewData["CommentList"] = dt;
+            sqlcon.Close();
             return View();
         }
         public ActionResult Commentdelete()
         {
             try
             {
-
+                string commentid = Request["commentid"];
+                var constring = ConfigurationManager.ConnectionStrings["NEWS"].ConnectionString;
+                SqlConnection sqlcon = new SqlConnection(constring);
+                sqlcon.Open();
+                string sql = string.Format("delete from dbo.COMMENT where id in ({0})", commentid);
+                SqlCommand sqlcommand = new SqlCommand(sql, sqlcon);
+                sqlcommand.ExecuteNonQuery();
+                sqlcommand = null;
+                sqlcon.Close();
+                sqlcon = null;
                 return Json(new { msg = "success" });
             }
             catch (Exception ex)
@@ -425,11 +446,11 @@ namespace News.Controllers
                 string sql = "";
                 if(type == "comment")
                 {
-                    sql = string.Format(" select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[COMMONTNUM] from dbo.NewsPage where [ISRELEASE] = '是' order by {0} {1} ",column,sort);
+                    sql = string.Format(" select [ID],[NEWSTYPE],[TITLE],[AUTHOR],[ORIGINAL],convert(varchar(16),[DATE],120) [DATE],[COMMONTNUM] from dbo.NewsPage where [ISRELEASE] = '是' order by {0} {1} ", column,sort);
                 }
                 else if(type == "newsedit")
                 {
-                    sql = string.Format(" select [ID],[TITLE],[AUTHOR],[ORIGINAL],[NEWSTYPE],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP] from dbo.NewsPage order by {0} {1} ", column, sort);
+                    sql = string.Format(" select [ID],[NEWSTYPE],[TITLE],[AUTHOR],[ORIGINAL],convert(varchar(16),[DATE],120) [DATE],[ISRELEASE],[ISTOP] from dbo.NewsPage order by {0} {1} ", column, sort);
                 }
                 else
                 {
@@ -690,6 +711,12 @@ namespace News.Controllers
                     adapter.Fill(ds, "piclist");
                     DataTable dt = ds.Tables["piclist"];
                     ViewData[trans(i)] = dt;
+                    sqlcommand = new SqlCommand(("select top 11 *,convert(varchar(16),[DATE],23) [DATE2] from dbo.NewsPage where NEWSTYPE = '" + trans2(i) + "' and ISRELEASE = '是' order by ISTOP DESC,DATE DESC"), sqlcon);
+                    adapter = new SqlDataAdapter(sqlcommand);
+                    ds = new DataSet();
+                    adapter.Fill(ds, "wlist");
+                    DataTable dt2 = ds.Tables["wlist"];
+                    ViewData[trans(i)+"_W"] = dt2;
                     sqlcommand = null;
                 }
 
@@ -768,7 +795,25 @@ namespace News.Controllers
                 case 7: str = "JS"; break;
                 case 8: str = "YL"; break;
                 case 9: str = "JK"; break;
-                case 0: str = "QT"; break;
+                case 10: str = "QT"; break;
+            }
+            return str;
+        }
+        public string trans2(int i)
+        {
+            string str = "";
+            switch (i)
+            {
+                case 1: str = "社会动态"; break;
+                case 2: str = "金融财经"; break;
+                case 3: str = "激情体育"; break;
+                case 4: str = "科技前沿"; break;
+                case 5: str = "汽车资讯"; break;
+                case 6: str = "房产"; break;
+                case 7: str = "军事"; break;
+                case 8: str = "娱乐"; break;
+                case 9: str = "健康"; break;
+                case 10: str = "其它"; break;
             }
             return str;
         }

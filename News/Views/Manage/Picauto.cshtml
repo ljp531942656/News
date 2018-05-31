@@ -62,7 +62,7 @@
             <button id="pictoback" class="btn danger" style="font-size: 20px;padding: 6px 15px;border: none;">X</button>
         </li>
         <li style="float:right;">
-            <button id="picsubmit" type="submit" class="btn btn5 btn-default pull-right" style="border: none;margin-right:50%">提交</button>
+            <button id="picsubmit" type="submit" class="btn btn5 btn-default pull-right" style="border: none;">提交</button>
 
             <button class="hidden" id="piceditsuccessbtn" data-toggle="modal" data-target="#EditSuccessModal"></button>
         </li>
@@ -252,7 +252,7 @@
         spiltpage();
 
         $("#search0").click(function () {
-            $("#main").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#main").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
             $("#pic").addClass("loadingback");
 
             var tb = document.getElementById("pictbody");

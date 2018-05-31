@@ -186,11 +186,11 @@
         background: url('../image/more.png');
         background-size: 100% 100%;
         position: absolute;
-        top: 1.5%;
+        top: 2%;
         right: 1%;
         min-width:21px;
-        width: 7%;
-        height: 6%;
+        width: 25px;
+        height: 20px;
         cursor:pointer;
     }
     

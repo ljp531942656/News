@@ -62,7 +62,12 @@
             }
         </tbody>
     </table>
-    <div id="num" class="col-lg-5 hidden">当前第 <span id="nowpage"></span> 页&nbsp;&nbsp;&nbsp;共 <span id="pagenum"></span> 页&nbsp;&nbsp;&nbsp;共 <span id="contentnum"></span> 条内容</div>
+    <div id="num" class="col-lg-5 hidden">
+        当前第
+        <span id="nowpage"></span> 页&nbsp;&nbsp;&nbsp;共
+        <span id="pagenum"></span> 页&nbsp;&nbsp;&nbsp;共
+        <span id="contentnum"></span> 条内容
+    </div>
     <div class="pull-right pagechange">
         <ul class="pagination" id="ampagination"></ul>
     </div>
@@ -93,8 +98,31 @@
             SortTable(this, issearch, array);
         });
 
+        //查看评论
+        $("#tbody2>tr>td:first-child>a").click(function () {
+            $.ajax({
+                url: '',
+                type: 'post',
+                data: { newsid: $(this).attr("newsid") },
+                success: function () {
+
+                }
+            });
+
+            $("#Comiframe").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
+            $("#Comiframe").html("<iframe id='Commontiframe' src='@Href("~/")Manage/Commentmana?newsid=" + $(this).attr("newsid") + "'style='width:76%;height:88%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;border:none'></iframe>");
+            $("#Commontiframe").addClass("loadingback");
+            $("#Comiframeback").fadeIn();
+            $("#Comiframe").fadeIn();
+            $("#Commontiframe").load(function () {
+                $("#Commontiframe").removeClass("loadingback");
+                $("img.loading").fadeOut();
+            });
+        });
+
+        //搜索
         $("#search2").click(function () {
-            $("#comment").append('<img class="loading" src="@Href("~/")scripts/fileinput/img/loading-sm.gif" />');
+            $("#main").append('<img class="loading" src="@Href("~/")image/loading.gif" />');
             $("#comment").addClass("loadingback");
 
             var tb = document.getElementById("tbody2");
@@ -191,7 +219,7 @@
                 $("#num").addClass("hidden");
                 $("#ampagination").addClass("hidden");
             }
-            
+
             $("img.loading").fadeOut();
             $("#comment").removeClass("loadingback");
         }
@@ -356,5 +384,5 @@
         }
     }
 
-    
+
 </script>
