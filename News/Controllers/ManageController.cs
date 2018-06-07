@@ -617,6 +617,14 @@ namespace News.Controllers
                         System.IO.File.Delete(Server.MapPath("~/imglist/") + filename);
                     }
                 }
+                else if(type == "pic2")
+                {
+                    var filename = Request["filename"];
+                    if (System.IO.File.Exists(Server.MapPath("~/imglist/INDEX") + filename))
+                    {
+                        System.IO.File.Delete(Server.MapPath("~/imglist/INDEX") + filename);
+                    }
+                }
                 else
                 {
                     var id = Request["id"];

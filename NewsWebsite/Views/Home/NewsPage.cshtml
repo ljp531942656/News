@@ -131,28 +131,34 @@
         $("#commentsubmit").click(function () {
             var thisbtn = $(this);
             if ($("#commenttext")[0].value != "") {
-                $.ajax({
-                    url: '@Href("~/")Home/Commentsubmit',
-                    type: 'post',
-                    data: { newsid: newsid, comment: $("#commenttext")[0].value },
-                    success: function (res) {
-                        thisbtn.prev("span").fadeIn();
-                        if ($("#latestcomment").children("div").hasClass("nocoment")) {
-                            $("#latestcomment").html('<div class="singlecomment"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
+                if (filterText($("#commenttext")[0].value)) {
+                    alert("当前输入内容存在敏感词或不文明词汇，请修改后再提交");
+                }
+                else {
+                    $.ajax({
+                        url: '@Href("~/")Home/Commentsubmit',
+                        type: 'post',
+                        data: { newsid: newsid, comment: $("#commenttext")[0].value },
+                        success: function (res) {
+                            thisbtn.prev("span").fadeIn();
+                            if ($("#latestcomment").children("div").hasClass("nocoment")) {
+                                $("#latestcomment").html('<div class="singlecomment"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
+                            }
+                            else {
+                                $("#latestcomment").prepend('<div class="singlecomment" style="display:none"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
+                                $(".singlecomment:first-child").slideToggle();
+                            }
+                            $("#commenttext")[0].value = '';
+                            setTimeout(function () {
+                                thisbtn.prev("span").fadeOut();
+                            }, 1000);
+                        },
+                        error: function (res) {
+                            alert("提交失败");
                         }
-                        else {
-                            $("#latestcomment").prepend('<div class="singlecomment" style="display:none"><p>' + $("#commenttext")[0].value + '</p><div class="bott"><div class="zan"><div class="zanbtn" commentid="' + res.id + '"></div><span class="zannum">0</span><span class="plus1">+1</span><span class="plus1" style="left:-37px">-1</span></div><div class="time">' + res.time + '</div></div></div>');
-                            $(".singlecomment:first-child").slideToggle();
-                        }
-                        $("#commenttext")[0].value = '';
-                        setTimeout(function () {
-                            thisbtn.prev("span").fadeOut();
-                        },1000);
-                    },
-                    error: function (res) {
-                        alert("提交失败");
-                    }
-                });
+                    });
+                }
+
             }
             else {
                 alert("请填写内容后再提交");

@@ -91,7 +91,7 @@
                     </ul>
 
                 </div>
-                <iframe style="margin:1% 0 0 4%" src="http://tianqi.5ikfc.com:90/plugin-code/?style=9&dy=5&city=foshan" allowTransparency="true" frameborder="0" scrolling="no" width="660" height="180" id="weather_frame"></iframe>
+                <iframe allowtransparency="true" frameborder="0" width="664" height="164" scrolling="no" src="//tianqi.eastday.com/plugin/widget_v1.html?sc=2&z=3&t=1&v=0&d=5&bd=0&k=&f=&q=0&a=0&c=59288&w=664&h=164&align=center" style="margin:0 20px"></iframe>
             </div>
 
 
@@ -123,12 +123,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -144,11 +144,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@dr["PICORIGIN"]" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -164,12 +164,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -190,12 +190,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -205,15 +205,15 @@
                 <div class="PW col-lg-4 col-md-4 col-xs-4">
                     @foreach (DataRow dr in (ViewData["JQTY"] as DataTable).Rows)
                     {
-                        <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@dr["PICORIGIN"]" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -231,12 +231,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -246,15 +246,15 @@
                 <div class="PW col-lg-4 col-md-4 col-xs-4">
                     @foreach (DataRow dr in (ViewData["KJQY"] as DataTable).Rows)
                     {
-                        <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                        <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@dr["PICORIGIN"]" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -273,7 +273,7 @@
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -289,12 +289,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -312,11 +312,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@(dr["PICORIGIN"])" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -332,12 +332,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -354,11 +354,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@(dr["PICORIGIN"])" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -374,12 +374,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -396,11 +396,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@(dr["PICORIGIN"])" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -416,12 +416,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -438,11 +438,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@(dr["PICORIGIN"])" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -458,12 +458,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="" target="_blank">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>
@@ -480,11 +480,11 @@
                             @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                             {
                                 <img src="@(dr["PICORIGIN"])" />
-                                <a href="javascript:void(0)">@dr["TITLE"]</a>
+                                <a href="@dr["TOURL"]" target="_blank">@dr["TITLE"]</a>
                                 if (dr["RESUME"].ToString() != "")
                                 {
                                     <p>@dr["RESUME"]</p>
-                                    <div class="imgback"></div>
+                                    <div onclick="window.open('@dr["TOURL"]')"  class="imgback"></div>
                                 }
                             }
                         </div>
@@ -500,12 +500,12 @@
                             <li class="list-group-item">
                                 @if (dr["ISTOP"].ToString() == "是")
                                 {
-                                    <a newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="redfont">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                                 else
                                 {
-                                    <a newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
+                                    <a  href="@Href("~/")Home/NewsPage?newsid=@dr["ID"]" newsid="@dr["ID"]" class="">@dr["TITLE"]</a>
                                     <span>[@dr["DATE2"]]</span>
                                 }
                             </li>

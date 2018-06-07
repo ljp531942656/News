@@ -27,7 +27,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@(dr["PICORIGIN"])?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -69,7 +69,7 @@
                     <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@dr["PICORIGIN"]" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -131,10 +131,10 @@
             <div class="PW col-lg-4 col-md-4 col-xs-4">
                 @foreach (DataRow dr in (ViewData["JQTY"] as DataTable).Rows)
                 {
-                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                    <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@dr["PICORIGIN"]" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -172,10 +172,10 @@
             <div class="PW col-lg-4 col-md-4 col-xs-4">
                 @foreach (DataRow dr in (ViewData["KJQY"] as DataTable).Rows)
                 {
-                    <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
+                    <div class="imgupload PWinside PWinsidefull" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@dr["PICORIGIN"]" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -237,7 +237,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -279,7 +279,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -321,7 +321,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -363,7 +363,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -405,7 +405,7 @@
                     <div class="imgupload PWinside" type="@dr["NEWSTYPE"]" num="@dr["TYPENUM"]">
                         @if (dr["TYPENUM"].ToString() == dr["TYPENUM"].ToString())
                         {
-                            <img src="@(dr["PICORIGIN"])" />
+                            <img src="@dr["PICORIGIN"]?random=@Guid.NewGuid().GetHashCode()" />
                             <a href="javascript:void(0)">@dr["TITLE"]</a>
                             if (dr["RESUME"].ToString() != "")
                             {
@@ -479,7 +479,7 @@
         <div id="prepicview2" class="col-lg-6 col-md-5 col-sm-5">
             <label id="previewlabel2" style="width:28%;text-align:right;float:left">图片预览：</label>
             <div class="pull-right" data-control-type="button" style="margin:0 13% 0 0;">
-                <button id="delete2" type="button" class="btn btn-danger" name="">删除</button>
+                <button id="delete2" type="button" class="btn btn-danger" name="" data-toggle="modal" data-target="#DeletepicModal2">删除</button>
             </div>
             <div style="clear:both"></div>
             <div id='preimg2'></div>
@@ -492,6 +492,23 @@
         <input id="typenum2" name="typenum" class="hidden" />
     </form>
 </div>
+<div class="modal fade" id="DeletepicModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新闻发布管理系统</h4>
+            </div>
+            <div class="modal-body">确定进行删除操作？</div>
+            <div class="modal-footer">
+                <button id="deletepicbtn2" type="button" data-dismiss="modal" class="btn btn-green">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button class="hidden" id="deletepicsuccessbtn2" data-toggle="modal" data-target="#DeleteSuccessModal"></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 
 <script>
     $(document).ready(function () {
@@ -506,6 +523,35 @@
             $(this).addClass("active");
             $(this).siblings("li").removeClass("active");
             Switch($(this).text());
+        });
+
+        $(".totop").width($("#sider>ul>li").width());
+        $(".tobottom").width($("#sider>ul>li").width());
+        $(".totop").css("top", $(".main").css("margin-top"));
+        $(".tobottom").css("top", $(window).height() - parseFloat($(".main").css("margin-top")) - $(".tobottom").height());
+        $("#sider>ul").scroll(function () {
+            var viewH = $(this).height();
+            var contentH = $(this).get(0).scrollHeight;
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop / (contentH - viewH) >= 0.95) {
+                $(".tobottom").css("opacity", "0");
+            }
+            else {
+                $(".tobottom").css("opacity", "1");
+            }
+            if ($(this).scrollTop() != 0) {
+                $(".totop").css("opacity", "1");
+            }
+            else {
+                $(".totop").css("opacity", "0");
+            }
+
+        });
+        $(".totop").click(function () {
+            $("#sider>.newstypelist").animate({ scrollTop: $("#sider>.newstypelist").scrollTop() - 300 });
+        });
+        $(".tobottom").click(function () {
+            $("#sider>.newstypelist").animate({ scrollTop: $("#sider>.newstypelist").scrollTop() + 300 });
         });
 
         $(".content .imgupload").click(function () {
@@ -534,11 +580,11 @@
                     $("#type2").val(type);
                     $("#typenum2").val(num);
                     if (document.getElementById("picorigin2").value) {
-                        $("#delete2").fadeIn();
+                        //$("#delete2").fadeIn();
                         $("#previewlabel2").fadeIn();
                         $("#prepicview2").height($(".picupload").height() * 0.5);
                         $("#nowpicview2").height($(".picupload").height() * 0.5);
-                        $("#preimg2").css("background", "url('" + document.getElementById("picorigin2").value + "') no-repeat 50% 50%");
+                        $("#preimg2").css("background", "url('" + document.getElementById("picorigin2").value + "?random=@Guid.NewGuid().GetHashCode()') no-repeat 50% 50%");
                         $("#preimg2").css("background-size", "contain");
                     }
                 }
@@ -548,6 +594,28 @@
             $(".picupload").fadeIn();
         });
 
+        $("#deletepicbtn2").click(function () {
+            var url = document.getElementById("picorigin2").value;
+            var str = url.split("/");
+            var filename = str[str.length - 1];
+            $.ajax({
+                url: "@Href("~/")Manage/deletePic",
+            data: { filename: filename, type: "pic2" },
+            type: "post",
+            success: function (res) {
+                if (res.msg == "success") {
+                    alert("删除成功");
+                    //window.location.reload();
+                    document.getElementById("prepicview2").value = "";
+                    document.getElementById("prepicview2").innerHTML = "";
+                    $("#delete").hide();
+                }
+                else {
+                    alert(res.msg);
+                }
+            }
+        });
+        });
 
         $("#pictoback2").click(function () {
             $("#Comiframeback").fadeOut();
